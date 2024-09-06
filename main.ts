@@ -17,6 +17,7 @@ class ExecuteContainer {
   private initRun = process.env.INIT_RUN === "true";
   private processedAccounts = new Set();
   private reports = [] as any[];
+  private parallelLimit = 2;
   private telegram;
 
   constructor() {
@@ -47,7 +48,7 @@ class ExecuteContainer {
         readFile("./data/apps.json", "utf8"),
       ]);
       const tgApplications: TgApp[] = JSON.parse(tgApps);
-      const totalResultGames = await this.startPlayingGames(tgApplications);
+      const totalResultGames = await this.startPlayingGames(tgApplications, this.parallelLimit);
       this.reports.push(...totalResultGames);
       const summaryText = this.prepareBriefSummaryText();
       await this.telegram.client.sendMessage(summaryText, this.telegram.receiverId);
@@ -69,24 +70,42 @@ class ExecuteContainer {
     }
   }
 
-  async startPlayingGames(tgApps: TgApp[]) {
+  async startPlayingGames(tgApps: TgApp[], parallelLimit: number) {
+    const totalResultGames: any[] = [];
     const accCount = tgApps.length;
     let accPosition = 0;
-    // TODO: add chunks
-    const totalResultGames = [];
-    for (const tgApp of shuffleArray(tgApps)) {
+
+    const taskPool: Promise<void>[] = [];
+
+    const runGameTask = async (tgApp: TgApp) => {
       accPosition++;
 
       if (this.processedAccounts.has(tgApp.code)) {
-        continue;
+        return;
       }
+
       const rawResultGames = await this.playGamesByAccount(tgApp, accCount, accPosition);
       if (rawResultGames.length) {
         const resultGames = this.prepareResultGames(rawResultGames, tgApp);
         totalResultGames.push(...resultGames);
         this.processedAccounts.add(tgApp.code);
       }
+    };
+
+    for (const tgApp of shuffleArray(tgApps)) {
+      if (taskPool.length >= parallelLimit) {
+        await Promise.race(taskPool);
+      }
+
+      const task = runGameTask(tgApp).then(() => {
+        taskPool.splice(taskPool.indexOf(task), 1);
+      });
+
+      taskPool.push(task);
     }
+
+    await Promise.all(taskPool);
+
     return totalResultGames;
   }
 
