@@ -33,7 +33,7 @@ const playBlumGame = async (browser: Browser, appUrl: string) => {
     await page.waitForNetworkIdle();
 
     await Promise.all([page.goto(appUrl), page.waitForNavigation()]);
-    await delay(7000);
+    await delay(20000);
 
     await page.waitForSelector(firstButtonSelector, { timeout: 30000 });
     await delay(5000);
