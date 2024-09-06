@@ -7,6 +7,7 @@ import { delay } from "../utils/delay";
 import { logger } from "../logger/logger";
 import { selectFrame } from "../utils/puppeteerHelper";
 import { AccountResults } from "../types";
+import { commonSelectors } from "../utils/selectors";
 
 const playBlumGame = async (browser: Browser, appUrl: string) => {
   logger.debug("🎮 Blum");
@@ -20,7 +21,6 @@ const playBlumGame = async (browser: Browser, appUrl: string) => {
     BalanceAfter: -1,
     Tickets: -1,
   };
-  const firstButtonSelector = "div.new-message-bot-commands-view";
 
   try {
     await page.waitForNetworkIdle();
@@ -28,9 +28,9 @@ const playBlumGame = async (browser: Browser, appUrl: string) => {
     await Promise.all([page.goto(appUrl), page.waitForNavigation()]);
     await delay(20000);
 
-    await page.waitForSelector(firstButtonSelector, { timeout: 30000 });
+    await page.waitForSelector(commonSelectors.launchBotButton, { timeout: 30000 });
     await delay(5000);
-    await page.click(firstButtonSelector);
+    await page.click(commonSelectors.launchBotButton);
 
     await clickConfirm(page, "blum");
 
@@ -53,6 +53,8 @@ const playBlumGame = async (browser: Browser, appUrl: string) => {
         await iframe.$eval(playSelector, (el) => {
           (el as HTMLElement).click();
         });
+
+        // await reloadBotFunc(page, blumBotSelectors.closeBotButton, "blum");
 
         await delay(tickets * 35000);
 
