@@ -6,7 +6,7 @@ import { scheduleJob } from "node-schedule";
 import ReportGenerator from "./reports/report";
 import TgClient from "./bot/telegram";
 import playGame from "./games/main";
-import { AppName, TgApp } from "./types";
+import { AppName, ParsedGameResult, TgApp } from "./types";
 import { adsOpenBrowser } from "./ads/api";
 import { formatTime } from "./utils/datetime";
 import { getRandomNumberBetween, randomDelay } from "./utils/delay";
@@ -16,7 +16,7 @@ import { shuffleArray } from "./utils/shuffle";
 class ExecuteContainer {
   private initRun = process.env.INIT_RUN === "true";
   private processedAccounts = new Set();
-  private reports = [] as any[];
+  private reports = [] as ParsedGameResult[];
   private parallelLimit = 2;
   private telegram;
 
@@ -71,7 +71,7 @@ class ExecuteContainer {
   }
 
   async startPlayingGames(tgApps: TgApp[], parallelLimit: number) {
-    const totalResultGames: any[] = [];
+    const totalResultGames: ParsedGameResult[] = [];
     const accCount = tgApps.length;
     let accPosition = 0;
 
@@ -175,7 +175,7 @@ class ExecuteContainer {
     }
   }
 
-  prepareResultGames(resultGames: any[], tgApp: TgApp) {
+  prepareResultGames(resultGames: ParsedGameResult[], tgApp: TgApp): ParsedGameResult[] {
     return resultGames.map((item) => ({
       game: item.game,
       data: {

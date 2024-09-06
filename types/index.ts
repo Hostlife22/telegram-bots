@@ -45,3 +45,16 @@ export interface GeneralProfilesResult {
   message: string | null;
   profiles: Profile[];
 }
+
+export interface AccountResults {
+  Account: null | string;
+  User: null | string;
+  BalanceBefore: number | string;
+  BalanceAfter: number | string;
+  Tickets: number | string;
+}
+
+export interface ParsedGameResult {
+  game: string;
+  data: AccountResults;
+}
