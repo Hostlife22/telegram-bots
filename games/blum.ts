@@ -46,9 +46,10 @@ const playBlumGame = async (browser: Browser, appUrl: string) => {
     try {
       await handleClaimButtons(iframe, 15000);
       const [currentBalance, currentTickets] = await Promise.all([extractBalance(iframe), extractTickets(iframe)]);
+      result.BalanceBefore = currentBalance;
 
-      logger.info(`💰 Current balance: ${currentBalance}`, "blum");
-      logger.info(`💰 Current tickets: ${currentTickets}`, "blum");
+      logger.info(`💰 Starting balance: ${currentBalance}`, "blum");
+      logger.info(`🎟  Playing ${currentTickets} tickets`, "blum");
 
       const scriptPath = path.resolve(__dirname, "../injectables/blum-game.js");
       const playSelector = "div.pages-index-drop.drop-zone > div > a";
@@ -69,8 +70,8 @@ const playBlumGame = async (browser: Browser, appUrl: string) => {
 
         const [currentBalance, currentTickets] = await Promise.all([extractBalance(iframe), extractTickets(iframe)]);
 
-        logger.info(`💰 Current balance: ${currentBalance}`, "blum");
-        logger.info(`💰 Current tickets: ${currentTickets}`, "blum");
+        logger.info(`💰 Ending balance: ${currentBalance}`, "blum");
+        logger.info(`🎟  Remaining tickets: ${currentTickets}`, "blum");
 
         result.BalanceAfter = currentBalance;
         result.Tickets = currentTickets;
