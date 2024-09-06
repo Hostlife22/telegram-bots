@@ -45,7 +45,7 @@ class ExecuteContainer {
     try {
       const [_, tgApps]: [any, string] = await Promise.all([
         this.telegram.client.startPolling(),
-        readFile("./data/apps.json", "utf8"),
+        readFile(process.env.ACCOUNTS_JSON_PATH || "./data/apps.json", "utf8"),
       ]);
       const tgApplications: TgApp[] = JSON.parse(tgApps);
       const totalResultGames = await this.startPlayingGames(tgApplications, this.parallelLimit);
