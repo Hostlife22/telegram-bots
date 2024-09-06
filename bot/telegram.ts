@@ -1,4 +1,4 @@
-import TelegramBot from 'node-telegram-bot-api';
+import TelegramBot from "node-telegram-bot-api";
 
 export default class TgClient {
   private bot: TelegramBot;
@@ -10,7 +10,7 @@ export default class TgClient {
   async sendMessage(
     message: string,
     chatId: TelegramBot.ChatId,
-    mode: TelegramBot.SendAnimationOptions['parse_mode'] = 'HTML',
+    mode: TelegramBot.SendAnimationOptions["parse_mode"] = "HTML",
   ): Promise<void> {
     const MAX_LENGTH = 4096;
 
@@ -34,9 +34,11 @@ export default class TgClient {
   async sendAndPinMessage(
     message: string,
     chatId: TelegramBot.ChatId,
-    mode: TelegramBot.SendAnimationOptions['parse_mode'] = 'HTML',
+    mode: TelegramBot.SendAnimationOptions["parse_mode"] = "HTML",
   ): Promise<void> {
-    const sentMessage = await this.bot.sendMessage(chatId, message, { parse_mode: mode });
+    const sentMessage = await this.bot.sendMessage(chatId, message, {
+      parse_mode: mode,
+    });
     if (sentMessage.message_id) {
       this.bot.pinChatMessage(chatId, sentMessage.message_id, {
         disable_notification: false,
@@ -46,14 +48,14 @@ export default class TgClient {
 
   async sendCSVDocument(buffer: Buffer, chatId: TelegramBot.ChatId, game: string): Promise<TelegramBot.Message> {
     const now = new Date();
-    const time = String(now.getHours()).padStart(2, '0') + '-' + String(now.getMinutes()).padStart(2, '0');
+    const time = String(now.getHours()).padStart(2, "0") + "-" + String(now.getMinutes()).padStart(2, "0");
     const response = await this.bot.sendDocument(
       chatId,
       buffer,
       { disable_notification: true },
       {
         filename: `${game}-report-${time}.csv`,
-        contentType: 'text/csv',
+        contentType: "text/csv",
       },
     );
 

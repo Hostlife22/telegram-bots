@@ -1,18 +1,18 @@
-import axios from 'axios';
+import axios from "axios";
 
-import { logger } from '../logger/logger';
-import { delay } from '../utils/delay';
-import { GeneralProfilesResult, ProfileResponse } from '../types';
+import { logger } from "../logger/logger";
+import { delay } from "../utils/delay";
+import { GeneralProfilesResult, ProfileResponse } from "../types";
 
-const ADS_API_URL = 'http://local.adspower.net:50325/api';
-const ADS_API_VERSION = 'v1';
+const ADS_API_URL = "http://local.adspower.net:50325/api";
+const ADS_API_VERSION = "v1";
 
 export const adsOpenBrowser = async (userId: string) => {
   try {
     const response = await axios(`${ADS_API_URL}/${ADS_API_VERSION}/browser/start?user_id=${userId}`);
     const data = response.data;
     if (!data || !data.data || !data.data.ws || !data.data.ws.puppeteer) {
-      throw new Error('Invalid response structure: ws.puppeteer URL not found');
+      throw new Error("Invalid response structure: ws.puppeteer URL not found");
     }
 
     return data;
@@ -28,7 +28,7 @@ export const adsCloseBrowser = async (userId: string) => {
     const data = response.data;
 
     if (!data || data.code !== 0) {
-      throw new Error('Browser closing failed');
+      throw new Error("Browser closing failed");
     }
 
     return data;
@@ -50,7 +50,7 @@ export const getGeneralProfiles = async (): Promise<GeneralProfilesResult> => {
 
   while (hasMoreData) {
     const options = {
-      method: 'GET',
+      method: "GET",
       url: `${ADS_API_URL}/${ADS_API_VERSION}/user/list?page=${page}&page_size=${pageSize}&user_sort=	{"serial_number":"asc"}`,
     };
 
@@ -68,16 +68,16 @@ export const getGeneralProfiles = async (): Promise<GeneralProfilesResult> => {
       }
     } catch (e) {
       result.success = false;
-      result.message = 'Error in fetching profiles ' + e;
+      result.message = "Error in fetching profiles " + e;
       return result;
     }
   }
 
   if (!result.profiles.length) {
     result.success = false;
-    result.message = 'No profiles found';
+    result.message = "No profiles found";
   } else {
-    result.message = 'Profiles fetched successfully';
+    result.message = "Profiles fetched successfully";
   }
 
   return result;

@@ -4,10 +4,10 @@ function delay(time: number): Promise<unknown> {
   });
 }
 
-async function randomDelay(minDelay: number, maxDelay: number, timeFormat: string = 'ms'): Promise<void> {
+async function randomDelay(minDelay: number, maxDelay: number, timeFormat: string = "ms"): Promise<void> {
   let maxDelayOrigin = maxDelay;
   let minDelayOrigin = minDelay;
-  if (timeFormat === 's') {
+  if (timeFormat === "s") {
     maxDelayOrigin *= 1000;
     minDelayOrigin *= 1000;
   }

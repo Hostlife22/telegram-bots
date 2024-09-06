@@ -1,7 +1,7 @@
-import { Frame, Page } from 'puppeteer';
+import { Frame, Page } from "puppeteer";
 
-import { logger } from '../logger/logger';
-import { randomDelay, delay } from './delay';
+import { logger } from "../logger/logger";
+import { randomDelay, delay } from "./delay";
 
 export const hasElement = async (page: Page | Frame, selector: string): Promise<boolean> => {
   const elements = await page.$$(selector);
@@ -10,24 +10,27 @@ export const hasElement = async (page: Page | Frame, selector: string): Promise<
 
 export const selectFrame = async (page: Page, tag?: string): Promise<Frame> => {
   try {
-    const iframeElement = await page.waitForSelector('div.web-app-body > iframe', { timeout: 30000 });
+    const iframeElement = await page.waitForSelector("div.web-app-body > iframe", { timeout: 30000 });
     await delay(30000);
     const iframe = await iframeElement?.contentFrame();
     if (iframe) {
-      logger.info('Frame selected', tag);
+      logger.info("Frame selected", tag);
       return iframe;
     } else {
-      logger.error('No iframe found', tag);
+      logger.error("No iframe found", tag);
     }
   } catch (error) {
-    logger.error('An error occurred while trying to open frame bot', tag);
+    logger.error("An error occurred while trying to open frame bot", tag);
   }
 };
 
 export const clickButton = async (page: Page | Frame, selector: string, logTag?: string): Promise<boolean> => {
   page.title;
   try {
-    const element = await page.waitForSelector(selector, { visible: true, timeout: 60000 });
+    const element = await page.waitForSelector(selector, {
+      visible: true,
+      timeout: 60000,
+    });
     if (element) {
       await element.click();
       logger.info(`Button clicked with selector: ${selector}`);
@@ -35,7 +38,7 @@ export const clickButton = async (page: Page | Frame, selector: string, logTag?:
       return true;
     }
   } catch (error) {
-    logger.error(`Timeout waiting for button with selector: ${selector}`, logTag ?? 'helper');
+    logger.error(`Timeout waiting for button with selector: ${selector}`, logTag ?? "helper");
   }
   return false;
 };

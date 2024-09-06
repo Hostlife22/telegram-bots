@@ -1,7 +1,7 @@
-import { Browser } from 'puppeteer';
+import { Browser } from "puppeteer";
 
-import playBlumGame from './blum';
-import { AppName } from '../types';
+import playBlumGame from "./blum";
+import { AppName } from "../types";
 
 export default async function playGame(appName: AppName, browser: Browser, appUrl: string) {
   const gameFunctions = {

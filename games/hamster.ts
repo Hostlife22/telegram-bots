@@ -1,15 +1,15 @@
-import { delay, getRandomNumberBetween, randomDelay } from '../utils/delay';
-import { clickButton, clickLinkWithHref, hasElement, waitForButton } from '../utils/puppeteerHelper';
-import { shuffleArray } from '../utils/shuffle';
-import { logger } from '../logger/logger';
-import { Browser, ElementHandle, Page } from 'puppeteer';
+import { delay, getRandomNumberBetween, randomDelay } from "../utils/delay";
+import { clickButton, clickLinkWithHref, hasElement, waitForButton } from "../utils/puppeteerHelper";
+import { shuffleArray } from "../utils/shuffle";
+import { logger } from "../logger/logger";
+import { Browser, ElementHandle, Page } from "puppeteer";
 
 // const MORSE_CODE = ['.', '-', '-', '.', ' ', '-', '-', '-', ' ', '-', '-', '-', ' ', '.', '-', '.', '.']; // 22.06
 // const MORSE_CODE = ['.', '.', '.', ' ', '.', '-', '-', ' ', '.', '-', ' ', '.', '-', '-', '.']; // 23.06
 // const MORSE_CODE = ['.', '-', ' ', '.', '-', '.', '.', ' ', '-']; // 24.06
 // const MORSE_CODE = ['.', '.', '-', '.', ' ', '-', '-', '-', ' ', '-', '-', ' ', '-', '-', '-']; // 25.06
 // const MORSE_CODE = ['-', '-', ' ', '.', '.', ' ', '-', '.', ' ', '.', ' ', '.', '-', '.']; // 26.06
-const MORSE_CODE = ['-', '.', ' ', '-', '-', '-', ' ', '-', '.', '.', ' ', '.', ' ', '.', '.', '.'];
+const MORSE_CODE = ["-", ".", " ", "-", "-", "-", " ", "-", ".", ".", " ", ".", " ", ".", ".", "."];
 
 interface AccountResults {
   Account: null | string;
@@ -20,7 +20,7 @@ interface AccountResults {
 }
 
 const playHamsterGame = async (browser: Browser, appUrl: string) => {
-  logger.debug('🐹 Hamster Kombat');
+  logger.debug("🐹 Hamster Kombat");
 
   const result: AccountResults = {
     Account: null,
@@ -40,11 +40,11 @@ const playHamsterGame = async (browser: Browser, appUrl: string) => {
     await repeatCheckAndReload(page, 3);
 
     const thanksButtonXpath = "//button[contains(., 'Thank you')]";
-    const balanceSelector = 'div.user-balance-large > div > p';
-    const profitPerHourSelector = 'div.price > div.price-value';
+    const balanceSelector = "div.user-balance-large > div > p";
+    const profitPerHourSelector = "div.price > div.price-value";
 
     if (await waitForButton(page, thanksButtonXpath, 3000)) {
-      logger.info('> Thank you button found.');
+      logger.info("> Thank you button found.");
       await clickButton(page, thanksButtonXpath);
       await randomDelay(1000, 2000);
     }
@@ -53,23 +53,23 @@ const playHamsterGame = async (browser: Browser, appUrl: string) => {
     logger.debug(`💰 Initial balance ${initialBalance}`);
     result.BalanceBefore = initialBalance;
 
-    logger.info('Morse started');
+    logger.info("Morse started");
     await morseTask(page);
-    logger.info('Morse finished');
+    logger.info("Morse finished");
 
     await delay(2500);
 
-    logger.info('Clicker start', 'hamster');
+    logger.info("Clicker start", "hamster");
     await startRandomClick(page, 25, 100, 220);
-    logger.info('Clicker stopped', 'hamster');
-    await randomDelay(3, 5, 's');
+    logger.info("Clicker stopped", "hamster");
+    await randomDelay(3, 5, "s");
 
-    await clickLinkWithHref(page, '/clicker/mine');
-    const tabsToFarm = ['Markets', 'PR&Team', 'Legal', 'Web3'];
+    await clickLinkWithHref(page, "/clicker/mine");
+    const tabsToFarm = ["Markets", "PR&Team", "Legal", "Web3"];
     for (const tabName of shuffleArray(tabsToFarm)) {
-      logger.info('> Tab to handle: ' + tabName);
+      logger.info("> Tab to handle: " + tabName);
       let balanceValue = await extractValue(page, balanceSelector);
-      logger.info('>>> Actual balance: ' + balanceValue);
+      logger.info(">>> Actual balance: " + balanceValue);
       await navigateToTab(page, tabName);
       await delay(1500);
       await processMineItems(page, balanceValue);
@@ -82,7 +82,7 @@ const playHamsterGame = async (browser: Browser, appUrl: string) => {
     result.ProfitPerHour = profitPerHourValue;
     await randomDelay(2000, 3500);
   } catch (error) {
-    logger.error(`An error occurred during initial setup: ${error}`, 'hamster');
+    logger.error(`An error occurred during initial setup: ${error}`, "hamster");
   } finally {
     await page.close();
   }
@@ -99,7 +99,7 @@ async function repeatCheckAndReload(page: Page, maxAttempts: number) {
 
     const shouldReload = await checkAndReload(page, timeout);
 
-    logger.info(`Reload checker: should reload? ${shouldReload ? 'YES' : 'NO'}`);
+    logger.info(`Reload checker: should reload? ${shouldReload ? "YES" : "NO"}`);
     if (!shouldReload) {
       return;
     }
@@ -111,7 +111,7 @@ async function repeatCheckAndReload(page: Page, maxAttempts: number) {
 }
 
 async function checkAndReload(page: Page, timeout: number) {
-  const hasLoading = await hasElement(page, 'div.main > div.loading-launch');
+  const hasLoading = await hasElement(page, "div.main > div.loading-launch");
 
   if (hasLoading) {
     await page.reload();
@@ -124,8 +124,8 @@ async function checkAndReload(page: Page, timeout: number) {
 
 async function extractValue(page: Page, selector: string) {
   return await page.$eval(selector, (element) => {
-    const text = element.textContent?.trim().replace(/,/g, '');
-    if (text?.includes('K') || text?.includes('k')) {
+    const text = element.textContent?.trim().replace(/,/g, "");
+    if (text?.includes("K") || text?.includes("k")) {
       // @ts-ignore
       return parseInt(parseFloat(text) * 1000);
     } else {
@@ -141,25 +141,25 @@ async function processMineItems(page: Page, initialBalance: number) {
 
   while (true) {
     const cards: { element: ElementHandle<Element>; value: number }[] = [];
-    const cardSelectors = '.upgrade-list > .upgrade-item:not(.is-disabled)';
+    const cardSelectors = ".upgrade-list > .upgrade-item:not(.is-disabled)";
     const cardElements = await page.$$(cardSelectors);
-    logger.info('Active cards: ' + cardElements.length);
+    logger.info("Active cards: " + cardElements.length);
 
     if (cardElements.length === 0) {
-      logger.info('No more clickable cards found.');
+      logger.info("No more clickable cards found.");
       break;
     }
 
     for (const element of cardElements) {
-      const insufficientElement = await element.$('.upgrade-item-detail .price.is-grayscale');
+      const insufficientElement = await element.$(".upgrade-item-detail .price.is-grayscale");
       if (insufficientElement) {
-        logger.info('Insufficient balance to click on this card, so just skip');
+        logger.info("Insufficient balance to click on this card, so just skip");
         continue;
       }
-      const cardValueElement = await element.$('.upgrade-item-detail .price-value');
+      const cardValueElement = await element.$(".upgrade-item-detail .price-value");
       const cardValue = await cardValueElement?.evaluate((node) => {
-        const text = node.textContent?.trim().replace(/,/g, '');
-        if (text?.includes('K')) {
+        const text = node.textContent?.trim().replace(/,/g, "");
+        if (text?.includes("K")) {
           // @ts-ignore
           return parseInt(parseFloat(text) * 1000);
         } else {
@@ -179,17 +179,17 @@ async function processMineItems(page: Page, initialBalance: number) {
         cardsToClick.push(card);
         currentTotal += card.value;
       } else {
-        logger.info('Total value of cards to click: ' + currentTotal);
+        logger.info("Total value of cards to click: " + currentTotal);
         break;
       }
     }
 
     if (cardsToClick.length === 0) {
-      logger.info('Insufficient balance to click any more cards.');
+      logger.info("Insufficient balance to click any more cards.");
       break;
     }
 
-    logger.info('Cards which will click: ' + cardsToClick.length);
+    logger.info("Cards which will click: " + cardsToClick.length);
 
     for (const card of shuffleArray(cardsToClick)) {
       try {
@@ -201,17 +201,17 @@ async function processMineItems(page: Page, initialBalance: number) {
           if (box) {
             await card.element.click({ clickCount: 1 });
           } else {
-            logger.warning('Element is not visible or interactable.');
+            logger.warning("Element is not visible or interactable.");
           }
           if (await waitForButton(page, goAheadXpath, 4000)) {
             await clickButton(page, goAheadXpath);
           }
           balance -= card.value;
         } else {
-          logger.info('Not found card with value: ' + card.value);
+          logger.info("Not found card with value: " + card.value);
         }
       } catch (e) {
-        logger.info('Error in clicking card: ' + e);
+        logger.info("Error in clicking card: " + e);
       } finally {
         await randomDelay(2000, 3000);
       }
@@ -224,7 +224,10 @@ async function processMineItems(page: Page, initialBalance: number) {
 async function navigateToTab(page: Page, tabName: string) {
   const tabXPath = `//div[contains(@class, 'tabs-item') and text()='${tabName}']`;
 
-  const tabElement = await page.waitForSelector('xpath/' + tabXPath, { visible: true, timeout: 5000 });
+  const tabElement = await page.waitForSelector("xpath/" + tabXPath, {
+    visible: true,
+    timeout: 5000,
+  });
   if (tabElement) {
     await tabElement.click();
   }
@@ -233,15 +236,18 @@ async function navigateToTab(page: Page, tabName: string) {
 async function startRandomClick(page: Page, energyThreshold: number, minInterval: number, maxInterval: number) {
   let elapsedTime = 0;
   let maxDuration = getRandomNumberBetween(1.1 * 60 * 1000, 1.3 * 60 * 1000);
-  logger.info('Clicker duration: ' + (maxDuration / 60000).toFixed(2));
+  logger.info("Clicker duration: " + (maxDuration / 60000).toFixed(2));
 
   const runLoop = async () => {
     await new Promise((resolve) => {
-      setTimeout(async () => {
-        elapsedTime += maxInterval;
-        await checkEnergyAndClick(page, energyThreshold);
-        resolve(true);
-      }, getRandomNumberBetween(minInterval, maxInterval));
+      setTimeout(
+        async () => {
+          elapsedTime += maxInterval;
+          await checkEnergyAndClick(page, energyThreshold);
+          resolve(true);
+        },
+        getRandomNumberBetween(minInterval, maxInterval),
+      );
     });
 
     if (elapsedTime < maxDuration) {
@@ -256,10 +262,10 @@ async function startRandomClick(page: Page, energyThreshold: number, minInterval
 }
 
 async function checkEnergyAndClick(page: Page, energyThreshold: number) {
-  const energySelector = '.user-tap-energy p';
-  const buttonSelector = '.user-tap-button';
+  const energySelector = ".user-tap-energy p";
+  const buttonSelector = ".user-tap-button";
   const energyText = await page.$eval(energySelector, (el) => el.textContent);
-  const energy = parseInt(energyText.split(' / ')[0]);
+  const energy = parseInt(energyText.split(" / ")[0]);
 
   if (energy > energyThreshold) {
     const button = await page.$(buttonSelector);
@@ -275,22 +281,22 @@ async function checkEnergyAndClick(page: Page, energyThreshold: number) {
 
 async function morseTask(page: Page) {
   await page.evaluate(() => {
-    const attractionItem = document.querySelector('.user-attraction-item:nth-child(2)');
+    const attractionItem = document.querySelector(".user-attraction-item:nth-child(2)");
 
     if (attractionItem) {
       // @ts-ignore
       attractionItem.click();
     } else {
-      logger.info('Attraction item not found');
+      logger.info("Attraction item not found");
     }
   });
 
   await delay(3000);
 
-  const energySelector = '.user-tap-energy p';
-  const buttonSelector = '.user-tap-button';
+  const energySelector = ".user-tap-energy p";
+  const buttonSelector = ".user-tap-button";
   const energyText = (await page.$eval(energySelector, (el) => el.textContent)) as string;
-  const energy = parseInt(energyText.split(' / ')[0]);
+  const energy = parseInt(energyText.split(" / ")[0]);
   const takeThePrizeXpath = "//button[contains(., 'Take')]";
 
   if (energy > 300) {
@@ -308,11 +314,11 @@ async function morseTask(page: Page) {
 
     for (let i = 0; i < 2; i++) {
       for (const symbol of MORSE_CODE) {
-        if (symbol === '.') {
+        if (symbol === ".") {
           await performClick(page, x, y, shortClickDuration);
-        } else if (symbol === '-') {
+        } else if (symbol === "-") {
           await performClick(page, x, y, longClickDuration);
-        } else if (symbol === ' ') {
+        } else if (symbol === " ") {
           await delay(letterInterval);
         }
         await delay(clickInterval);

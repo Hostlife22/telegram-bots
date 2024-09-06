@@ -1,10 +1,10 @@
-import { delay, randomDelay } from '../utils/delay';
-import { clickButton, clickLinkWithHref, waitForButton } from '../utils/puppeteerHelper';
-import { shuffleArray } from '../utils/shuffle';
-import { logger } from '../logger/logger';
-import { Browser, ElementHandle, Page } from 'puppeteer';
+import { delay, randomDelay } from "../utils/delay";
+import { clickButton, clickLinkWithHref, waitForButton } from "../utils/puppeteerHelper";
+import { shuffleArray } from "../utils/shuffle";
+import { logger } from "../logger/logger";
+import { Browser, ElementHandle, Page } from "puppeteer";
 
-const BLACK_LIST_TASKS = ['Invite 15 friends', 'Invite 10 friends', 'Invite 5 friends'];
+const BLACK_LIST_TASKS = ["Invite 15 friends", "Invite 10 friends", "Invite 5 friends"];
 
 interface AccountResults {
   Account: null | string;
@@ -14,7 +14,7 @@ interface AccountResults {
 }
 
 const playIcebergGame = async (browser: Browser, appUrl: string) => {
-  logger.debug('🌊 Iceberg');
+  logger.debug("🌊 Iceberg");
 
   const result: AccountResults = {
     Account: null,
@@ -25,31 +25,31 @@ const playIcebergGame = async (browser: Browser, appUrl: string) => {
 
   const page = await browser.newPage();
 
-  page.on('popup', async (newPage) => {
-    logger.info('New page opened. Closing it after 300ms delay');
+  page.on("popup", async (newPage) => {
+    logger.info("New page opened. Closing it after 300ms delay");
     await delay(300);
     await newPage.close();
   });
 
   try {
     await page.waitForNetworkIdle();
-    await page.goto(appUrl, { waitUntil: 'networkidle0' });
+    await page.goto(appUrl, { waitUntil: "networkidle0" });
     await delay(1800);
     const initBalance = await extractBalance(page);
     logger.debug(`💰 Start > ${initBalance}`);
     result.BalanceBefore = initBalance;
     await checkAndClaim(page);
     await delay(1200);
-    await clickLinkWithHref(page, '/tasks');
+    await clickLinkWithHref(page, "/tasks");
     await completeTasks(page);
-    await clickLinkWithHref(page, '/');
+    await clickLinkWithHref(page, "/");
     await delay(2000);
     const actualBalance = await extractBalance(page);
     logger.debug(`💰 End > ${actualBalance}`);
     result.BalanceAfter = actualBalance;
     await delay(1500);
   } catch (e) {
-    logger.error(e, 'iceberg');
+    logger.error(e, "iceberg");
   } finally {
     await page.close();
   }
@@ -59,7 +59,7 @@ const playIcebergGame = async (browser: Browser, appUrl: string) => {
 
 async function extractBalance(page: Page) {
   const result = await page.evaluate(() => {
-    const elements = document.querySelectorAll('h2.chakra-heading');
+    const elements = document.querySelectorAll("h2.chakra-heading");
     const texts = Array.from(elements).map((element) => element.textContent?.trim());
     return texts.length > 1 ? texts[1] : -1;
   });
@@ -69,21 +69,21 @@ async function extractBalance(page: Page) {
 
 async function completeTasks(page: Page) {
   const tasks = await extractTasks(page);
-  logger.info('Total tasks to complete > ' + tasks.length);
+  logger.info("Total tasks to complete > " + tasks.length);
 
   for (const task of shuffleArray(tasks)) {
-    logger.info('Task > ' + task.title);
+    logger.info("Task > " + task.title);
     await task.aElement.click();
     await randomDelay(3500, 5000);
   }
 
-  logger.info('Performing tasks completed, random delay and claim all...');
+  logger.info("Performing tasks completed, random delay and claim all...");
 
   await randomDelay(7500, 10000);
 
-  const collectButtons = await page.$$('.chakra-button.css-1wm9y8n');
+  const collectButtons = await page.$$(".chakra-button.css-1wm9y8n");
 
-  logger.info('Collect btns > ' + collectButtons.length);
+  logger.info("Collect btns > " + collectButtons.length);
 
   for (const btn of shuffleArray(collectButtons)) {
     await btn.click();
@@ -93,26 +93,29 @@ async function completeTasks(page: Page) {
 
 const extractTasks = async (page: Page) => {
   try {
-    await page.waitForSelector('div.css-1kkt86i');
+    await page.waitForSelector("div.css-1kkt86i");
 
-    const sections = await page.$$('div.css-1kkt86i');
-    const tasksToComplete: { title: string | null; aElement: ElementHandle<HTMLAnchorElement> }[] = [];
+    const sections = await page.$$("div.css-1kkt86i");
+    const tasksToComplete: {
+      title: string | null;
+      aElement: ElementHandle<HTMLAnchorElement>;
+    }[] = [];
 
     for (const section of sections) {
-      const sectionNameElement = await section.$('p.chakra-text.css-9pm0u3');
-      const sectionName = sectionNameElement ? await (await sectionNameElement.getProperty('textContent')).jsonValue() : '';
-      logger.info('Section Name >>> ' + sectionName);
+      const sectionNameElement = await section.$("p.chakra-text.css-9pm0u3");
+      const sectionName = sectionNameElement ? await (await sectionNameElement.getProperty("textContent")).jsonValue() : "";
+      logger.info("Section Name >>> " + sectionName);
 
-      const taskElements = await section.$$('div.css-u68i74');
+      const taskElements = await section.$$("div.css-u68i74");
 
       for (const taskElement of taskElements) {
-        const taskHeaderElement = await taskElement.$('p.chakra-text.css-1c1e297');
+        const taskHeaderElement = await taskElement.$("p.chakra-text.css-1c1e297");
         const taskTitle = taskHeaderElement
-          ? (await (await taskHeaderElement.getProperty('textContent')).jsonValue()) || 'N/A'
-          : 'N/A';
-        logger.info('Task Title > ' + taskTitle);
+          ? (await (await taskHeaderElement.getProperty("textContent")).jsonValue()) || "N/A"
+          : "N/A";
+        logger.info("Task Title > " + taskTitle);
 
-        const aElement = await taskElement.$('a.chakra-link.css-19bzeh');
+        const aElement = await taskElement.$("a.chakra-link.css-19bzeh");
         if (aElement && !BLACK_LIST_TASKS.includes(taskTitle)) {
           tasksToComplete.push({
             title: taskTitle,
@@ -124,7 +127,7 @@ const extractTasks = async (page: Page) => {
 
     return tasksToComplete;
   } catch (error) {
-    logger.error('Error in extractTasks: ' + error);
+    logger.error("Error in extractTasks: " + error);
     throw error;
   }
 };
@@ -135,31 +138,31 @@ async function checkAndClaim(page: Page) {
   const getAfterButtonXpath = "//button[contains(., 'Get after') and @disabled]";
 
   if (await waitForButton(page, collectButtonXpath)) {
-    logger.info('Collect button found.', 'iceberg');
+    logger.info("Collect button found.", "iceberg");
     await clickButton(page, collectButtonXpath);
     await randomDelay(1234, 1456);
 
     if (await waitForButton(page, startFarmingButtonXpath)) {
-      logger.info("'Start farming' button appeared after collecting. Clicking it...", 'iceberg');
+      logger.info("'Start farming' button appeared after collecting. Clicking it...", "iceberg");
       await clickButton(page, startFarmingButtonXpath);
     } else {
-      logger.warning("'Start farming' button did not appear after collecting.", 'iceberg');
+      logger.warning("'Start farming' button did not appear after collecting.", "iceberg");
     }
     return;
   }
 
   if (await waitForButton(page, startFarmingButtonXpath)) {
-    logger.info('Start farming button found.', 'iceberg');
+    logger.info("Start farming button found.", "iceberg");
     await clickButton(page, startFarmingButtonXpath);
     return;
   }
 
   if (await waitForButton(page, getAfterButtonXpath)) {
-    logger.info("'Get after...' button found but it is disabled.", 'iceberg');
+    logger.info("'Get after...' button found but it is disabled.", "iceberg");
     return;
   }
 
-  logger.warning('No actionable button found.', 'iceberg');
+  logger.warning("No actionable button found.", "iceberg");
 }
 
 export default playIcebergGame;

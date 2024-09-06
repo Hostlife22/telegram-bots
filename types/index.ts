@@ -1,4 +1,4 @@
-export type AppName = 'blum';
+export type AppName = "blum";
 // export type AppName = 'blum' | 'hamster' | 'iceberg';
 
 export interface TgApp {

@@ -1,20 +1,20 @@
-import 'dotenv/config';
-import puppeteer from 'puppeteer';
-import { readFile } from 'node:fs/promises';
-import { scheduleJob } from 'node-schedule';
+import "dotenv/config";
+import puppeteer from "puppeteer";
+import { readFile } from "node:fs/promises";
+import { scheduleJob } from "node-schedule";
 
-import ReportGenerator from './reports/report';
-import TgClient from './bot/telegram';
-import playGame from './games/main';
-import { AppName, TgApp } from './types';
-import { adsOpenBrowser } from './ads/api';
-import { formatTime } from './utils/datetime';
-import { getRandomNumberBetween, randomDelay } from './utils/delay';
-import { logger } from './logger/logger';
-import { shuffleArray } from './utils/shuffle';
+import ReportGenerator from "./reports/report";
+import TgClient from "./bot/telegram";
+import playGame from "./games/main";
+import { AppName, TgApp } from "./types";
+import { adsOpenBrowser } from "./ads/api";
+import { formatTime } from "./utils/datetime";
+import { getRandomNumberBetween, randomDelay } from "./utils/delay";
+import { logger } from "./logger/logger";
+import { shuffleArray } from "./utils/shuffle";
 
 class ExecuteContainer {
-  private initRun = process.env.INIT_RUN === 'true';
+  private initRun = process.env.INIT_RUN === "true";
   private processedAccounts = new Set();
   private reports = [] as any[];
   private telegram;
@@ -44,7 +44,7 @@ class ExecuteContainer {
     try {
       const [_, tgApps]: [any, string] = await Promise.all([
         this.telegram.client.startPolling(),
-        readFile('./data/apps.json', 'utf8'),
+        readFile("./data/apps.json", "utf8"),
       ]);
       const tgApplications: TgApp[] = JSON.parse(tgApps);
       const totalResultGames = await this.startPlayingGames(tgApplications);
@@ -70,13 +70,17 @@ class ExecuteContainer {
   }
 
   async startPlayingGames(tgApps: TgApp[]) {
+    const accCount = tgApps.length;
+    let accPosition = 0;
     // TODO: add chunks
     const totalResultGames = [];
     for (const tgApp of shuffleArray(tgApps)) {
+      accPosition++;
+
       if (this.processedAccounts.has(tgApp.code)) {
         continue;
       }
-      const rawResultGames = await this.playGamesByAccount(tgApp);
+      const rawResultGames = await this.playGamesByAccount(tgApp, accCount, accPosition);
       if (rawResultGames.length) {
         const resultGames = this.prepareResultGames(rawResultGames, tgApp);
         totalResultGames.push(...resultGames);
@@ -86,13 +90,13 @@ class ExecuteContainer {
     return totalResultGames;
   }
 
-  async playGamesByAccount(tgApp: TgApp) {
+  async playGamesByAccount(tgApp: TgApp, accCount: number, accPosition: number) {
     if (!tgApp.active) {
-      logger.debug(`👎 #${tgApp.code}`);
+      logger.debug(`❌ Аккаунт #${tgApp.id} (${accPosition}/${accCount})`);
       return [];
     }
 
-    logger.debug(`👍 #${tgApp.code}`);
+    logger.debug(`✅ Аккаунт #${tgApp.id} (${accPosition}/${accCount})`);
 
     const wsEndpoint = await this.establishWsEndpoint(tgApp.code, 3);
     if (!wsEndpoint) {
@@ -103,7 +107,10 @@ class ExecuteContainer {
     let browser = null;
 
     try {
-      browser = await puppeteer.connect({ browserWSEndpoint: wsEndpoint, defaultViewport: null });
+      browser = await puppeteer.connect({
+        browserWSEndpoint: wsEndpoint,
+        defaultViewport: null,
+      });
     } catch (e) {
       logger.error(`Cannot connect to ws: ${wsEndpoint}`);
       logger.error(e);
@@ -119,7 +126,7 @@ class ExecuteContainer {
         logger.warning(`There is no link to the [${appName}] app`);
       }
     }
-    await randomDelay(4, 8, 's');
+    await randomDelay(4, 8, "s");
     await browser.close();
     return resultGames;
   }
@@ -131,11 +138,11 @@ class ExecuteContainer {
         const openResult = await adsOpenBrowser(profileUserId);
         wsEndpoint = openResult?.data?.ws?.puppeteer;
         if (!wsEndpoint) {
-          throw new Error('WebSocket endpoint not found');
+          throw new Error("WebSocket endpoint not found");
         }
       } catch (error) {
         logger.error(`Attempt ${attempt} failed: ${error.message}`);
-        await randomDelay(4, 8, 's');
+        await randomDelay(4, 8, "s");
       }
     }
     return wsEndpoint;
@@ -163,7 +170,7 @@ class ExecuteContainer {
   prepareBriefSummaryText() {
     return `🎮 Game Results Summary:\r\n\r\n- Processed accounts (${this.processedAccounts.size}): ${Array.from(
       this.processedAccounts,
-    ).join(' | ')}\r\n\r\n- 📂 Detailed reports are being sent as CSV files.`.trim();
+    ).join(" | ")}\r\n\r\n- 📂 Detailed reports are being sent as CSV files.`.trim();
   }
 
   groupValuesByGame(inputArray: any[]) {
@@ -175,7 +182,10 @@ class ExecuteContainer {
 
     Object.keys(grouped).forEach((game) => {
       // @ts-ignore
-      grouped[game] = grouped[game].map((element, index) => ({ ...element, Number: index + 1 }));
+      grouped[game] = grouped[game].map((element, index) => ({
+        ...element,
+        Number: index + 1,
+      }));
     });
 
     return grouped;
@@ -189,7 +199,7 @@ class ExecuteContainer {
 
   private validateEnv() {
     if (!process.env.TG_TOKEN || !process.env.TG_RECEIVER_ID) {
-      throw new Error('Environment variables TG_TOKEN and TG_RECEIVER_ID must be set');
+      throw new Error("Environment variables TG_TOKEN and TG_RECEIVER_ID must be set");
     }
   }
 }
