@@ -12,7 +12,7 @@ export const reloadBotFunc = async (page: Page | Frame, selector: string, logTag
       logger.warning(`Closed bot`);
       await randomDelay(1500, 2500);
       await page.waitForSelector(commonSelectors.launchBotButton, { timeout: 30000 });
-      await delay(5000);
+      await delay(3000);
       await page.click(commonSelectors.launchBotButton);
       logger.warning(`Relaunched bot`);
       return true;
