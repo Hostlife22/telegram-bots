@@ -5,6 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "ts-node main.ts",
+    "add": "ts-node addGame.ts",
     "copy:env": "cp .env.example .env"
   },
   "keywords": [
