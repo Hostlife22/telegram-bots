@@ -6,15 +6,15 @@ import { commonSelectors } from "./selectors";
 
 export const reloadBotFunc = async (page: Page | Frame, selector: string, logTag?: string): Promise<boolean> => {
   try {
-    const element = await page.$$(selector);
-    console.log(element, "4");
-    if (element.length) {
-      await element[0].click();
-      logger.info(`Button clicked with selector: ${selector}`);
+    const closedButton = await page.$$(selector);
+    if (closedButton.length) {
+      await closedButton[0].click();
+      logger.warning(`Closed bot`);
       await randomDelay(1500, 2500);
       await page.waitForSelector(commonSelectors.launchBotButton, { timeout: 30000 });
       await delay(5000);
       await page.click(commonSelectors.launchBotButton);
+      logger.warning(`Relaunched bot`);
       return true;
     }
   } catch (error) {
