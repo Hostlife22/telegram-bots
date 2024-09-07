@@ -1,13 +1,17 @@
-import { Browser, Frame } from "puppeteer";
+import { Browser, Frame, Page } from "puppeteer";
 import path from "path";
 
 import { clickConfirm } from "../utils/confirmPopup";
 import { convertToNumber } from "../utils/convertToNumber";
-import { delay } from "../utils/delay";
+import { delay, randomDelay } from "../utils/delay";
 import { logger } from "../logger/logger";
 import { selectFrame } from "../utils/puppeteerHelper";
 import { AccountResults } from "../types";
+import { blumBotSelectors, commonSelectors } from "../utils/selectors";
+import { reloadBotFunc } from "../utils/reloadBotFunc";
 
+const { continueButtonPrimary, claimButton, continueButton, playButton, balanceLabel, ticketLabel, closeBotButton } =
+  blumBotSelectors;
 const playBlumGame = async (browser: Browser, appUrl: string) => {
   logger.debug("🎮 Blum");
 
@@ -20,7 +24,6 @@ const playBlumGame = async (browser: Browser, appUrl: string) => {
     BalanceAfter: -1,
     Tickets: -1,
   };
-  const firstButtonSelector = "div.new-message-bot-commands-view";
 
   try {
     await page.waitForNetworkIdle();
@@ -28,13 +31,18 @@ const playBlumGame = async (browser: Browser, appUrl: string) => {
     await Promise.all([page.goto(appUrl), page.waitForNavigation()]);
     await delay(20000);
 
-    await page.waitForSelector(firstButtonSelector, { timeout: 30000 });
+    await page.waitForSelector(commonSelectors.launchBotButton, { timeout: 30000 });
     await delay(5000);
-    await page.click(firstButtonSelector);
+    await page.click(commonSelectors.launchBotButton);
 
     await clickConfirm(page, "blum");
 
     const iframe = await selectFrame(page, "blum");
+
+    const wrongUploadingBot = await page.$$("#__blum > div > button.reset");
+    if (wrongUploadingBot.length > 0) {
+      await retryReloadBot(page, 3);
+    }
 
     try {
       await handleClaimButtons(iframe, 15000);
@@ -45,19 +53,17 @@ const playBlumGame = async (browser: Browser, appUrl: string) => {
       logger.info(`🎟  Playing ${currentTickets} tickets`, "blum");
 
       const scriptPath = path.resolve(__dirname, "../injectables/blum-game.js");
-      const playSelector = "div.pages-index-drop.drop-zone > div > a";
 
       const tickets = convertToNumber(currentTickets);
       if (tickets > 0) {
         await iframe.addScriptTag({ path: scriptPath });
-        await iframe.$eval(playSelector, (el) => {
+        await iframe.$eval(playButton, (el) => {
           (el as HTMLElement).click();
         });
 
         await delay(tickets * 35000);
 
-        const continueButtonSelector = "button.kit-button.is-large.is-primary";
-        await iframe.$eval(continueButtonSelector, (el) => {
+        await iframe.$eval(continueButtonPrimary, (el) => {
           (el as HTMLElement).click();
         });
 
@@ -84,6 +90,31 @@ const playBlumGame = async (browser: Browser, appUrl: string) => {
   return result;
 };
 
+const retryReloadBot = async (page: Page, retries = 3) => {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    const wrongUploadingBot = await page.$$("#__blum > div > button.reset");
+
+    if (wrongUploadingBot.length > 0) {
+      logger.info(`Attempt ${attempt} to reload the bot...`);
+      await reloadBotFunc(page, closeBotButton, "blum");
+
+      await randomDelay(1, 2, "s");
+    }
+
+    const recheck = await page.$$("#__blum > div > button.reset");
+    if (recheck.length === 0) {
+      logger.info("Bot reloaded successfully.");
+      return;
+    }
+
+    if (attempt === retries) {
+      console.log("Max retries reached. Closing browser...");
+      await page.browser().close();
+      return;
+    }
+  }
+};
+
 const handleClaimButtons = async (iframe: Frame, delayTimeout: number = 5000): Promise<void> => {
   if (!iframe) {
     logger.error("Iframe not found.", "blum");
@@ -92,8 +123,6 @@ const handleClaimButtons = async (iframe: Frame, delayTimeout: number = 5000): P
 
   await delay(delayTimeout);
 
-  const continueButtonSelector = "div.kit-fixed-wrapper > button";
-  const claimButtonSelector = "div.kit-fixed-wrapper > div.index-farming-button > button.kit-button";
   let isAlreadyFraming: boolean = false;
 
   const clickButton = async (selector: string, type: "continue" | "claim" | "start farming", message: string) => {
@@ -120,10 +149,10 @@ const handleClaimButtons = async (iframe: Frame, delayTimeout: number = 5000): P
     }
   };
 
-  await clickButton(continueButtonSelector, "continue", "Daily rewards step");
-  await clickButton(claimButtonSelector, "claim", "Start farming button appeared after claiming. Clicking it...");
+  await clickButton(continueButton, "continue", "Daily rewards step");
+  await clickButton(claimButton, "claim", "Start farming button appeared after claiming. Clicking it...");
   if (!isAlreadyFraming) {
-    await clickButton(claimButtonSelector, "start farming", "Farming button appeared after claiming. Clicking it...");
+    await clickButton(claimButton, "start farming", "Farming button appeared after claiming. Clicking it...");
   }
 };
 
@@ -143,13 +172,11 @@ const extractValue = async (iframe: Frame, selector: string, errorMessage: strin
 };
 
 const extractBalance = (iframe: Frame) => {
-  const balanceSelector = "div.profile-with-balance > div.balance > div";
-  return extractValue(iframe, balanceSelector, "Error extracting balance");
+  return extractValue(iframe, balanceLabel, "Error extracting balance");
 };
 
 const extractTickets = (iframe: Frame) => {
-  const ticketSelector = "div.title-with-balance > div.pass";
-  return extractValue(iframe, ticketSelector, "Error extracting tickets");
+  return extractValue(iframe, ticketLabel, "Error extracting tickets");
 };
 
 export default playBlumGame;
