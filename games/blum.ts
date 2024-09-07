@@ -1,13 +1,14 @@
-import { Browser, Frame } from "puppeteer";
+import { Browser, Frame, Page } from "puppeteer";
 import path from "path";
 
 import { clickConfirm } from "../utils/confirmPopup";
 import { convertToNumber } from "../utils/convertToNumber";
-import { delay } from "../utils/delay";
+import { delay, randomDelay } from "../utils/delay";
 import { logger } from "../logger/logger";
 import { selectFrame } from "../utils/puppeteerHelper";
 import { AccountResults } from "../types";
-import { commonSelectors } from "../utils/selectors";
+import { blumBotSelectors, commonSelectors } from "../utils/selectors";
+import { reloadBotFunc } from "../utils/reloadBotFunc";
 
 const playBlumGame = async (browser: Browser, appUrl: string) => {
   logger.debug("🎮 Blum");
@@ -36,6 +37,11 @@ const playBlumGame = async (browser: Browser, appUrl: string) => {
 
     const iframe = await selectFrame(page, "blum");
 
+    const wrongUploadingBot = await page.$$("#__blum > div > button.reset");
+    if (wrongUploadingBot.length > 0) {
+      await retryReloadBot(page, 3);
+    }
+
     try {
       await handleClaimButtons(iframe, 15000);
       const [currentBalance, currentTickets] = await Promise.all([extractBalance(iframe), extractTickets(iframe)]);
@@ -53,8 +59,6 @@ const playBlumGame = async (browser: Browser, appUrl: string) => {
         await iframe.$eval(playSelector, (el) => {
           (el as HTMLElement).click();
         });
-
-        // await reloadBotFunc(page, blumBotSelectors.closeBotButton, "blum");
 
         await delay(tickets * 35000);
 
@@ -84,6 +88,31 @@ const playBlumGame = async (browser: Browser, appUrl: string) => {
   }
 
   return result;
+};
+
+const retryReloadBot = async (page: Page, retries = 3) => {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    const wrongUploadingBot = await page.$$("#__blum > div > button.reset");
+
+    if (wrongUploadingBot.length > 0) {
+      logger.info(`Attempt ${attempt} to reload the bot...`);
+      await reloadBotFunc(page, blumBotSelectors.closeBotButton, "blum");
+
+      await randomDelay(1, 2, "s");
+    }
+
+    const recheck = await page.$$("#__blum > div > button.reset");
+    if (recheck.length === 0) {
+      logger.info("Bot reloaded successfully.");
+      return;
+    }
+
+    if (attempt === retries) {
+      console.log("Max retries reached. Closing browser...");
+      await page.browser().close();
+      return;
+    }
+  }
 };
 
 const handleClaimButtons = async (iframe: Frame, delayTimeout: number = 5000): Promise<void> => {
