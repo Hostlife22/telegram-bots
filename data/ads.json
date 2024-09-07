@@ -172,7 +172,7 @@
   {
     "id": 21,
     "code": "ji97e6v",
-    "active": true,
+    "active": false,
     "username": "@jkprodo",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
