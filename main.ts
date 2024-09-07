@@ -137,9 +137,12 @@ class ExecuteContainer {
     }
 
     const resultGames = [];
-    for (const [appName, appUrl] of Object.entries(tgApp.games)) {
+    for (const [appName, appUrl] of Object.entries(tgApp.games).filter(([_]) => {
+      if (process.env.GAME) return _ === process.env.GAME;
+      return true;
+    })) {
       if (appUrl) {
-        const resultGame = await playGame(appName as AppName, browser, appUrl);
+        const resultGame = await playGame("tapswap", browser, appUrl);
         resultGames.push({ game: appName, data: resultGame });
       } else {
         logger.warning(`There is no link to the [${appName}] app`);

@@ -1,4 +1,6 @@
-export type AppName = "blum";
+import { Browser } from "puppeteer";
+
+export type AppName = "blum" | "tapswap";
 // export type AppName = 'blum' | 'hamster' | 'iceberg';
 
 export interface TgApp {
@@ -58,3 +60,5 @@ export interface ParsedGameResult {
   game: string;
   data: AccountResults;
 }
+
+export type PlayGameFn = (browser: Browser, appUrl: string) => Promise<AccountResults>;

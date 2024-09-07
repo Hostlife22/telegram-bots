@@ -1,20 +1,19 @@
+import { AppName } from "../types";
+
 const baseHeaders = ["Number", "Account", "User", "BalanceBefore", "BalanceAfter"];
 
 const reportHeaders = {
-  hamster: {
-    headers: [...baseHeaders, "ProfitPerHour"],
-  },
   blum: {
     headers: [...baseHeaders, "Tickets"],
   },
-  iceberg: {
-    headers: baseHeaders,
+  tapswap: {
+    headers: [...baseHeaders, "Tickets"],
   },
 };
 
 export default class ReportGenerator {
   // @ts-ignore
-  generateReport = (gameType: "hamster" | "blum" | "iceberg", data) => {
+  generateReport = (gameType: AppName, data) => {
     const { headers } = reportHeaders[gameType];
     const csvContent = this.jsonToCSV(data, headers);
     return Buffer.from(csvContent, "utf8");

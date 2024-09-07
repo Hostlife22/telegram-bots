@@ -25,7 +25,8 @@
     "node-telegram-bot-api": "^0.66.0",
     "puppeteer": "^21.11.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "fuse.js": "^7.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.5.3",
