@@ -132,7 +132,7 @@
   {
     "id": 17,
     "code": "ji97e6q",
-    "active": true,
+    "active": false,
     "username": "@uioplor",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
@@ -532,7 +532,7 @@
   {
     "id": 91,
     "code": "ji97e93",
-    "active": true,
+    "active": false,
     "username": "@toriansb",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
