@@ -6,14 +6,7 @@ import { convertToNumber } from "../utils/convertToNumber";
 import { delay } from "../utils/delay";
 import { logger } from "../logger/logger";
 import { selectFrame } from "../utils/puppeteerHelper";
-
-interface AccountResults {
-  Account: null | string;
-  User: null | string;
-  BalanceBefore: number | string;
-  BalanceAfter: number | string;
-  Tickets: number | string;
-}
+import { AccountResults } from "../types";
 
 const playBlumGame = async (browser: Browser, appUrl: string) => {
   logger.debug("🎮 Blum");
