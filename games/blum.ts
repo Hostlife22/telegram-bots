@@ -39,7 +39,7 @@ const playBlumGame = async (browser: Browser, appUrl: string) => {
 
     const iframe = await selectFrame(page, "blum");
 
-    const wrongUploadingBot = await page.$$("#__blum > div > button.reset");
+    const wrongUploadingBot = await page.$$("div > button.reset");
     if (wrongUploadingBot.length > 0) {
       await retryReloadBot(page, 3);
     }
@@ -92,7 +92,7 @@ const playBlumGame = async (browser: Browser, appUrl: string) => {
 
 const retryReloadBot = async (page: Page, retries = 3) => {
   for (let attempt = 1; attempt <= retries; attempt++) {
-    const wrongUploadingBot = await page.$$("#__blum > div > button.reset");
+    const wrongUploadingBot = await page.$$("div > button.reset");
 
     if (wrongUploadingBot.length > 0) {
       logger.info(`Attempt ${attempt} to reload the bot...`);
@@ -108,7 +108,7 @@ const retryReloadBot = async (page: Page, retries = 3) => {
     }
 
     if (attempt === retries) {
-      console.log("Max retries reached. Closing browser...");
+      logger.error("Max retries reached. Closing browser...");
       await page.browser().close();
       return;
     }
