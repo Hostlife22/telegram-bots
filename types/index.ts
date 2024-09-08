@@ -1,5 +1,6 @@
 export type AppName = "blum";
 // export type AppName = 'blum' | 'hamster' | 'iceberg';
+export type ShuffleArrayType = "asc" | "desc" | "shuffle";
 
 export interface TgApp {
   id: number;
