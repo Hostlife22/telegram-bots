@@ -17,7 +17,7 @@ interface AccountResults {
   Tickets: number | string;
 }
 
-const processVideoWatching = async (iframe: Frame, page: Page) => {
+const processVideoWatching = async (iframe: Frame, page: Page, tag: string) => {
   // Navigate to the video tab
   await iframe?.$eval(tapswapBotSelectors.videoTabButton, (el) => {
     // @ts-ignore
@@ -37,7 +37,7 @@ const processVideoWatching = async (iframe: Frame, page: Page) => {
       }, tapswapBotSelectors.videoContainer);
 
       if (buttonCount === 0) {
-        console.log("No more videos to watch");
+        logger.info("No more videos to watch", tag);
         break;
       }
       if (buttonIndex >= 2 + buttonCount)
@@ -50,8 +50,8 @@ const processVideoWatching = async (iframe: Frame, page: Page) => {
       const isValidSelector = await iframe.$(selector).then((el) => !!el);
 
       if (isValidSelector) {
-        console.log(`Claiming watching at index ${buttonIndex}...`);
-        await claimWatching(iframe, page, selector, `${buttonIndex}`);
+        logger.info(`Claiming watching at index ${buttonIndex}...`, tag);
+        await claimWatching(iframe, page, selector, `${buttonIndex}`, tag);
 
         buttonIndex++;
       } else {
@@ -65,10 +65,11 @@ const processVideoWatching = async (iframe: Frame, page: Page) => {
   await processVideosSequentially();
 };
 
-const playTapSwap = async (browser: Browser, appUrl: string) => {
-  logger.debug("🎮 TapSwap");
+const playTapSwap = async (browser: Browser, appUrl: string, id: number) => {
+  logger.debug(`🎮 TapSwap #${id}`);
 
   const page = await browser.newPage();
+  const tag = `tapSwap #${id}`;
 
   const result: AccountResults = {
     Account: null,
@@ -88,33 +89,33 @@ const playTapSwap = async (browser: Browser, appUrl: string) => {
     await delay(5000);
     await page.click(commonSelectors.launchBotButton);
 
-    await clickConfirm(page, "tapswap");
+    await clickConfirm(page, tag);
 
-    const iframe = await selectFrame(page, "tapswap");
+    const iframe = await selectFrame(page, tag);
 
     try {
-      await handleClaimButtons(iframe, 15000);
-      const [currentBalance, videoCount] = await Promise.all([extractBalance(iframe), extractTickets(iframe)]);
+      await handleClaimButtons(iframe, 15000, tag);
+      const [currentBalance, videoCount] = await Promise.all([extractBalance(iframe, tag), extractTickets(iframe, tag)]);
       result.BalanceBefore = currentBalance;
 
-      logger.info(`💰 Starting balance: ${currentBalance}`, "tapswap");
-      logger.info(`🎟 Playing ${videoCount} video count`, "tapswap");
-      await processVideoWatching(iframe, page);
+      logger.info(`💰 Starting balance: ${currentBalance}`, tag);
+      logger.info(`🎟 Playing ${videoCount} video count`, tag);
+      await processVideoWatching(iframe, page, tag);
     } catch (error) {
-      logger.error(`An error occurred during game-play: ${error}`, "tapswap");
+      logger.error(`An error occurred during game-play: ${error}`, tag);
     } finally {
       await page.close();
     }
   } catch (error) {
-    logger.error(`An error occurred during initial setup: ${error}`, "tapswap");
+    logger.error(`An error occurred during initial setup: ${error}`, tag);
   }
 
   return result;
 };
 
-const handleClaimButtons = async (iframe: Frame, delayTimeout: number = 5000): Promise<void> => {
+const handleClaimButtons = async (iframe: Frame, delayTimeout: number = 5000, tag: string): Promise<void> => {
   if (!iframe) {
-    logger.error("Iframe not found.", "tapswap");
+    logger.error("Iframe not found.", tag);
     return;
   }
 
@@ -133,7 +134,7 @@ const handleClaimButtons = async (iframe: Frame, delayTimeout: number = 5000): P
         logger.info(message, buttonText);
       }
     } catch (error) {
-      logger.warning(`No actionable "${type}" button found.`, "tapswap");
+      logger.warning(`No actionable "${type}" button found.`, tag);
     } finally {
       await delay(5000);
     }
@@ -142,7 +143,7 @@ const handleClaimButtons = async (iframe: Frame, delayTimeout: number = 5000): P
   await clickButton(tapswapBotSelectors.claimButton, "claim", "Start farming button appeared after claiming. Clicking it...");
 };
 
-const claimWatching = async (iframe: Frame, page: Page, videoSelector: string, value: string) => {
+const claimWatching = async (iframe: Frame, page: Page, videoSelector: string, value: string, tag: string) => {
   try {
     await clickButton(iframe, videoSelector, "click task");
     await delay(1000);
@@ -150,24 +151,24 @@ const claimWatching = async (iframe: Frame, page: Page, videoSelector: string, v
     // Check if the video is not watched
     const startButtonElement = await iframe
       .$eval(tapswapBotSelectors.startMission, (el) => el.textContent || "")
-      .catch(() => logger.warning("Start Button not found"));
+      .catch(() => logger.warning("Start Button not found", tag));
 
     const isVideoNotWatched = typeof startButtonElement === "string" && startButtonElement.toLowerCase() === "start mission";
 
     if (isVideoNotWatched) {
-      logger.info("Handle not watched Video");
+      logger.info("Handle not watched Video", tag);
       await clickButton(iframe, tapswapBotSelectors.startMission, "start mission button");
       await delay(1000);
       await clickButton(iframe, tapswapBotSelectors.watchButton, "watch video button");
       await page.bringToFront();
-      await goBack(page, iframe);
+      await goBack(page, iframe, tag);
       return;
     }
 
     // Check if the video is watched but not claimed with code input
     const fuckingInput = await iframe.$$("input");
     if (fuckingInput.length) {
-      logger.info("Handle video with input submitting");
+      logger.info("Handle video with input submitting", tag);
       const nameOfTask = await iframe.$eval(tapswapBotSelectors.nameOfTask, (el) => {
         return el.textContent;
       });
@@ -181,32 +182,33 @@ const claimWatching = async (iframe: Frame, page: Page, videoSelector: string, v
           await page.bringToFront();
           await clickButton(iframe, tapswapBotSelectors.claimButton, "claim button");
           await page.bringToFront();
-          await goBack(page, iframe);
+          await goBack(page, iframe, tag);
         } else {
-          logger.error("Code not found");
-          await goBack(page, iframe);
+          logger.error("Code not found", tag);
+          await goBack(page, iframe, tag);
         }
       });
     } else {
-      logger.info("Handle watched Video without submit input");
-      await goBack(page, iframe);
+      logger.info("Handle watched Video without submit input", tag);
+      await goBack(page, iframe, tag);
     }
   } catch (error) {
-    console.error("Error claiming watching:", error);
+    logger.error("Error claiming watching:", tag);
+    logger.error(error);
   }
 };
 
-const goBack = async (page: Page, iframe: Frame) => {
+const goBack = async (page: Page, iframe: Frame, tag: string) => {
   await delay(1000);
 
   const fuckingBackButton = await page.$$(tapswapBotSelectors.backButton);
   await fuckingBackButton[0]
     .click()
     .then(() => {
-      logger.info("Back button click");
+      logger.info("Back button click", tag);
     })
     .catch(() => {
-      logger.error("Back button not found");
+      logger.error("Back button not found", tag);
     });
   await delay(1000);
 
@@ -218,9 +220,9 @@ const goBack = async (page: Page, iframe: Frame) => {
   }
 };
 
-const extractValue = async (iframe: Frame, selector: string, errorMessage: string): Promise<string> => {
+const extractValue = async (iframe: Frame, selector: string, errorMessage: string, tag: string): Promise<string> => {
   if (!iframe) {
-    logger.error("Iframe not found.", "tapswap");
+    logger.error("Iframe not found.", tag);
     return "[None]";
   }
 
@@ -228,17 +230,17 @@ const extractValue = async (iframe: Frame, selector: string, errorMessage: strin
     const extractedValue = await iframe.$eval(selector, (el) => el.textContent?.trim());
     return extractedValue || "[None]";
   } catch (error) {
-    logger.error(errorMessage, "tapswap");
+    logger.error(errorMessage, tag);
     throw error;
   }
 };
 
-const extractBalance = (iframe: Frame) => {
-  return extractValue(iframe, tapswapBotSelectors.totalText, "Error extracting balance");
+const extractBalance = (iframe: Frame, tag: string) => {
+  return extractValue(iframe, tapswapBotSelectors.totalText, "Error extracting balance", tag);
 };
 
-const extractTickets = (iframe: Frame) => {
-  return extractValue(iframe, tapswapBotSelectors.videoCount, "Error extracting tickets");
+const extractTickets = (iframe: Frame, tag: string) => {
+  return extractValue(iframe, tapswapBotSelectors.videoCount, "Error extracting tickets", tag);
 };
 
 export default playTapSwap;
