@@ -4,7 +4,7 @@ import { AppName, PlayGameFn } from "../types";
 import playBlumGame from "./blum";
 import playTapSwap from "./tapswap";
 
-export default async function playGame(appName: AppName, browser: Browser, appUrl: string) {
+export default async function playGame(appName: AppName, browser: Browser, appUrl: string, id: number) {
   const gameFunctions: Record<string, PlayGameFn> = {
     blum: playBlumGame,
     // iceberg: playIcebergGame,
@@ -17,5 +17,5 @@ export default async function playGame(appName: AppName, browser: Browser, appUr
     throw new Error(`[${appName}] is not supported yet`);
   }
 
-  return await func(browser, appUrl);
+  return await func(browser, appUrl, id);
 }

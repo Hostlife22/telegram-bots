@@ -9,16 +9,17 @@ import playGame from "./games/main";
 import { AppName, ParsedGameResult, TgApp } from "./types";
 import { adsOpenBrowser } from "./ads/api";
 import { formatTime } from "./utils/datetime";
-import { getRandomNumberBetween, randomDelay } from "./utils/delay";
+import { delay, getRandomNumberBetween, randomDelay } from "./utils/delay";
 import { logger } from "./logger/logger";
 import { shuffleArray } from "./utils/shuffle";
 
 class ExecuteContainer {
   private initRun = process.env.INIT_RUN === "true";
   private processedAccounts = new Set();
-  private reports = [] as ParsedGameResult[];
+  private reports: ParsedGameResult[] = [];
   private parallelLimit = 2;
   private telegram;
+  private isOpeningProfiles = false;
 
   constructor() {
     this.validateEnv();
@@ -117,9 +118,9 @@ class ExecuteContainer {
 
     logger.debug(`✅ Аккаунт #${tgApp.id} (${accPosition}/${accCount})`);
 
-    const wsEndpoint = await this.establishWsEndpoint(tgApp.code, 3);
+    const wsEndpoint = await this.establishWsEndpoint(tgApp.code, 3, tgApp.id);
     if (!wsEndpoint) {
-      logger.error(`Failed to open browser: WebSocket endpoint is not defined after 3 attempts`);
+      logger.error(`Failed to open browser ${tgApp.id}: WebSocket endpoint is not defined after 3 attempts`);
       return [];
     }
 
@@ -137,15 +138,20 @@ class ExecuteContainer {
     }
 
     const resultGames = [];
+
     for (const [appName, appUrl] of Object.entries(tgApp.games).filter(([_]) => {
       if (process.env.GAME) return _ === process.env.GAME;
       return true;
     })) {
       if (appUrl) {
-        const resultGame = await playGame("tapswap", browser, appUrl);
-        resultGames.push({ game: appName, data: resultGame });
+        try {
+          const resultGame = await playGame(appName as AppName, browser, appUrl, tgApp.id);
+          resultGames.push({ game: appName, data: resultGame });
+        } catch (e) {
+          logger.error(e.message, `Error #${tgApp.id}`);
+        }
       } else {
-        logger.warning(`There is no link to the [${appName}] app`);
+        logger.warning(`There is no link to the [${appName}] app`, `Warning #${tgApp.id}`);
       }
     }
     await randomDelay(4, 8, "s");
@@ -153,20 +159,31 @@ class ExecuteContainer {
     return resultGames;
   }
 
-  async establishWsEndpoint(profileUserId: string, maxRetries: number) {
+  async establishWsEndpoint(profileUserId: string, maxRetries: number, tgAppId: number) {
     let wsEndpoint;
+
     for (let attempt = 1; attempt <= maxRetries && !wsEndpoint; attempt++) {
       try {
+        while (this.isOpeningProfiles) {
+          await delay(2000);
+        }
+
+        this.isOpeningProfiles = true;
+
         const openResult = await adsOpenBrowser(profileUserId);
         wsEndpoint = openResult?.data?.ws?.puppeteer;
+
         if (!wsEndpoint) {
           throw new Error("WebSocket endpoint not found");
         }
       } catch (error) {
-        logger.error(`Attempt ${attempt} failed: ${error.message}`);
+        logger.error(`Attempt ${attempt} failed #${tgAppId}: ${error.message}`);
         await randomDelay(4, 8, "s");
+      } finally {
+        this.isOpeningProfiles = false;
       }
     }
+
     return wsEndpoint;
   }
 

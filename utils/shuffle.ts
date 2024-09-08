@@ -1,10 +1,22 @@
-export const shuffleArray = <T>(array: T[]): T[] => {
-  const shuffledArray = array.slice();
+import { logger } from "../logger/logger";
+import { ShuffleArrayType } from "../types";
 
-  for (let i = shuffledArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+export const shuffleArray = <T>(array: T[], type: ShuffleArrayType = "asc", initPosition: number = 0): T[] => {
+  if (initPosition >= array.length) {
+    logger.warning(`InitPosition ${initPosition} is greater than array length ${array.length}`);
+    return [];
   }
 
-  return shuffledArray;
+  const slicedArray = array.slice(initPosition);
+
+  if (type === "asc") return slicedArray;
+  if (type === "desc") return slicedArray.reverse();
+  if (type === "shuffle") {
+    for (let i = slicedArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [slicedArray[i], slicedArray[j]] = [slicedArray[j], slicedArray[i]];
+    }
+  }
+
+  return slicedArray;
 };

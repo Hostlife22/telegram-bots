@@ -102,7 +102,7 @@
   {
     "id": 14,
     "code": "ji97e6n",
-    "active": true,
+    "active": false,
     "username": "@baniuszloi",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
@@ -132,7 +132,7 @@
   {
     "id": 17,
     "code": "ji97e6q",
-    "active": true,
+    "active": false,
     "username": "@uioplor",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
@@ -172,7 +172,7 @@
   {
     "id": 21,
     "code": "ji97e6v",
-    "active": true,
+    "active": false,
     "username": "@jkprodo",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
@@ -532,7 +532,7 @@
   {
     "id": 91,
     "code": "ji97e93",
-    "active": true,
+    "active": false,
     "username": "@toriansb",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",

@@ -2,6 +2,7 @@ import { Browser } from "puppeteer";
 
 export type AppName = "blum" | "tapswap";
 // export type AppName = 'blum' | 'hamster' | 'iceberg';
+export type ShuffleArrayType = "asc" | "desc" | "shuffle";
 
 export interface TgApp {
   id: number;
@@ -61,4 +62,4 @@ export interface ParsedGameResult {
   data: AccountResults;
 }
 
-export type PlayGameFn = (browser: Browser, appUrl: string) => Promise<AccountResults>;
+export type PlayGameFn = (browser: Browser, appUrl: string, id: number) => Promise<AccountResults>;
