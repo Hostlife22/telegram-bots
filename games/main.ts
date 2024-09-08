@@ -3,7 +3,7 @@ import { Browser } from "puppeteer";
 import playBlumGame from "./blum";
 import { AppName } from "../types";
 
-export default async function playGame(appName: AppName, browser: Browser, appUrl: string) {
+export default async function playGame(appName: AppName, browser: Browser, appUrl: string, id: number) {
   const gameFunctions = {
     blum: playBlumGame,
     // iceberg: playIcebergGame,
@@ -15,5 +15,5 @@ export default async function playGame(appName: AppName, browser: Browser, appUr
     throw new Error(`[${appName}] is not supported yet`);
   }
 
-  return await func(browser, appUrl);
+  return await func(browser, appUrl, id);
 }
