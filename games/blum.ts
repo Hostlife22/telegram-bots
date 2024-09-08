@@ -57,9 +57,6 @@ const playBlumGame = async (browser: Browser, appUrl: string) => {
       const tickets = convertToNumber(currentTickets);
       if (tickets > 0) {
         await iframe.addScriptTag({ path: scriptPath });
-        await iframe.$eval(playButton, (el) => {
-          (el as HTMLElement).click();
-        });
 
         await delay(tickets * 35000);
 
