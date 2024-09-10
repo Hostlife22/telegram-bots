@@ -74,8 +74,12 @@ export class BrowserManager {
 
   private async playGamesInBrowser(tgApp: TgApp, browser: Browser) {
     const resultGames: ParsedGameResult[] = [];
+    const games = Object.entries(tgApp.games).filter(([_]) => {
+      if (process.env.GAME) return _ === process.env.GAME;
+      return true;
+    });
 
-    for (const [appName, appUrl] of Object.entries(tgApp.games)) {
+    for (const [appName, appUrl] of games) {
       if (appUrl) {
         try {
           const resultGame = await playGame(appName as AppName, browser, appUrl, tgApp.id);
