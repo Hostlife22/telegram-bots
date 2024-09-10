@@ -205,6 +205,13 @@ const videos: VideoItem[] = [
   { code: "zkoracle", name: "Work From Home" },
   { code: "zkapps", name: "Make Money As A Student" },
   { code: "regens", name: "The Best Side Hustles Ideas!" },
+  { code: "taproot", name: "How To Retire Early" },
+
+  { code: "tangle", name: "They Changed Our Lives" },
+  { code: "shard", name: "Make $3,000 Per Month By Selling" },
+  { code: "settlement", name: "$5,000 Month Flipping Items On ebay" },
+  { code: "security", name: "Telegram Wallet 2024" },
+  { code: "scrypt", name: "Make Money On Weekends" },
 ];
 
 const Fuse = require("fuse.js");
