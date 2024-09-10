@@ -1,7 +1,7 @@
 import { delay, randomDelay } from "../utils/delay";
 import { clickButton, clickLinkWithHref, waitForButton } from "../utils/puppeteerHelper";
 import { shuffleArray } from "../utils/shuffle";
-import { logger } from "../logger/logger";
+import { logger } from "../core/Logger";
 import { Browser, ElementHandle, Page } from "puppeteer";
 
 const BLACK_LIST_TASKS = ["Invite 15 friends", "Invite 10 friends", "Invite 5 friends"];

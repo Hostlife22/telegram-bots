@@ -7,8 +7,6 @@ import playTapSwap from "./tapswap";
 export default async function playGame(appName: AppName, browser: Browser, appUrl: string, id: number) {
   const gameFunctions: Record<string, PlayGameFn> = {
     blum: playBlumGame,
-    // iceberg: playIcebergGame,
-    // hamster: playHamsterGame,
     tapswap: playTapSwap,
   };
 

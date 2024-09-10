@@ -1,7 +1,7 @@
 import { delay, getRandomNumberBetween, randomDelay } from "../utils/delay";
 import { clickButton, clickLinkWithHref, hasElement, waitForButton } from "../utils/puppeteerHelper";
 import { shuffleArray } from "../utils/shuffle";
-import { logger } from "../logger/logger";
+import { logger } from "../core/Logger";
 import { Browser, ElementHandle, Page } from "puppeteer";
 
 // const MORSE_CODE = ['.', '-', '-', '.', ' ', '-', '-', '-', ' ', '-', '-', '-', ' ', '.', '-', '.', '.']; // 22.06

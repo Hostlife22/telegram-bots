@@ -1,4 +1,4 @@
-import { logger } from "../logger/logger";
+import { logger } from "../core/Logger";
 import { ShuffleArrayType } from "../types";
 
 export const shuffleArray = <T>(array: T[], type: ShuffleArrayType = "asc", initPosition: number = 0): T[] => {
