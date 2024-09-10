@@ -47,42 +47,43 @@ const playBlumGame = async (browser: Browser, appUrl: string, id: number) => {
 
     try {
       await handleClaimButtons(iframe, 15000, tag);
-      const [currentBalance, currentTickets] = await Promise.all([extractBalance(iframe, tag), extractTickets(iframe, tag)]);
-      result.BalanceBefore = currentBalance;
+      const [balanceBefore, ticketsBefore] = await Promise.all([extractBalance(iframe, tag), extractTickets(iframe, tag)]);
+      result.BalanceBefore = balanceBefore;
 
-      logger.info(`💰 Starting balance: ${currentBalance}`, tag);
-      logger.info(`🎟  Playing ${currentTickets} tickets`, tag);
+      logger.info(`💰 Starting balance: ${balanceBefore}`, tag);
+      logger.info(`🎟  Playing ${ticketsBefore} tickets`, tag);
 
       const scriptPath = path.resolve(__dirname, "../injectables/blum-game.js");
 
-      const tickets = convertToNumber(currentTickets);
+      const tickets = convertToNumber(ticketsBefore);
       if (tickets > 0) {
         await iframe.addScriptTag({ path: scriptPath });
 
         await delay(tickets * 35000);
+        await delay(2000);
 
         await iframe.$eval(continueButtonPrimary, (el) => {
           (el as HTMLElement).click();
         });
 
-        const [currentBalance, currentTickets] = await Promise.all([extractBalance(iframe, tag), extractTickets(iframe, tag)]);
+        const [balanceAfter, ticketsAfter] = await Promise.all([extractBalance(iframe, tag), extractTickets(iframe, tag)]);
 
-        logger.info(`💰 Ending balance: ${currentBalance}`, tag);
-        logger.info(`🎟  Remaining tickets: ${currentTickets}`, tag);
+        logger.info(`💰 Ending balance: ${balanceAfter}`, tag);
+        logger.info(`🎟  Remaining tickets: ${ticketsAfter}`, tag);
 
-        result.BalanceAfter = currentBalance;
-        result.Tickets = currentTickets;
+        result.BalanceAfter = balanceAfter;
+        result.Tickets = ticketsAfter;
       } else {
-        result.BalanceAfter = currentBalance;
-        result.Tickets = currentTickets;
+        result.BalanceAfter = balanceBefore;
+        result.Tickets = ticketsBefore;
       }
     } catch (error) {
-      logger.error(`An error occurred during game-play: ${error}`, tag);
+      logger.error(`An error occurred during game-play: ${error.message}`, tag);
     } finally {
       await page.close();
     }
   } catch (error) {
-    logger.error(`An error occurred during initial setup: ${error}`, tag);
+    logger.error(`An error occurred during initial setup: ${error.message}`, tag);
   }
 
   return result;
