@@ -1,6 +1,6 @@
 import { Frame, Page } from "puppeteer";
 
-import { logger } from "../logger/logger";
+import { logger } from "../core/Logger";
 import { delay, randomDelay } from "./delay";
 import { commonSelectors } from "./selectors";
 

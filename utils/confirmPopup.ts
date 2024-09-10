@@ -1,7 +1,7 @@
 import { Page } from "puppeteer";
 
 import { delay } from "./delay";
-import { logger } from "../logger/logger";
+import { logger } from "../core/Logger";
 
 export const clickConfirm = async (page: Page, tag?: string): Promise<void> => {
   try {

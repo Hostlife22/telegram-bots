@@ -8,6 +8,20 @@ export interface TgApp {
   active: boolean;
   username: string;
   games: Record<AppName, string>;
+  referralLink: string;
+}
+
+export interface AdsResponse {
+  code: number;
+  data: {
+    ws?: {
+      selenium: string;
+      puppeteer: string;
+    };
+    debug_port?: string;
+    webdriver?: string;
+  };
+  msg: string;
 }
 
 export interface Profile {

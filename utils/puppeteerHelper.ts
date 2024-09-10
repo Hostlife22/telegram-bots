@@ -1,6 +1,6 @@
 import { Frame, Page } from "puppeteer";
 
-import { logger } from "../logger/logger";
+import { logger } from "../core/Logger";
 import { randomDelay, delay } from "./delay";
 
 export const hasElement = async (page: Page | Frame, selector: string): Promise<boolean> => {

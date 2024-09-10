@@ -4,7 +4,7 @@ import path from "path";
 import { clickConfirm } from "../utils/confirmPopup";
 import { convertToNumber } from "../utils/convertToNumber";
 import { delay, randomDelay } from "../utils/delay";
-import { logger } from "../logger/logger";
+import { logger } from "../core/Logger";
 import { selectFrame } from "../utils/puppeteerHelper";
 import { AccountResults } from "../types";
 import { blumBotSelectors, commonSelectors } from "../utils/selectors";
@@ -141,7 +141,7 @@ const handleClaimButtons = async (iframe: Frame, delayTimeout: number = 5000, ta
       }
     } catch (error) {
       if (type !== "continue") {
-        logger.warning(`No actionable "${type}" button found.`, tag);
+        logger.info(`No actionable "${type}" button found.`, tag);
       }
     } finally {
       await delay(5000);

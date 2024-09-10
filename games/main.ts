@@ -6,8 +6,6 @@ import { AppName } from "../types";
 export default async function playGame(appName: AppName, browser: Browser, appUrl: string, id: number) {
   const gameFunctions = {
     blum: playBlumGame,
-    // iceberg: playIcebergGame,
-    // hamster: playHamsterGame,
   };
 
   const func = gameFunctions[appName];
