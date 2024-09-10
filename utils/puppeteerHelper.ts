@@ -24,23 +24,16 @@ export const selectFrame = async (page: Page, tag?: string): Promise<Frame> => {
   }
 };
 
-export const clickButton = async (page: Page | Frame, selector: string, logTag?: string): Promise<boolean> => {
-  page.title;
+export const clickButton = async (page: Page | Frame, selector: string, logTag?: string): Promise<void> => {
   try {
-    const element = await page.waitForSelector(selector, {
-      visible: true,
-      timeout: 60000,
+    await page.$eval(selector, (el) => {
+      (el as HTMLElement).click();
     });
-    if (element) {
-      await element.click();
-      logger.info(`Button clicked with selector: ${selector}`);
-      await randomDelay(1500, 2500);
-      return true;
-    }
+    logger.info(`Button clicked with selector: ${selector}`);
+    await randomDelay(1500, 2500, "ms");
   } catch (error) {
     logger.error(`Timeout waiting for button with selector: ${selector}`, logTag ?? "helper");
   }
-  return false;
 };
 
 export const clickDiv = async (page: Frame, selector: string, timeout: number = 20000): Promise<boolean> => {

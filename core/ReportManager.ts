@@ -7,6 +7,9 @@ const reportHeaders: Record<AppName, { headers: string[] }> = {
   blum: {
     headers: [...baseHeaders, "Tickets"],
   },
+  tapswap: {
+    headers: [...baseHeaders, "Tickets"],
+  },
 };
 
 interface ReportData {
