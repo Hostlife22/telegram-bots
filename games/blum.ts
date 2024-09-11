@@ -55,11 +55,11 @@ const playBlumGame = async (browser: Browser, appUrl: string, id: number) => {
     }
 
     try {
-      await handleClaimTasks(iframe, browser, page, tag);
       await handleClaimButtons(iframe, 15000, tag);
       const [balanceBefore, ticketsBefore] = await Promise.all([extractBalance(iframe, tag), extractTickets(iframe, tag)]);
-      result.BalanceBefore = balanceBefore;
 
+      await handleClaimTasks(iframe, browser, page, tag);
+      result.BalanceBefore = balanceBefore;
       logger.info(`💰 Starting balance: ${balanceBefore}`, tag);
       logger.info(`🎟  Playing ${ticketsBefore} tickets`, tag);
 
@@ -165,7 +165,7 @@ const handleClaimButtons = async (iframe: Frame, delayTimeout: number = 5000, ta
         logger.info(`No actionable "${type}" button found.`, tag);
       }
     } finally {
-      await delay(5000);
+      await delay(8000);
     }
   };
 
