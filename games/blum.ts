@@ -1,4 +1,4 @@
-import { Browser, Frame, Page } from "puppeteer";
+import { Browser, ElementHandle, Frame, Page } from "puppeteer";
 import path from "path";
 
 import { clickConfirm } from "../utils/confirmPopup";
@@ -9,6 +9,7 @@ import { hasElement, selectFrame } from "../utils/puppeteerHelper";
 import { AccountResults } from "../types";
 import { blumBotSelectors, commonSelectors } from "../utils/selectors";
 import { reloadBotFunc } from "../utils/reloadBotFunc";
+import { blumVideoCodes } from "../utils/video";
 
 const { continueButtonPrimary, claimButton, continueButton, playButton, balanceLabel, ticketLabel, closeBotButton } =
   blumBotSelectors;
@@ -54,6 +55,7 @@ const playBlumGame = async (browser: Browser, appUrl: string, id: number) => {
     }
 
     try {
+      await handleClaimTasks(iframe, browser, page, tag);
       await handleClaimButtons(iframe, 15000, tag);
       const [balanceBefore, ticketsBefore] = await Promise.all([extractBalance(iframe, tag), extractTickets(iframe, tag)]);
       result.BalanceBefore = balanceBefore;
@@ -195,6 +197,129 @@ const extractBalance = (iframe: Frame, tag: string) => {
 
 const extractTickets = (iframe: Frame, tag: string) => {
   return extractValue(iframe, ticketLabel, "Error extracting tickets", tag);
+};
+
+const handleClaimTasks = async (iframe: Frame, browser: Browser, page: Page, tag: string): Promise<void> => {
+  if (!iframe) {
+    logger.error("Iframe not found.", tag);
+    return;
+  }
+
+  try {
+    await iframe.$eval(blumBotSelectors.earnButton, (el) => (el as HTMLElement).click());
+    await iframe.waitForSelector(blumBotSelectors.earnTitleSelector, { timeout: 30000 });
+
+    const lists = await iframe.$$(blumBotSelectors.lists);
+
+    for (const list of lists) {
+      await delay(10000);
+      await processListTasks(iframe, browser, page, tag);
+      await processVerificationTasks(iframe, page, tag, blumVideoCodes);
+      await claimTaskRewards(iframe);
+
+      await list.click();
+    }
+
+    await iframe.$eval(blumBotSelectors.homeButton, (el) => (el as HTMLElement).click());
+  } catch (error) {
+    logger.error(`Error while processing tasks: ${error.message}`, tag);
+  }
+};
+
+const processListTasks = async (iframe: Frame, browser: Browser, page: Page, tag: string) => {
+  const listTasks = await iframe.$$(blumBotSelectors.listTasks);
+
+  for (const taskButton of listTasks) {
+    const newPage = await openNewPage(browser, taskButton, iframe);
+
+    if (newPage) {
+      await handleTaskPage(newPage, page, tag);
+    }
+
+    await delay(1000);
+  }
+};
+
+const openNewPage = async (browser: Browser, taskButton: ElementHandle, iframe: Frame): Promise<Page | null> => {
+  const newPagePromise = new Promise<Page | null>((resolve) => {
+    const timeoutId = setTimeout(() => resolve(null), 15000);
+    browser.once("targetcreated", async (target) => {
+      const newPage = await target.page();
+      clearTimeout(timeoutId);
+      resolve(newPage);
+    });
+  });
+
+  await iframe.evaluate((el) => (el as HTMLElement).click(), taskButton);
+  await delay(4000);
+
+  return newPagePromise;
+};
+
+const handleTaskPage = async (newPage: Page, page: Page, tag: string) => {
+  const pageUrl = newPage.url();
+
+  if (pageUrl.includes("telegram.org")) {
+    logger.info("Telegram link opened. Executing additional actions...", tag);
+    // TODO: add actions for handling Telegram, if needed
+  }
+
+  await newPage.close();
+};
+
+const processVerificationTasks = async (iframe: Frame, page: Page, tag: string, textArray: string[]) => {
+  const verifyTasks = await iframe.$$(blumBotSelectors.verifyTasks);
+
+  for (const verifyTask of verifyTasks) {
+    await iframe.evaluate((el) => (el as HTMLElement).click(), verifyTask);
+    await delay(2000);
+
+    let textIndex = 0;
+    const inputElement = await iframe.$(blumBotSelectors.inputSelector);
+
+    if (!inputElement) {
+      logger.error(`Input not found by selector: ${blumBotSelectors.inputSelector}`, tag);
+      continue;
+    }
+
+    while (textIndex < textArray.length) {
+      await clearAndTypeText(iframe, blumBotSelectors.inputSelector, textArray[textIndex]);
+
+      await iframe.$eval(blumBotSelectors.buttonSelector, (el) => (el as HTMLElement).click());
+      await delay(2000);
+
+      if (!(await hasElement(iframe, blumBotSelectors.buttonSelector))) {
+        logger.info("Button disappeared — code accepted!", tag);
+        break;
+      }
+
+      textIndex++;
+    }
+
+    if (textIndex === textArray.length) {
+      logger.info("All codes entered, but the button did not disappear.", tag);
+      await goBack(page);
+    }
+  }
+};
+
+const clearAndTypeText = async (iframe: Frame, inputSelector: string, text: string) => {
+  await iframe.$eval(inputSelector, (input) => {
+    (input as HTMLInputElement).value = "";
+  });
+  await iframe.type(inputSelector, text);
+};
+
+const claimTaskRewards = async (iframe: Frame) => {
+  const claimButtons = await iframe.$$(blumBotSelectors.claimButtons);
+  for (const claimButton of claimButtons) {
+    await iframe.evaluate((el) => (el as HTMLElement).click(), claimButton);
+    await delay(2000);
+  }
+};
+
+const goBack = async (page: Page) => {
+  await page.$eval(blumBotSelectors.backButton, (el) => (el as HTMLElement).click());
 };
 
 export default playBlumGame;

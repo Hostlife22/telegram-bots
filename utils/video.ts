@@ -224,3 +224,5 @@ export const getCode = async (name: string): Promise<string | undefined> => {
   const result = fuse.search(name);
   return result.length > 0 ? result[0].item.code : undefined;
 };
+
+export const blumVideoCodes = ["GO GET", "VALUE"];
