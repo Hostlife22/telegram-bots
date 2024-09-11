@@ -5,7 +5,7 @@ import { clickConfirm } from "../utils/confirmPopup";
 import { convertToNumber } from "../utils/convertToNumber";
 import { delay, randomDelay } from "../utils/delay";
 import { logger } from "../core/Logger";
-import { selectFrame } from "../utils/puppeteerHelper";
+import { hasElement, selectFrame } from "../utils/puppeteerHelper";
 import { AccountResults } from "../types";
 import { blumBotSelectors, commonSelectors } from "../utils/selectors";
 import { reloadBotFunc } from "../utils/reloadBotFunc";
@@ -31,6 +31,14 @@ const playBlumGame = async (browser: Browser, appUrl: string, id: number) => {
 
     await Promise.all([page.goto(appUrl), page.waitForNavigation()]);
     await delay(20000);
+
+    const loginCheck = await ensureLoginCheck(page, tag);
+    if (loginCheck) {
+      result.BalanceBefore = "Login error";
+      result.BalanceAfter = "Login error";
+      result.Tickets = "Login error";
+      return result;
+    }
 
     await page.waitForSelector(commonSelectors.launchBotButton, { timeout: 30000 });
     await delay(5000);
@@ -112,6 +120,17 @@ const retryReloadBot = async (page: Page, retries = 3, tag: string) => {
       return;
     }
   }
+};
+
+const ensureLoginCheck = async (page: Page, tag: string) => {
+  const isAuthPage = await hasElement(page, commonSelectors.authLoginPage);
+
+  if (isAuthPage) {
+    logger.warning("Telegram Web account is not authorized", tag);
+    await page.close();
+  }
+
+  return isAuthPage;
 };
 
 const handleClaimButtons = async (iframe: Frame, delayTimeout: number = 5000, tag: string): Promise<void> => {

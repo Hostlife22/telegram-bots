@@ -1,5 +1,6 @@
 export const commonSelectors = {
   launchBotButton: "div.new-message-bot-commands-view",
+  authLoginPage: "div.tabs-container.auth-pages__container",
 };
 
 export const blumBotSelectors = {

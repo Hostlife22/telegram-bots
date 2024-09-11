@@ -4,8 +4,12 @@ import { logger } from "../core/Logger";
 import { randomDelay, delay } from "./delay";
 
 export const hasElement = async (page: Page | Frame, selector: string): Promise<boolean> => {
-  const elements = await page.$$(selector);
-  return elements.length > 0;
+  try {
+    const elements = await page.$$(selector);
+    return elements.length > 0;
+  } catch (err) {
+    return false;
+  }
 };
 
 export const selectFrame = async (page: Page, tag?: string): Promise<Frame> => {
