@@ -1,4 +1,4 @@
-import { Browser, ElementHandle, Frame, Page } from "puppeteer";
+import { Browser, ElementHandle, Frame, Page, Target } from "puppeteer";
 import path from "path";
 
 import { clickConfirm } from "../utils/confirmPopup";
@@ -241,30 +241,37 @@ const processListTasks = async (iframe: Frame, browser: Browser, page: Page, tag
 };
 
 const openNewPage = async (browser: Browser, taskButton: ElementHandle, iframe: Frame): Promise<Page | null> => {
-  const newPagePromise = new Promise<Page | null>((resolve) => {
-    const timeoutId = setTimeout(() => resolve(null), 15000);
-    browser.once("targetcreated", async (target) => {
+  return new Promise<Page | null>(async (resolve) => {
+    const handleTargetCreated = async (target: Target) => {
       const newPage = await target.page();
-      clearTimeout(timeoutId);
-      resolve(newPage);
-    });
+      if (newPage) {
+        browser.removeListener("targetcreated", handleTargetCreated);
+        resolve(newPage);
+      }
+    };
+
+    browser.once("targetcreated", handleTargetCreated);
+
+    await iframe.evaluate((el) => (el as HTMLElement).click(), taskButton);
+    await delay(4000);
+
+    setTimeout(() => resolve(null), 15000);
   });
-
-  await iframe.evaluate((el) => (el as HTMLElement).click(), taskButton);
-  await delay(4000);
-
-  return newPagePromise;
 };
 
 const handleTaskPage = async (newPage: Page, page: Page, tag: string) => {
-  const pageUrl = newPage.url();
+  try {
+    const pageUrl = newPage.url();
 
-  if (pageUrl.includes("telegram.org")) {
-    logger.info("Telegram link opened. Executing additional actions...", tag);
-    // TODO: add actions for handling Telegram, if needed
+    if (pageUrl.includes("telegram.org")) {
+      logger.info("Telegram link opened. Executing additional actions...", tag);
+      // TODO: Add actions for handling Telegram, if needed
+    }
+  } catch (error) {
+    logger.error(`Error handling task page: ${error.message}`, tag);
+  } finally {
+    await newPage.close();
   }
-
-  await newPage.close();
 };
 
 const processVerificationTasks = async (iframe: Frame, page: Page, tag: string, textArray: string[]) => {
@@ -289,7 +296,6 @@ const processVerificationTasks = async (iframe: Frame, page: Page, tag: string, 
       await delay(2000);
 
       if (!(await hasElement(iframe, blumBotSelectors.buttonSelector))) {
-        logger.info("Button disappeared — code accepted!", tag);
         break;
       }
 
@@ -297,7 +303,7 @@ const processVerificationTasks = async (iframe: Frame, page: Page, tag: string, 
     }
 
     if (textIndex === textArray.length) {
-      logger.info("All codes entered, but the button did not disappear.", tag);
+      logger.warning("All codes entered, but the button did not disappear.", tag);
       await goBack(page);
     }
   }
