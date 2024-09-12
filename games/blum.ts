@@ -233,7 +233,6 @@ const processListTasks = async (iframe: Frame, browser: Browser, page: Page, tag
     const newPage = await openNewPage(browser, taskButton, iframe);
 
     if (newPage) {
-      console.log(newPage);
       await handleTaskPage(newPage, page, tag);
     } else {
       if (await hasElement(page, blumBotSelectors.boostSelector)) {
