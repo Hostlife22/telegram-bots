@@ -56,9 +56,9 @@ const playBlumGame = async (browser: Browser, appUrl: string, id: number) => {
 
     try {
       await handleClaimButtons(iframe, 15000, tag);
+      await handleClaimTasks(iframe, browser, page, tag);
       const [balanceBefore, ticketsBefore] = await Promise.all([extractBalance(iframe, tag), extractTickets(iframe, tag)]);
 
-      await handleClaimTasks(iframe, browser, page, tag);
       result.BalanceBefore = balanceBefore;
       logger.info(`💰 Starting balance: ${balanceBefore}`, tag);
       logger.info(`🎟  Playing ${ticketsBefore} tickets`, tag);
@@ -233,10 +233,21 @@ const processListTasks = async (iframe: Frame, browser: Browser, page: Page, tag
     const newPage = await openNewPage(browser, taskButton, iframe);
 
     if (newPage) {
+      console.log(newPage);
       await handleTaskPage(newPage, page, tag);
+    } else {
+      if (await hasElement(page, blumBotSelectors.boostSelector)) {
+        await page.$eval(blumBotSelectors.boostSelector, (el) => {
+          (el as HTMLElement).click();
+        });
+      } else if (await hasElement(iframe, blumBotSelectors.closeWalletSelector)) {
+        await iframe.$eval(blumBotSelectors.closeWalletSelector, (el) => {
+          (el as HTMLElement).click();
+        });
+      }
     }
 
-    await delay(1000);
+    await delay(2000);
   }
 };
 
