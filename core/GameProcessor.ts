@@ -15,7 +15,7 @@ export class GameProcessor {
   private browserManager: BrowserManager;
   private reportManager: ReportManager;
   private processedAccounts = new Set<string>();
-  private parallelLimit = 2;
+  private parallelLimit = Number(process.env.PARALLEL_LIMIT) || 2;
   private reports: ParsedGameResult[] = [];
 
   constructor(telegramNotifier: TelegramNotifier, browserManager: BrowserManager, reportManager: ReportManager) {
