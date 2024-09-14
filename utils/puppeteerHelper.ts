@@ -1,4 +1,4 @@
-import { Frame, Page } from "puppeteer";
+import { ElementHandle, Frame, Page } from "puppeteer";
 
 import { logger } from "../core/Logger";
 import { randomDelay, delay } from "./delay";
@@ -69,5 +69,18 @@ export const clickLinkWithHref = async (page: Page | Frame, href: string): Promi
     await clickButton(page, xpath);
   } else {
     logger.warning(`Link with href ${href} not found.`);
+  }
+};
+
+export const isElementAttached = async (element: ElementHandle) => {
+  return await element.evaluate((el) => !!el.isConnected);
+};
+
+export const safeClick = async (iframe: Page | Frame, selectorOrElement: string | ElementHandle<Element>, tag?: string) => {
+  const element = typeof selectorOrElement === "string" ? await iframe.$(selectorOrElement) : selectorOrElement;
+  if (element && (await isElementAttached(element))) {
+    await iframe.evaluate((el) => (el as HTMLElement).click(), element);
+  } else {
+    logger.error(`Element with selector ${selectorOrElement} is not available or detached`, tag);
   }
 };

@@ -225,4 +225,4 @@ export const getCode = async (name: string): Promise<string | undefined> => {
   return result.length > 0 ? result[0].item.code : undefined;
 };
 
-export const blumVideoCodes = ["GO GET", "VALUE"];
+export const blumVideoCodes = ["BEST PROJECT EVER", "GO GET", "VALUE"];
