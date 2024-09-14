@@ -2,7 +2,6 @@ import { Browser, Frame, Page } from "puppeteer";
 import path from "path";
 
 import { clickConfirm } from "../utils/confirmPopup";
-import { convertToNumber } from "../utils/convertToNumber";
 import { delay, randomDelay } from "../utils/delay";
 import { clickButton, selectFrame } from "../utils/puppeteerHelper";
 import { commonSelectors, tapswapBotSelectors } from "../utils/selectors";
