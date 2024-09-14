@@ -2482,7 +2482,7 @@
   {
     "id": 249,
     "code": "kmgmue6",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
@@ -2492,7 +2492,7 @@
   {
     "id": 250,
     "code": "kmgmue7",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
@@ -2502,7 +2502,7 @@
   {
     "id": 251,
     "code": "kmgmue8",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
@@ -2512,7 +2512,7 @@
   {
     "id": 252,
     "code": "kmgmue9",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
@@ -2522,7 +2522,7 @@
   {
     "id": 253,
     "code": "kmgmuea",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
@@ -2532,7 +2532,7 @@
   {
     "id": 254,
     "code": "kmgmueb",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
@@ -2542,7 +2542,7 @@
   {
     "id": 255,
     "code": "kmgmuec",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
@@ -2552,7 +2552,7 @@
   {
     "id": 256,
     "code": "kmgmued",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
@@ -2562,7 +2562,7 @@
   {
     "id": 257,
     "code": "kmgmuee",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
@@ -2572,7 +2572,7 @@
   {
     "id": 258,
     "code": "kmgmuef",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
@@ -2842,7 +2842,7 @@
   {
     "id": 285,
     "code": "kmgmufa",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
