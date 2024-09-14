@@ -57,7 +57,9 @@ const playBlumGame = async (browser: Browser, appUrl: string, id: number) => {
 
     try {
       await handleClaimButtons(iframe, 15000, tag);
-      await handleClaimTasks(iframe, browser, page, tag);
+      if (process.env.CLAIM_BLUM_TASKS === "true") {
+        await handleClaimTasks(iframe, browser, page, tag);
+      }
       const [balanceBefore, ticketsBefore] = await Promise.all([extractBalance(iframe, tag), extractTickets(iframe, tag)]);
 
       result.BalanceBefore = balanceBefore;
