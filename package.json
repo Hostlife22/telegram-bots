@@ -23,7 +23,7 @@
     "dotenv": "^16.4.5",
     "node-schedule": "^2.1.1",
     "node-telegram-bot-api": "^0.66.0",
-    "puppeteer": "^21.11.0",
+    "puppeteer": "^23.3.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4",
     "fuse.js": "^7.0.0"

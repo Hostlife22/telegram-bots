@@ -267,7 +267,7 @@ const openNewPage = async (browser: Browser, taskButton: ElementHandle, iframe: 
     const handleTargetCreated = async (target: Target) => {
       const newPage = await target.page();
       if (newPage) {
-        browser.removeListener("targetcreated", handleTargetCreated);
+        browser.removeAllListeners("targetcreated");
         resolve(newPage);
       }
     };
