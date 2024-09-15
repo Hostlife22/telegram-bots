@@ -212,6 +212,15 @@ const videos: VideoItem[] = [
   { code: "settlement", name: "$5,000 Month Flipping Items On ebay" },
   { code: "security", name: "Telegram Wallet 2024" },
   { code: "scrypt", name: "Make Money On Weekends" },
+  { code: "spac", name: "How To Start Investing In Real Estate With No Money" },
+  { code: "snapshot", name: "Buy REAL ESTATE With Only $100" },
+  { code: "slippage", name: "Make $1,000 Per A Day By Flip" },
+  { code: "slashing", name: "Top 10 Side Hustles For Busy Professional" },
+  { code: "signal", name: "Earn $8,000 Per Month With Online Course" },
+  { code: "sidechain", name: "Earn $5500 Per Month On Text Writing" },
+  { code: "short", name: "$16,000 Per Month With An Online Agency" },
+  { code: "shitcoin", name: "$Earn $250 Per Hour On Frelance" },
+  { code: "shilling", name: "10 Business Ideas For Digital Nomads" },
 ];
 
 const Fuse = require("fuse.js");
