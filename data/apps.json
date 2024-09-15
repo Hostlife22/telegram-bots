@@ -2742,7 +2742,7 @@
   {
     "id": 275,
     "code": "kmgmuey",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
@@ -2752,7 +2752,7 @@
   {
     "id": 276,
     "code": "kmgmuf0",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
@@ -2762,7 +2762,7 @@
   {
     "id": 277,
     "code": "kmgmuf1",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
@@ -2772,7 +2772,7 @@
   {
     "id": 278,
     "code": "kmgmuf2",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
@@ -2782,7 +2782,7 @@
   {
     "id": 279,
     "code": "kmgmuf3",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
@@ -2792,7 +2792,7 @@
   {
     "id": 280,
     "code": "kmgmuf4",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
@@ -2802,7 +2802,7 @@
   {
     "id": 281,
     "code": "kmgmuf6",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
@@ -2812,7 +2812,7 @@
   {
     "id": 282,
     "code": "kmgmuf7",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
@@ -2822,7 +2822,7 @@
   {
     "id": 283,
     "code": "kmgmuf8",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
@@ -2832,7 +2832,7 @@
   {
     "id": 284,
     "code": "kmgmuf9",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot"
