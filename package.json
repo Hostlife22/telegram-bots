@@ -6,7 +6,8 @@
   "scripts": {
     "start": "ts-node main.ts",
     "add": "ts-node addGame.ts",
-    "copy:env": "cp .env.example .env"
+    "copy:env": "cp .env.example .env",
+    "checkJson": "ts-node findDuplicateAdsCodes.ts"
   },
   "keywords": [
     "tg",
