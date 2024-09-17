@@ -221,6 +221,12 @@ const videos: VideoItem[] = [
   { code: "short", name: "$16,000 Per Month With An Online Agency" },
   { code: "shitcoin", name: "$Earn $250 Per Hour On Frelance" },
   { code: "shilling", name: "10 Business Ideas For Digital Nomads" },
+  { code: "unconfirmed", name: "Earnings On Launchpad" },
+  { code: "snapshot", name: "5 Remote Jobs For Stay At Home" },
+  { code: "skynet", name: "Millionaire On A Law Salary" },
+  { code: "roi", name: "Start A Successful Online Business" },
+  { code: "gems", name: "Start Your First Business" },
+  { code: "spec", name: "How To Start Investing In Real Estate With No Money" },
 ];
 
 const Fuse = require("fuse.js");
