@@ -16,6 +16,8 @@ interface AccountResults {
   Tickets: number | string;
 }
 
+let unknownCodesForTasks: string[] = [];
+
 const processVideoWatching = async (iframe: Frame, page: Page, tag: string) => {
   // Navigate to the video tab
   await iframe?.$eval(tapswapBotSelectors.videoTabButton, (el) => {
@@ -36,7 +38,7 @@ const processVideoWatching = async (iframe: Frame, page: Page, tag: string) => {
       }, tapswapBotSelectors.videoContainer);
 
       if (buttonCount === 0) {
-        logger.info("No more videos to watch", tag);
+        logger.warning("No more videos to watch", tag);
         break;
       }
       if (buttonIndex >= 2 + buttonCount)
@@ -103,6 +105,8 @@ const playTapSwap = async (browser: Browser, appUrl: string, id: number) => {
     } catch (error) {
       logger.error(`An error occurred during game-play: ${error}`, tag);
     } finally {
+      logger.info("Game-play completed.", tag);
+      logger.warning("Unknown codes for tasks: ", unknownCodesForTasks.join(", "));
       await page.close();
     }
   } catch (error) {
@@ -183,7 +187,8 @@ const claimWatching = async (iframe: Frame, page: Page, videoSelector: string, v
           await page.bringToFront();
           await goBack(page, iframe, tag);
         } else {
-          logger.error("Code not found", tag);
+          logger.error("Code not found for task", nameOfTask);
+          unknownCodesForTasks.push(nameOfTask);
           await goBack(page, iframe, tag);
         }
       });
