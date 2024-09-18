@@ -193,6 +193,9 @@ const claimWatching = async (iframe: Frame, page: Page, videoSelector: string, v
         }
       });
     } else {
+      await clickButton(iframe, tapswapBotSelectors.checkButton, "check button");
+      await clickButton(iframe, tapswapBotSelectors.finishMission, "finish mission button");
+      await clickButton(iframe, tapswapBotSelectors.claimButton, "claim button");
       logger.info("Handle watched Video without submit input", tag);
       await goBack(page, iframe, tag);
     }

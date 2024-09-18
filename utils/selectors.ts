@@ -32,7 +32,7 @@ export const blumBotSelectors = {
 
 export const tapswapBotSelectors = {
   backButton: " div._BrowserHeader_m63td_55 > button:nth-child(1)",
-  checkButton: "div._answer_box_l4h9d_35 > button._button_fffa0_1",
+  checkButton: "div._listContainer_1519s_1 > div > div > button._button_fffa0_1",
   claimButton: "div._actionContent_1v85a_75 > button._button_fffa0_1",
   claimPriceButton: "div._actionContent_1v85a_75 > button._button_fffa0_1._primary_fffa0_13._large_fffa0_49._fullWidth_fffa0_37",
   claimTaskButton: "button._button_fffa0_1",
