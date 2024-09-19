@@ -227,6 +227,11 @@ const videos: VideoItem[] = [
   { code: "roi", name: "Start A Successful Online Business" },
   { code: "gems", name: "Start Your First Business" },
   { code: "spec", name: "How To Start Investing In Real Estate With No Money" },
+  { code: "stablecoin", name: "$100,000 By IT Professions With No code" },
+  { code: "spyware", name: "10 Best Freelancing Platform" },
+  { code: "acquisition", name: "Make Money With Your Voice" },
+  { code: "accountability", name: "7 High Paying Freelance Skills" },
+  { code: "unconfirmed", name: "Earnings On Launchpad" },
 ];
 
 const Fuse = require("fuse.js");
