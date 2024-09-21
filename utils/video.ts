@@ -232,6 +232,10 @@ const videos: VideoItem[] = [
   { code: "acquisition", name: "Make Money With Your Voice" },
   { code: "accountability", name: "7 High Paying Freelance Skills" },
   { code: "unconfirmed", name: "Earnings On Launchpad" },
+  { code: "substrate", name: "Make People BUY FROM YOU" },
+  { code: "subnet", name: "4 Buisness Ideas To Start with 0$" },
+  { code: "stroop", name: "10 Most Profitable Niches" },
+  { code: "staking", name: "Invest As A Teenager" },
 ];
 
 const Fuse = require("fuse.js");
