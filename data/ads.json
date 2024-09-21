@@ -40,6 +40,16 @@
     }
   },
   {
+    "id": 5,
+    "code": "ji97e6e",
+    "active": true,
+    "username": "@newfiveflexer",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
+    }
+  },
+  {
     "id": 6,
     "code": "ji97e6f",
     "active": true,
@@ -54,6 +64,16 @@
     "code": "ji97e6g",
     "active": true,
     "username": "@dmitrycob",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
+    }
+  },
+  {
+    "id": 8,
+    "code": "ji97e6h",
+    "active": true,
+    "username": "@neweightcringee",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
@@ -100,10 +120,20 @@
     }
   },
   {
+    "id": 13,
+    "code": "ji97e6m",
+    "active": true,
+    "username": "@formula_13",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
+    }
+  },
+  {
     "id": 14,
     "code": "ji97e6n",
-    "active": false,
-    "username": "@baniuszloi",
+    "active": true,
+    "username": "@gamunkul14",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
@@ -132,8 +162,8 @@
   {
     "id": 17,
     "code": "ji97e6q",
-    "active": false,
-    "username": "@uioplor",
+    "active": true,
+    "username": "@alfa17",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
@@ -172,8 +202,8 @@
   {
     "id": 21,
     "code": "ji97e6v",
-    "active": false,
-    "username": "@jkprodo",
+    "active": true,
+    "username": "@rumbaslay",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
@@ -420,6 +450,26 @@
     }
   },
   {
+    "id": 52,
+    "code": "ji97e7t",
+    "active": true,
+    "username": "@flexnews",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
+    }
+  },
+  {
+    "id": 53,
+    "code": "ji97e7u",
+    "active": true,
+    "username": "@jinjitsuuu",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
+    }
+  },
+  {
     "id": 54,
     "code": "ji97e7v",
     "active": true,
@@ -460,6 +510,16 @@
     }
   },
   {
+    "id": 60,
+    "code": "ji97e85",
+    "active": true,
+    "username": "@testecheck",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
+    }
+  },
+  {
     "id": 63,
     "code": "ji97e88",
     "active": true,
@@ -474,6 +534,26 @@
     "code": "ji97e89",
     "active": true,
     "username": "@TimelessShots",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
+    }
+  },
+  {
+    "id": 65,
+    "code": "ji97e8a",
+    "active": true,
+    "username": "@flexshreck",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
+    }
+  },
+  {
+    "id": 66,
+    "code": "ji97e8b",
+    "active": true,
+    "username": "@checkjojo",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
@@ -682,8 +762,8 @@
   {
     "id": 91,
     "code": "ji97e93",
-    "active": false,
-    "username": "@toriansb",
+    "active": true,
+    "username": "@omegatron21",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
@@ -1574,6 +1654,76 @@
     "code": "ji97ecw",
     "active": true,
     "username": "@braloxid",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
+    }
+  },
+  {
+    "id": 194,
+    "code": "ji97ecy",
+    "active": true,
+    "username": "@zukeredd",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
+    }
+  },
+  {
+    "id": 195,
+    "code": "ji97ed0",
+    "active": true,
+    "username": "@funikoler",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
+    }
+  },
+  {
+    "id": 196,
+    "code": "ji97ed1",
+    "active": true,
+    "username": "@retrtgo",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
+    }
+  },
+  {
+    "id": 197,
+    "code": "ji97ed2",
+    "active": true,
+    "username": "@hulikiopo",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
+    }
+  },
+  {
+    "id": 198,
+    "code": "ji97ed3",
+    "active": true,
+    "username": "@dropertako",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
+    }
+  },
+  {
+    "id": 199,
+    "code": "ji97ed4",
+    "active": true,
+    "username": "@regupoli",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
+    }
+  },
+  {
+    "id": 200,
+    "code": "ji97ed5",
+    "active": true,
+    "username": "@flopipi",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "tapswap": "https://web.telegram.org/k/#@tapswap_bot"
