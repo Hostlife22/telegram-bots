@@ -43,8 +43,8 @@ export class GameProcessor {
       await this.telegramNotifier.startPolling();
 
       const tgApplications: TgApp[] = await this.loadApplications();
-      const totalResultGames = await this.playGames(tgApplications);
-      const filteredTgApplication = tgApplications.filter((result) => result.active);
+      const totalResultGames = await this.playGames(tgApplications.filter((result) => result.active && result.id === 198));
+      const filteredTgApplication = tgApplications.filter((result) => result.active && result.id === 198);
 
       this.reports.push(...totalResultGames);
       await this.telegramNotifier.sendSummary(this.processedAccounts);
