@@ -236,6 +236,8 @@ const videos: VideoItem[] = [
   { code: "subnet", name: "4 Buisness Ideas To Start with 0$" },
   { code: "stroop", name: "10 Most Profitable Niches" },
   { code: "staking", name: "Invest As A Teenager" },
+  { code: "supercycle", name: "10 AI Tools That Will Make You Rich" },
+  { code: "supercomputer", name: "Earn $550 Per A Day By Selling ebooks" },
 ];
 
 const Fuse = require("fuse.js");
