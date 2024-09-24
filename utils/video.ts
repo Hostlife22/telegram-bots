@@ -238,6 +238,8 @@ const videos: VideoItem[] = [
   { code: "staking", name: "Invest As A Teenager" },
   { code: "supercycle", name: "10 AI Tools That Will Make You Rich" },
   { code: "supercomputer", name: "Earn $550 Per A Day By Selling ebooks" },
+  { code: "capitulation", name: "Lazy Ways to Make Money Online" },
+  { code: "swarm", name: "Websites That Will Pay You" },
 ];
 
 const Fuse = require("fuse.js");
