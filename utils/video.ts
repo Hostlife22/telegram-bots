@@ -240,6 +240,8 @@ const videos: VideoItem[] = [
   { code: "supercomputer", name: "Earn $550 Per A Day By Selling ebooks" },
   { code: "capitulation", name: "Lazy Ways to Make Money Online" },
   { code: "swarm", name: "Websites That Will Pay You" },
+  { code: "cashtoken", name: "YouTube Gaming Channel" },
+  { code: "cash", name: "Make Money With Graphic Design" },
 ];
 
 const Fuse = require("fuse.js");
