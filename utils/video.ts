@@ -242,6 +242,7 @@ const videos: VideoItem[] = [
   { code: "swarm", name: "Websites That Will Pay You" },
   { code: "cashtoken", name: "YouTube Gaming Channel" },
   { code: "cash", name: "Make Money With Graphic Design" },
+  { code: "censorship", name: "Earn with your smartphone" },
 ];
 
 const Fuse = require("fuse.js");
