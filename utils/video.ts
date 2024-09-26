@@ -244,6 +244,8 @@ const videos: VideoItem[] = [
   { code: "cash", name: "Make Money With Graphic Design" },
   { code: "censorship", name: "Earn with your smartphone" },
   { code: "piece", name: "Make Money by Flipping Furniture" },
+  { code: "helpful", name: "Earn $10,000 per Month on Twitch" },
+  { code: "graduate", name: "Make money with your hobby" },
 ];
 
 const Fuse = require("fuse.js");
