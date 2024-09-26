@@ -243,6 +243,7 @@ const videos: VideoItem[] = [
   { code: "cashtoken", name: "YouTube Gaming Channel" },
   { code: "cash", name: "Make Money With Graphic Design" },
   { code: "censorship", name: "Earn with your smartphone" },
+  { code: "piece", name: "Make Money by Flipping Furniture" },
 ];
 
 const Fuse = require("fuse.js");
