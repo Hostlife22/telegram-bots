@@ -48,3 +48,17 @@ export const tapswapBotSelectors = {
   videoTabButton: "div._wrapper_1z04b_1 > button:nth-child(2)",
   watchButton: "a._link_l4h9d_25 > button._button_fffa0_1._secondary_fffa0_21._small_fffa0_41",
 };
+
+export const pixelGameSelectors = {
+  promiseButton: "div._button_container_1boq4_54 > button._button_1boq4_54",
+  goButton: "div._button_container_1drph_81 > button._button_1drph_81",
+  crashGame: "div._container_ieygs_8",
+  balanceLabel: "div._group_184v8_8._middle_184v8_21 > button._button_184v8_1 > div > div._number_jcaqa_1",
+  claimSelector: "div._content_1mmx9_21 > div._container_3i6l4_1 > button._button_3i6l4_11",
+  waitClaimSelector: "div._content_1mmx9_21 > div._container_3i6l4_1 > div._info_3i6l4_32",
+  boostsSelector: "div._content_1mmx9_21 > div._panel_1mia4_1 > div:nth-child(2)",
+  tasksSelector: "div._content_1mmx9_21 > div._panel_1mia4_1 > div:nth-child(1)",
+  paintRewardsSelector: "div._info_layout_bt2qf_1 > div > div._group_v8prs_7 > div:nth-child(1)",
+  rechargingSelector: "div._info_layout_bt2qf_1 > div > div._group_v8prs_7 > div:nth-child(2)",
+  energyLimitSelector: "div._info_layout_bt2qf_1 > div > div._group_v8prs_7 > div:nth-child(3)",
+};
