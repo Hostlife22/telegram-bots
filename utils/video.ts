@@ -257,4 +257,13 @@ export const getCode = async (name: string): Promise<string | undefined> => {
   return result.length > 0 ? result[0].item.code : undefined;
 };
 
-export const blumVideoCodes = ["HEYBLUM", "BEST PROJECT EVER", "GO GET", "VALUE"];
+export const blumVideoCodes = [
+  "BLUMERSSS",
+  "CRYPTOBLUM",
+  "superblum",
+  "CRYPTOSMART",
+  "HEYBLUM",
+  "BEST PROJECT EVER",
+  "GO GET",
+  "VALUE",
+];

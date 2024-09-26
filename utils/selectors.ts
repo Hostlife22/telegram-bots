@@ -6,7 +6,7 @@ export const commonSelectors = {
 export const blumBotSelectors = {
   backButton: "div._BrowserHeader_m63td_55 > button:nth-child(1)",
   balanceLabel: "div.profile-with-balance > div.balance > div",
-  boostSelector: "div.popup.popup-peer.popup-boost.active > div > div.popup-buttons > button:popup-button.rp",
+  boostSelector: "div.popup.popup-peer.popup-boost.active > div > div.popup-buttons > button:nth-child(2)",
   buttonSelector: "div.kit-fixed-wrapper.no-layout-tabs > button",
   claimButton: "div.kit-fixed-wrapper > div.index-farming-button > button.kit-button",
   claimButtons: " div.tasks-list button.is-status-ready-for-claim",
@@ -14,8 +14,8 @@ export const blumBotSelectors = {
   closeWalletSelector: "#tc-widget-root > tc-root > div > div > div > button",
   continueButton: "div.kit-fixed-wrapper > button",
   continueButtonPrimary: "button.kit-button.is-large.is-primary",
-  earnButton: "div.layout-tabs.tabs > a:nth-child(2)",
-  earnTitleSelector: "div.tasks-page.page > span.title",
+  earnButton: "#app > div.layout-tabs.tabs > a:nth-child(2)",
+  earnTitleSelector: "div.tasks-page.page .title",
   homeButton: "div.layout-tabs.tabs > a:nth-child(1)",
   inputSelector: "div.kit-input.input > div > label > input",
   listTasks: " div.tasks-list button.is-status-not-started",
@@ -23,11 +23,11 @@ export const blumBotSelectors = {
   playButton: "div.pages-index-drop.drop-zone > div > a",
   ticketLabel: "div.title-with-balance > div.pass",
   verifyTasks: " div.tasks-list button.is-status-ready-for-verify",
-  weeklyTasksDone: "div.is-short-card > div.pages-tasks-item div.done-icon",
-  weeklyTasks: "div.is-short-card > div.pages-tasks-item button.is-status-not-started",
+  weeklyTasksDone: "div.pages-tasks-card.is-short div.done-icon",
+  weeklyTasks: "div.pages-tasks-card.is-short button.is-status-not-started",
   weeklyTasksList: "div.nested-tasks > div.pages-tasks-list-item-label button.is-status-not-started",
   weeklyTasksListClaim: "div.nested-tasks > div.pages-tasks-list-item-label button.is-status-ready-for-claim",
-  weeklyTasksListClose: "div.kit-bottom-sheet > dialog > div.header > button.close-btn",
+  weeklyTasksListClose: "div.kit-bottom-sheet > dialog > div.header > div.right-slot > button.close-btn",
 };
 
 export const tapswapBotSelectors = {

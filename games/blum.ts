@@ -205,6 +205,7 @@ const handleClaimTasks = async (iframe: Frame, browser: Browser, page: Page, tag
 
   try {
     await safeClick(iframe, blumBotSelectors.earnButton, tag);
+    await delay(5000);
     await iframe.waitForSelector(blumBotSelectors.earnTitleSelector, { timeout: 30000 });
 
     if (
