@@ -79,14 +79,24 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
       await delay(3000);
       const claimButton = await iframe.$$(pixelGameSelectors.claimSelector);
       const claimButtonText = await iframe.$eval(pixelGameSelectors.claimSelector, (el) => el.textContent);
-      if (claimButton.length > 0) {
+      if (claimButton?.length > 0) {
         logger.info(`${claimButtonText}`, tag);
-        await claimButton?.[0]?.click();
+        await claimButton?.[0]
+          ?.click()
+          .then(() => {
+            logger.info("Claim button click", tag);
+          })
+          .catch(() => {
+            logger.error("Claim button not found", tag);
+          });
         await delay(1000);
       }
+
       if (process.env.BOOST_PIXEL === "true" && balance >= 5) {
         await boostPixelClaimProcess(iframe, tag);
         await delay(3000);
+      } else {
+        logger.warning("Boost process is disabled or insufficient balance to continue.", tag);
       }
       await goBack(page, iframe, tag);
 
@@ -196,7 +206,7 @@ const boostPixelClaimProcess = async (iframe: Frame, tag: string) => {
         logger.warning(`Boost button for ${boostType} not found.`, tag);
       }
     } else {
-      logger.info(`Insufficient balance for ${boostType}. Current balance: ${balance}, Required: ${boostPrice}`, tag);
+      logger.warning(`Insufficient balance for ${boostType}. Current balance: ${balance}, Required: ${boostPrice}`, tag);
     }
   }
 
