@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import { scheduleJob } from "node-schedule";
 
 import { BrowserManager } from "./BrowserManager";
-import { ParsedGameResult, TgApp } from "../types";
+import { ParsedGameResult, ShuffleArrayType, TgApp } from "../types";
 import { ReportManager } from "./ReportManager";
 import { TelegramNotifier } from "./TelegramNotifier";
 import { shuffleArray } from "../utils/shuffle";
@@ -83,7 +83,7 @@ export class GameProcessor {
       }
     };
 
-    for (const tgApp of shuffleArray(tgApps)) {
+    for (const tgApp of shuffleArray(tgApps, process.env.ORDER ? (process.env.ORDER as ShuffleArrayType) : undefined)) {
       if (taskPool.length >= this.parallelLimit) await Promise.race(taskPool);
       const task = runGameTask(tgApp).then(() => {
         taskPool.splice(taskPool.indexOf(task), 1);
