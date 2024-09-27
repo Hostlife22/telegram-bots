@@ -247,6 +247,7 @@ const videos: VideoItem[] = [
   { code: "helpful", name: "Earn $10,000 per Month on Twitch" },
   { code: "graduate", name: "Make money with your hobby" },
   { code: "morning", name: "TikTok in 2024" },
+  { code: "tuesday", name: "Earn $5000 With A Drone" },
 ];
 
 const Fuse = require("fuse.js");
