@@ -54,6 +54,7 @@ export const pixelGameSelectors = {
   goButton: "div._button_container_1drph_81 > button._button_1drph_81",
   crashGame: "div._container_ieygs_8",
   balanceLabel: "div._group_184v8_8._middle_184v8_21 > button._button_184v8_1 > div > div._number_jcaqa_1",
+  balanceNavigate: "div._group_184v8_8._middle_184v8_21 > button._button_184v8_1",
   claimSelector: "div._content_1mmx9_21 > div._container_3i6l4_1 > button._button_3i6l4_11",
   waitClaimSelector: "div._content_1mmx9_21 > div._container_3i6l4_1 > div._info_3i6l4_32",
   boostsSelector: "div._content_1mmx9_21 > div._panel_1mia4_1 > div:nth-child(2)",

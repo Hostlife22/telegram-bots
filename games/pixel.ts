@@ -5,7 +5,7 @@ import { clickConfirm } from "../utils/confirmPopup";
 import { convertToNumber } from "../utils/convertToNumber";
 import { delay, randomDelay } from "../utils/delay";
 import { logger } from "../core/Logger";
-import { hasElement, isElementAttached, safeClick, selectFrame } from "../utils/puppeteerHelper";
+import { clickButton, hasElement, isElementAttached, safeClick, selectFrame } from "../utils/puppeteerHelper";
 import { blumBotSelectors, commonSelectors, pixelGameSelectors } from "../utils/selectors";
 
 interface AccountResults {
@@ -75,6 +75,11 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
       //   await delay(3000);
       //   await safeClick(iframe, continueButtonPrimary, tag);
       // }
+
+      await clickButton(iframe, pixelGameSelectors.balanceNavigate, tag);
+      await delay(3000);
+      await clickButton(iframe, pixelGameSelectors.boostsSelector, tag);
+      await delay(3000);
 
       const balanceAfter = await extractBalance(iframe, tag);
 
