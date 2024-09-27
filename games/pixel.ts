@@ -6,7 +6,13 @@ import { convertToNumber } from "../utils/convertToNumber";
 import { delay, randomDelay } from "../utils/delay";
 import { logger } from "../core/Logger";
 import { clickButton, hasElement, isElementAttached, safeClick, selectFrame } from "../utils/puppeteerHelper";
-import { blumBotSelectors, commonSelectors, pixelGameSelectors } from "../utils/selectors";
+import {
+  blumBotSelectors,
+  commonSelectors,
+  getBoostPriceSelector,
+  pixelGameSelectors,
+  tapswapBotSelectors,
+} from "../utils/selectors";
 
 interface AccountResults {
   Account: null | string;
@@ -68,18 +74,21 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
       const scriptPath = path.resolve(__dirname, "../injectables/pixel-game.js");
 
       const balance = convertToNumber(balanceBefore);
-      // if (tickets > 0) {
-      //   await iframe.addScriptTag({ path: scriptPath });
 
-      //   await delay(tickets * 35000);
-      //   await delay(3000);
-      //   await safeClick(iframe, continueButtonPrimary, tag);
-      // }
-
-      await clickButton(iframe, pixelGameSelectors.balanceNavigate, tag);
+      await navigateOnSectionBoostSection(iframe, tag);
       await delay(3000);
-      await clickButton(iframe, pixelGameSelectors.boostsSelector, tag);
-      await delay(3000);
+      const claimButton = await iframe.$$(pixelGameSelectors.claimSelector);
+      const claimButtonText = await iframe.$eval(pixelGameSelectors.claimSelector, (el) => el.textContent);
+      if (claimButton.length > 0) {
+        logger.info(`${claimButtonText}`, tag);
+        await claimButton?.[0]?.click();
+        await delay(1000);
+      }
+      if (process.env.BOOST_PIXEL === "true" && balance >= 5) {
+        await boostPixelClaimProcess(iframe, tag);
+        await delay(3000);
+      }
+      await goBack(page, iframe, tag);
 
       const balanceAfter = await extractBalance(iframe, tag);
 
@@ -100,29 +109,118 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
   return result;
 };
 
-// const retryReloadBot = async (page: Page, retries = 3, tag: string) => {
-//   for (let attempt = 1; attempt <= retries; attempt++) {
-//     const wrongUploadingBot = await page.$$("div > button.reset");
+const goBack = async (page: Page, iframe: Frame, tag: string) => {
+  await delay(1000);
 
-//     if (wrongUploadingBot.length > 0) {
-//       logger.info(`Attempt ${attempt} to reload the bot...`);
-//       await reloadBotFunc(page, closeBotButton, tag);
-//       await randomDelay(1, 2, "s");
-//     }
+  const fuckingBackButton = await page.$$(commonSelectors.backButton);
+  await fuckingBackButton[0]
+    .click()
+    .then(() => {
+      logger.info("Back button click", tag);
+    })
+    .catch(() => {
+      logger.error("Back button not found", tag);
+    });
+  await delay(1000);
+};
 
-//     const recheck = await page.$$("#__blum > div > button.reset");
-//     if (recheck.length === 0) {
-//       logger.info("Bot reloaded successfully.", tag);
-//       return;
-//     }
+enum BoostType {
+  Painting = "painting",
+  Recharging = "recharging",
+  Energy = "energy",
+}
 
-//     if (attempt === retries) {
-//       logger.error("Max retries reached. Closing browser...", tag);
-//       await page.browser().close();
-//       return;
-//     }
-//   }
-// };
+const pixelBoostSelectors: Record<BoostType, { priceSelector: string; boostButtonSelector: string }> = {
+  [BoostType.Painting]: {
+    priceSelector: getBoostPriceSelector(1),
+    boostButtonSelector: pixelGameSelectors.boostPaintRewardsSelector,
+  },
+  [BoostType.Recharging]: {
+    priceSelector: getBoostPriceSelector(2),
+    boostButtonSelector: pixelGameSelectors.boostRechargingSelector,
+  },
+  [BoostType.Energy]: {
+    priceSelector: getBoostPriceSelector(3),
+    boostButtonSelector: pixelGameSelectors.boostEnergyLimitSelector,
+  },
+};
+
+const boostPixelClaimProcess = async (iframe: Frame, tag: string) => {
+  const boostTypes = (process.env.BOOST_PIXEL_TYPE || "").split(",") as BoostType[]; // e.g., "painting,recharging,energy"
+
+  let balance = await extractBalance(iframe, tag);
+  logger.info(`Current balance: ${balance}`, tag);
+
+  const getElementPrice = async (selector: string): Promise<number> => {
+    const priceText = await iframe.$eval(selector, (el) => el.textContent);
+    return convertToNumber(priceText);
+  };
+
+  let canContinue = false;
+
+  for (const boostType of boostTypes) {
+    if (!(boostType in pixelBoostSelectors)) {
+      logger.warning(`Invalid boost type: ${boostType}`, tag);
+      continue;
+    }
+
+    const { priceSelector, boostButtonSelector } = pixelBoostSelectors[boostType];
+
+    const boostPrice = await getElementPrice(priceSelector);
+    logger.info(`Price for ${boostType}: ${boostPrice}`, tag);
+
+    if (convertToNumber(balance) >= boostPrice) {
+      const boostButton = await iframe.$$(boostButtonSelector);
+
+      if (boostButton && boostButton.length > 0) {
+        await boostButton[0]?.click();
+        logger.info(`Clicked on ${boostType} boost button successfully.`, tag);
+        await delay(3000);
+
+        const buyBoostButton = await iframe.$$(pixelGameSelectors.buyBoost);
+        if (buyBoostButton && buyBoostButton.length > 0) {
+          await buyBoostButton[0]?.click();
+          logger.info(`Boost for ${boostType} applied successfully.`, tag);
+
+          // Обновление баланса после успешного улучшения
+          balance = await extractBalance(iframe, tag);
+          logger.info(`Updated balance after boost: ${balance}`, tag);
+
+          // Устанавливаем флаг на повторное выполнение
+          canContinue = true;
+        } else {
+          logger.warning(`Buy button for ${boostType} not found.`, tag);
+        }
+        await delay(3000);
+      } else {
+        logger.warning(`Boost button for ${boostType} not found.`, tag);
+      }
+    } else {
+      logger.info(`Insufficient balance for ${boostType}. Current balance: ${balance}, Required: ${boostPrice}`, tag);
+    }
+  }
+
+  if (canContinue) {
+    logger.info("Enough balance to continue upgrading. Restarting boost process...", tag);
+    await boostPixelClaimProcess(iframe, tag);
+  } else {
+    logger.info("Boost process completed or insufficient balance to continue.", tag);
+  }
+};
+
+const navigateOnSectionBoostSection = async (iframe: Frame, tag: string) => {
+  const navigateOnBoostAndTaskSection = await iframe.$$(pixelGameSelectors.balanceNavigate);
+  await navigateOnBoostAndTaskSection[0]?.click().catch(() => {
+    logger.warning("Navigate button on task and boosts tab not found", tag);
+  });
+  await delay(3000);
+
+  const boostButtonSection = await iframe.$$(pixelGameSelectors.boostsSelector);
+  await boostButtonSection[0]?.click().catch(() => {
+    logger.warning("Boost section navigate button not found", tag);
+  });
+  await delay(3000);
+};
 
 const ensureLoginCheck = async (page: Page, tag: string) => {
   const isAuthPage = await hasElement(page, commonSelectors.authLoginPage);
@@ -179,176 +277,5 @@ const extractValue = async (iframe: Frame, selector: string, errorMessage: strin
 const extractBalance = (iframe: Frame, tag: string) => {
   return extractValue(iframe, pixelGameSelectors.balanceLabel, "Error extracting balance", tag);
 };
-
-// const extractTickets = (iframe: Frame, tag: string) => {
-//   return extractValue(iframe, ticketLabel, "Error extracting tickets", tag);
-// };
-
-// const handleClaimTasks = async (iframe: Frame, browser: Browser, page: Page, tag: string): Promise<void> => {
-//   if (!iframe) {
-//     logger.error("Iframe not found.", tag);
-//     return;
-//   }
-
-//   try {
-//     await safeClick(iframe, blumBotSelectors.earnButton, tag);
-//     await delay(5000);
-//     await iframe.waitForSelector(blumBotSelectors.earnTitleSelector, { timeout: 30000 });
-
-//     if (
-//       (await hasElement(iframe, blumBotSelectors.weeklyTasks)) &&
-//       !(await hasElement(iframe, blumBotSelectors.weeklyTasksDone))
-//     ) {
-//       await safeClick(iframe, blumBotSelectors.weeklyTasks, tag);
-
-//       await processListTasks(iframe, browser, page, blumBotSelectors.weeklyTasksList, tag);
-//       await delay(5000);
-//       await claimTaskRewards(iframe, tag, blumBotSelectors.weeklyTasksListClaim);
-//       await delay(2000);
-
-//       await safeClick(iframe, blumBotSelectors.weeklyTasksListClose, tag);
-//     }
-
-//     const lists = await iframe.$$(blumBotSelectors.lists);
-
-//     for (const list of lists) {
-//       await delay(10000);
-//       await processListTasks(iframe, browser, page, blumBotSelectors.listTasks, tag);
-//       await processVerificationTasks(iframe, page, tag, blumVideoCodes);
-//       await claimTaskRewards(iframe, tag, blumBotSelectors.claimButtons);
-
-//       if (await isElementAttached(list)) {
-//         await safeClick(iframe, list, tag);
-//       } else {
-//         logger.error("List item is detached from the document.", tag);
-//       }
-//     }
-
-//     await iframe.$eval(blumBotSelectors.homeButton, (el) => (el as HTMLElement).click());
-//   } catch (error) {
-//     logger.error(`Error while processing tasks: ${error.message}`, tag);
-//   }
-// };
-
-// const processListTasks = async (iframe: Frame, browser: Browser, page: Page, selector: string, tag: string) => {
-//   const listTasks = await iframe.$$(selector);
-
-//   for (const taskButton of listTasks) {
-//     if (await isElementAttached(taskButton)) {
-//       const newPage = await openNewPage(browser, taskButton, iframe, tag);
-
-//       if (newPage) {
-//         await handleTaskPage(newPage, page, tag);
-//       } else {
-//         await handleOptionalElements(page, iframe, tag);
-//       }
-
-//       await delay(2000);
-//     } else {
-//       logger.error("Task button is detached from the document.", tag);
-//     }
-//   }
-// };
-
-// const openNewPage = async (browser: Browser, taskButton: ElementHandle, iframe: Frame, tag: string): Promise<Page | null> => {
-//   return new Promise<Page | null>(async (resolve) => {
-//     const handleTargetCreated = async (target: Target) => {
-//       const newPage = await target.page();
-//       if (newPage) {
-//         browser.removeAllListeners("targetcreated");
-//         resolve(newPage);
-//       }
-//     };
-
-//     browser.once("targetcreated", handleTargetCreated);
-
-//     await safeClick(iframe, taskButton, tag);
-//     await delay(4000);
-
-//     setTimeout(() => resolve(null), 15000);
-//   });
-// };
-
-// const handleTaskPage = async (newPage: Page, page: Page, tag: string) => {
-//   try {
-//     const pageUrl = newPage.url();
-
-//     if (pageUrl.includes("telegram.org")) {
-//       logger.info("Telegram link opened. Executing additional actions...", tag);
-//       // TODO: Add actions for handling Telegram, if needed
-//     }
-//   } catch (error) {
-//     logger.error(`Error handling task page: ${error.message}`, tag);
-//   } finally {
-//     await newPage.close();
-//   }
-// };
-
-// const processVerificationTasks = async (iframe: Frame, page: Page, tag: string, textArray: string[]) => {
-//   const verifyTasks = await iframe.$$(blumBotSelectors.verifyTasks);
-
-//   for (const verifyTask of verifyTasks) {
-//     if (await isElementAttached(verifyTask)) {
-//       await safeClick(iframe, verifyTask, tag);
-//       await delay(2000);
-
-//       let textIndex = 0;
-//       const inputElement = await iframe.$(blumBotSelectors.inputSelector);
-
-//       if (!inputElement) {
-//         logger.error(`Input not found by selector: ${blumBotSelectors.inputSelector}`, tag);
-//         continue;
-//       }
-
-//       while (textIndex < textArray.length) {
-//         await clearAndTypeText(iframe, blumBotSelectors.inputSelector, textArray[textIndex]);
-//         await safeClick(iframe, blumBotSelectors.buttonSelector, tag);
-//         await delay(2000);
-
-//         if (!(await hasElement(iframe, blumBotSelectors.buttonSelector))) {
-//           break;
-//         }
-
-//         textIndex++;
-//       }
-
-//       if (textIndex === textArray.length) {
-//         logger.warning("All codes entered, but the button did not disappear.", tag);
-//         await goBack(page);
-//       }
-//     }
-//   }
-// };
-
-// const clearAndTypeText = async (iframe: Frame, inputSelector: string, text: string) => {
-//   await iframe.$eval(inputSelector, (input) => {
-//     (input as HTMLInputElement).value = "";
-//   });
-//   await iframe.type(inputSelector, text);
-// };
-
-// const claimTaskRewards = async (iframe: Frame, tag: string, selector: string) => {
-//   const claimButtons = await iframe.$$(selector);
-//   for (const claimButton of claimButtons) {
-//     if (await isElementAttached(claimButton)) {
-//       await safeClick(iframe, claimButton, tag);
-//       await delay(3000);
-//     } else {
-//       logger.error("Claim button is detached from the document.", tag);
-//     }
-//   }
-// };
-
-// const handleOptionalElements = async (page: Page, iframe: Frame, tag: string) => {
-//   if (await hasElement(page, blumBotSelectors.boostSelector)) {
-//     await safeClick(iframe, blumBotSelectors.boostSelector, tag);
-//   } else if (await hasElement(iframe, blumBotSelectors.closeWalletSelector)) {
-//     await safeClick(iframe, blumBotSelectors.closeWalletSelector, tag);
-//   }
-// };
-
-// const goBack = async (page: Page) => {
-//   await safeClick(page, blumBotSelectors.backButton);
-// };
 
 export default playPixelGame;
