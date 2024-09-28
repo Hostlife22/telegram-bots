@@ -51,7 +51,7 @@ export const tapswapBotSelectors = {
 };
 
 export const pixelGameSelectors = {
-  promiseButton: "div._button_container_1boq4_54 > button._button_1boq4_54",
+  promiseButton: "div._layout_1boq4_1 div._button_container_1boq4_54 > button._button_1boq4_54",
   goButton: "div._button_container_1drph_81 > button._button_1drph_81",
   crashGame: "div._container_ieygs_8",
   balanceLabel: "div._group_184v8_8._middle_184v8_21 > button._button_184v8_1 > div > div._number_jcaqa_1",
