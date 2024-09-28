@@ -66,6 +66,25 @@ export const pixelGameSelectors = {
   buyBoost: "div._buttons_container_nvulu_59 > button._button_nvulu_59",
   boostPrice:
     "div._group_v8prs_7 > div:nth-child(1) > div._content_container_8sbvi_21 > div > div._item_reward_container_8sbvi_40 > span._price_text_8sbvi_45",
+
+  tasks: [
+    // Special tasks:
+    // "#telegramPremium",
+    // "#leagueBonusSilver",
+    // "#spendStars",
+
+    // Quick start:
+    // "#pain20pixels",
+    "#joinSquad",
+    // "#invite3Frens",
+
+    // Browser
+    "#notPixelChannel",
+    "#notPixelX",
+    "#notCoinChannel",
+    "#notCoinX",
+  ],
+  joinChannel: "div.chat-info-container > div.chat-utils > button.btn-primary.btn-color-primary.chat-join.rp",
 };
 
 export const getBoostPriceSelector = (index: number) =>

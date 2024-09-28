@@ -15,21 +15,25 @@ const updateAdsWithNewGame = (filePath: string, gameKey: string, gameUrl: string
   const ads: AccountItem[] = JSON.parse(fileContent);
 
   const updatedAds = ads.map((ad) => {
-    if (!ad.games[gameKey]) {
+    if (ad.games[gameKey]) {
       ad.games[gameKey] = gameUrl;
+      console.log(`Game "${gameKey}" updated for ad with id ${ad.id}.`);
+    } else {
+      ad.games[gameKey] = gameUrl;
+      console.log(`Game "${gameKey}" added for ad with id ${ad.id}.`);
     }
     return ad;
   });
 
   fs.writeFileSync(filePath, JSON.stringify(updatedAds, null, 2));
 
-  console.log(`Game "${gameKey}" added successfully to all ads.`);
+  console.log(`Game "${gameKey}" processed successfully for all ads.`);
 };
 
 const args = process.argv.slice(2);
 
-if (args.length < 2) {
-  console.error("Please provide both a key and value.");
+if (args.length < 3) {
+  console.error("Please provide a key, value, and JSON file path.");
   process.exit(1);
 }
 

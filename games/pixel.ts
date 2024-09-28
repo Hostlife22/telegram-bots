@@ -62,9 +62,7 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
     try {
       await handleOnboardingButtons(iframe, 15000, tag);
-      // if (process.env.CLAIM_BLUM_TASKS === "true") {
-      //   await handleClaimTasks(iframe, browser, page, tag);
-      // }
+
       const balanceBefore = await extractBalance(iframe, tag);
 
       result.BalanceBefore = balanceBefore;
@@ -246,7 +244,56 @@ const ensureLoginCheck = async (page: Page, tag: string) => {
   return isAuthPage;
 };
 
-const handleOnboardingButtons = async (iframe: Frame, delayTimeout: number = 5000, tag: string): Promise<void> => {
+const coolClickButton = async (elements: ElementHandle[], selector: string, logMessage: string, tag: string) => {
+  if (elements.length === 0) {
+    logger.error(`${selector} button not found`, tag);
+    return false;
+  }
+  try {
+    await elements[0].click();
+    logger.info(`${logMessage} button clicked`, tag);
+    return true;
+  } catch (error) {
+    logger.error(`${logMessage} button not found`, tag);
+    return false;
+  }
+};
+
+export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, fromInitialScreen = true) => {
+  if (fromInitialScreen) {
+    const navigateOnBoostAndTaskSection = await iframe.$$(pixelGameSelectors.balanceNavigate);
+    if (!(await coolClickButton(navigateOnBoostAndTaskSection, pixelGameSelectors.balanceNavigate, "Navigate", tag))) {
+      return;
+    }
+    await delay(3000);
+  }
+
+  const claimTask = async (selector: string) => {
+    const boostButtonSection = await iframe.$$(selector);
+    if (!(await coolClickButton(boostButtonSection, selector, selector, tag))) {
+      return;
+    }
+    await delay(3000);
+    await page.bringToFront();
+    await delay(2000);
+
+    if (selector.toLowerCase().includes("channel")) {
+      const joinChannelButton = await page.$$(pixelGameSelectors.joinChannel);
+      await coolClickButton(joinChannelButton, pixelGameSelectors.joinChannel, "Join channel", tag);
+      await delay(10000);
+    }
+
+    const claimRewardButton = await iframe.$$(selector);
+    await coolClickButton(claimRewardButton, selector, `Claim reward ${selector}`, tag);
+  };
+
+  for (const task of pixelGameSelectors.tasks) {
+    logger.info(`Claiming task: ${task}`, tag);
+    await claimTask(task);
+  }
+};
+
+export const handleOnboardingButtons = async (iframe: Frame, delayTimeout: number = 5000, tag: string): Promise<void> => {
   if (!iframe) {
     logger.error("Iframe not found.", tag);
     return;
@@ -254,16 +301,11 @@ const handleOnboardingButtons = async (iframe: Frame, delayTimeout: number = 500
 
   await delay(delayTimeout);
 
-  const clickButton = async (selector: string, message: string, tag: string) => {
-    if (await hasElement(iframe, selector)) {
-      logger.info(message, tag);
-      await safeClick(iframe, selector, tag);
-      await delay(3000);
-    }
-
-    await clickButton(pixelGameSelectors.promiseButton, "Consent to the user agreement", tag);
-    await clickButton(pixelGameSelectors.goButton, "New Pixel Order!", tag);
-  };
+  const fuckingPromiseButton = await iframe.$$(pixelGameSelectors.promiseButton);
+  await coolClickButton(fuckingPromiseButton, pixelGameSelectors.promiseButton, "Consent to the user agreement", tag);
+  await delay(5000);
+  const fuckingGoButton = await iframe.$$(pixelGameSelectors.goButton);
+  await coolClickButton(fuckingGoButton, pixelGameSelectors.goButton, "New Pixel Order!", tag);
 };
 
 const extractValue = async (iframe: Frame, selector: string, errorMessage: string, tag: string): Promise<string> => {

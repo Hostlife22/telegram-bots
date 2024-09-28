@@ -42,7 +42,25 @@ export class GameProcessor {
     try {
       await this.telegramNotifier.startPolling();
 
-      const tgApplications: TgApp[] = await this.loadApplications();
+      let startId: number | undefined;
+      let finishId: number | undefined;
+      const args = process.argv.slice(2);
+      startId = args.length > 0 ? parseInt(args[0], 10) : parseInt(process.env.START_ID, 10);
+      finishId = args.length > 1 ? parseInt(args[1], 10) : parseInt(process.env.FINISH_ID, 10);
+
+      let tgApplications: TgApp[] = await this.loadApplications();
+
+      if (!isNaN(startId)) {
+        tgApplications = tgApplications.filter((app) => app.id >= startId);
+      }
+      if (!isNaN(finishId)) {
+        tgApplications = tgApplications.filter((app) => app.id <= finishId);
+      }
+
+      logger.warning(
+        `Start Profile Id ${startId || 1}, Finish profile Id ${finishId || tgApplications[tgApplications.length - 1].id}`,
+      );
+
       const totalResultGames = await this.playGames(tgApplications);
       const filteredTgApplication = tgApplications.filter((result) => result.active);
 
