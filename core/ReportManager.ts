@@ -10,6 +10,9 @@ const reportHeaders: Record<AppName, { headers: string[] }> = {
   tapswap: {
     headers: [...baseHeaders, "Tickets"],
   },
+  pixel: {
+    headers: baseHeaders,
+  },
 };
 
 interface ReportData {

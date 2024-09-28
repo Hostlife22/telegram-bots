@@ -2,11 +2,13 @@ import { Browser } from "puppeteer";
 
 import { AppName, PlayGameFn } from "../types";
 import playBlumGame from "./blum";
+import playPixelGame from "./pixel";
 import playTapSwap from "./tapswap";
 import registerGame from "./register";
 
 export default async function playGame(appName: AppName, browser: Browser, appUrl: string, id: number) {
   const gameFunctions: Record<string, PlayGameFn> = {
+    pixel: playPixelGame,
     blum: playBlumGame,
     tapswap: playTapSwap,
     register: registerGame,

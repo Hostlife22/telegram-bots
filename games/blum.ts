@@ -354,7 +354,7 @@ const claimTaskRewards = async (iframe: Frame, tag: string, selector: string) =>
 
 const handleOptionalElements = async (page: Page, iframe: Frame, tag: string) => {
   if (await hasElement(page, blumBotSelectors.boostSelector)) {
-    await safeClick(iframe, blumBotSelectors.boostSelector, tag);
+    await safeClick(page, blumBotSelectors.boostSelector, tag);
   } else if (await hasElement(iframe, blumBotSelectors.closeWalletSelector)) {
     await safeClick(iframe, blumBotSelectors.closeWalletSelector, tag);
   }
