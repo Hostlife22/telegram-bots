@@ -12,6 +12,20 @@ Then, start the project by running:
 yarn start
 ```
 
+## Filtering Applications by ID
+
+The `executeTask` function now supports filtering applications based on `startId` and `finishId` parameters. These parameters can be passed via console arguments or environment variables.
+
+You can set the `START_ID` and `FINISH_ID` in your `.env` file:
+
+```bash
+yarn start 22 25
+```
+
+```bash
+npm run start 22 25
+```
+
 ## Environment Variables
 
 To ensure the proper functioning of the project, you need to configure the `.env` file. Here are the required variables:
