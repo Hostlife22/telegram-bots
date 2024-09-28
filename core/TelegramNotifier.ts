@@ -14,19 +14,21 @@ export class TelegramNotifier {
 
   async sendMessage(message: string, mode: TelegramBot.SendAnimationOptions["parse_mode"] = "HTML"): Promise<void> {
     const MAX_LENGTH = 4096;
+    const PART_HEADER_LENGTH = 15;
+    const MAX_PART_LENGTH = MAX_LENGTH - PART_HEADER_LENGTH - 2;
 
     if (message.length <= MAX_LENGTH) {
       await this.bot.sendMessage(this.receiverId, message, { parse_mode: mode });
     } else {
       let currentIndex = 0;
       let partIndex = 1;
-      const totalParts = Math.ceil(message.length / MAX_LENGTH);
+      const totalParts = Math.ceil(message.length / MAX_PART_LENGTH);
 
       while (currentIndex < message.length) {
-        const nextChunk = message.substring(currentIndex, currentIndex + MAX_LENGTH);
+        const nextChunk = message.substring(currentIndex, currentIndex + MAX_PART_LENGTH);
         const partMessage = `Part ${partIndex} of ${totalParts}\n\n${nextChunk}`;
         await this.bot.sendMessage(this.receiverId, partMessage, { parse_mode: mode });
-        currentIndex += MAX_LENGTH;
+        currentIndex += MAX_PART_LENGTH;
         partIndex++;
       }
     }
