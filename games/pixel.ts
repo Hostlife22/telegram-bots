@@ -100,6 +100,9 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
       }
       await goBack(page, iframe, tag);
 
+      await iframe.addScriptTag({ path: scriptPath });
+      await delay(10000);
+
       const balanceAfter = await extractBalance(iframe, tag);
 
       logger.info(`💰 Ending balance: ${balanceAfter}`, tag);
