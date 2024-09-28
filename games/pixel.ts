@@ -263,10 +263,19 @@ export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, f
   if (fromInitialScreen) {
     const navigateOnBoostAndTaskSection = await iframe.$$(pixelGameSelectors.balanceNavigate);
     if (!(await coolClickButton(navigateOnBoostAndTaskSection, pixelGameSelectors.balanceNavigate, "Navigate", tag))) {
-      return;
+      await goBack(page, iframe, tag);
+      await delay(3000);
+
+      await page.waitForSelector(commonSelectors.launchBotButton, { timeout: 30000 });
+      await delay(3000);
+
+      await safeClick(page, commonSelectors.launchBotButton, tag);
+      await clickConfirm(page, tag);
+      const navigateOnBoostAndTaskSection = await iframe.$$(pixelGameSelectors.balanceNavigate);
+      await coolClickButton(navigateOnBoostAndTaskSection, pixelGameSelectors.balanceNavigate, "Navigate", tag);
     }
-    await delay(3000);
   }
+  await delay(3000);
 
   const claimTask = async (selector: string) => {
     const boostButtonSection = await iframe.$$(selector);

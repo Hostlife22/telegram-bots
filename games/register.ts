@@ -37,6 +37,7 @@ const registerGame = async (browser: Browser, appUrl: string, id: number) => {
       await page.bringToFront();
       await handleOnboardingButtons(iframe, 5000, tag);
       await delay(5000);
+
       await page.bringToFront();
       await handleClaimTasks(iframe, page, tag, true);
     }
