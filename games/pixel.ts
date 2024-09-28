@@ -243,6 +243,55 @@ const ensureLoginCheck = async (page: Page, tag: string) => {
   return isAuthPage;
 };
 
+export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, fromInitialScreen = true) => {
+  const clickButton = async (elements: ElementHandle[], selector: string, logMessage: string) => {
+    if (elements.length === 0) {
+      logger.error(`${selector} button not found`, tag);
+      return false;
+    }
+    try {
+      await elements[0].click();
+      logger.info(`${logMessage} button clicked`, tag);
+      return true;
+    } catch (error) {
+      logger.error(`${logMessage} button not found`, tag);
+      return false;
+    }
+  };
+
+  if (fromInitialScreen) {
+    const navigateOnBoostAndTaskSection = await iframe.$$(pixelGameSelectors.balanceNavigate);
+    if (!(await clickButton(navigateOnBoostAndTaskSection, pixelGameSelectors.balanceNavigate, "Navigate"))) {
+      return;
+    }
+    await delay(3000);
+  }
+
+  const claimTask = async (selector: string) => {
+    const boostButtonSection = await iframe.$$(selector);
+    if (!(await clickButton(boostButtonSection, selector, selector))) {
+      return;
+    }
+    await delay(3000);
+    await page.bringToFront();
+    await delay(2000);
+
+    if (selector.toLowerCase().includes("channel")) {
+      const joinChannelButton = await page.$$(pixelGameSelectors.joinChannel);
+      await clickButton(joinChannelButton, pixelGameSelectors.joinChannel, "Join channel");
+      await delay(10000);
+    }
+
+    const claimRewardButton = await iframe.$$(selector);
+    await clickButton(claimRewardButton, selector, `Claim reward ${selector}`);
+  };
+
+  for (const task of pixelGameSelectors.tasks) {
+    logger.info(`Claiming task: ${task}`, tag);
+    await claimTask(task);
+  }
+};
+
 const handleOnboardingButtons = async (iframe: Frame, delayTimeout: number = 5000, tag: string): Promise<void> => {
   if (!iframe) {
     logger.error("Iframe not found.", tag);

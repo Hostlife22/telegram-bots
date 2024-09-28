@@ -3,6 +3,8 @@ import { logger } from "../core/Logger";
 import { AccountResults } from "../types";
 import { clickConfirm } from "../utils/confirmPopup";
 import { delay } from "../utils/delay";
+import { handleClaimTasks } from "./pixel";
+import { selectFrame } from "../utils/puppeteerHelper";
 
 const registerGame = async (browser: Browser, appUrl: string, id: number) => {
   logger.debug(`🎮 register game #${id}`);
@@ -22,9 +24,15 @@ const registerGame = async (browser: Browser, appUrl: string, id: number) => {
     await page.waitForNetworkIdle();
 
     await Promise.all([page.goto(appUrl), page.waitForNavigation()]);
-    await delay(5000);
+
+    await delay(3000);
     await clickConfirm(page, tag);
-    await delay(25000);
+    await delay(5000);
+
+    if (appUrl.includes("pixel")) {
+      const iframe = await selectFrame(page, tag);
+      await handleClaimTasks(iframe, page, tag, true);
+    }
   } catch (error) {
     logger.error(`An error occurred during initial setup: ${error.message}`, tag);
   }
