@@ -30,6 +30,7 @@ const registerGame = async (browser: Browser, appUrl: string, id: number) => {
     await clickConfirm(page, tag);
     await delay(5000);
 
+    // TODO: FLOW AFTER REGISTRATION
     if (appUrl.includes("pixel")) {
       await page.bringToFront();
       const iframe = await selectFrame(page, tag);

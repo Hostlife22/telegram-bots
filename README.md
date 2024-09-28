@@ -69,3 +69,11 @@ You need to create a JSON file in the `data` folder with the following structure
 
 1. npm run add -- gameKey gameUrl jsonPath
 2. yarn add -- gameKey gameUrl jsonPath
+
+### Add game by referral link
+
+- Replace `org/a` by `org/k`
+  Example: `npm run add register https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df1257871143 path`
+
+1. npm run add -- register gameUrl jsonPath
+2. yarn add -- register gameUrl jsonPath
