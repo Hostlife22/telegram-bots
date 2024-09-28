@@ -112,7 +112,7 @@ export class GameProcessor {
       game: item.game,
       data: {
         ...item.data,
-        Account: tgApp.code,
+        Account: `#${tgApp.id} (${tgApp.code})`,
         User: tgApp.username,
       },
     }));
