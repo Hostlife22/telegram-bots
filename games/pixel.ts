@@ -40,6 +40,7 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
     await Promise.all([page.goto(appUrl), page.waitForNavigation()]);
     await delay(20000);
 
+    await page.bringToFront();
     const loginCheck = await ensureLoginCheck(page, tag);
     if (loginCheck) {
       result.BalanceBefore = "Login error";
@@ -47,12 +48,15 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
       return result;
     }
 
+    await page.bringToFront();
     await page.waitForSelector(commonSelectors.launchBotButton, { timeout: 30000 });
     await delay(5000);
 
+    await page.bringToFront();
     await safeClick(page, commonSelectors.launchBotButton, tag);
     await clickConfirm(page, tag);
 
+    await page.bringToFront();
     const iframe = await selectFrame(page, tag);
 
     const wrongUploadingBot = await page.$$(pixelGameSelectors.crashGame);
@@ -271,8 +275,8 @@ export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, f
         await elements[0].click();
         await delay(3000);
       }
-      const reloadMenuItem = "#page-chats > div.btn-menu.contextmenu.bottom-right.active.was-open > div:nth-child(2)";
-      const reloads = await page.$$(reloadMenuItem);
+      const rel = "#page-chats > div.btn-menu.contextmenu.bottom-right.active.was-open > div:nth-child(2)";
+      const reloads = await page.$$(rel);
       if (reloads.length > 0) {
         logger.info("Clicking on reload button", tag);
         await reloads[0].click();
