@@ -26,13 +26,17 @@ const registerGame = async (browser: Browser, appUrl: string, id: number) => {
     await Promise.all([page.goto(appUrl), page.waitForNavigation()]);
 
     await delay(3000);
+    await page.bringToFront();
     await clickConfirm(page, tag);
     await delay(5000);
 
     if (appUrl.includes("pixel")) {
+      await page.bringToFront();
       const iframe = await selectFrame(page, tag);
+      await page.bringToFront();
       await handleOnboardingButtons(iframe, 5000, tag);
       await delay(5000);
+      await page.bringToFront();
       await handleClaimTasks(iframe, page, tag, true);
     }
   } catch (error) {
