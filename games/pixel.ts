@@ -303,8 +303,8 @@ export const handleOnboardingButtons = async (iframe: Frame, delayTimeout: numbe
 
   const fuckingPromiseButton = await iframe.$$(pixelGameSelectors.promiseButton);
   await coolClickButton(fuckingPromiseButton, pixelGameSelectors.promiseButton, "Consent to the user agreement", tag);
-  await delay(2000);
-  const fuckingGoButton = await iframe.$$(pixelGameSelectors.promiseButton);
+  await delay(5000);
+  const fuckingGoButton = await iframe.$$(pixelGameSelectors.goButton);
   await coolClickButton(fuckingGoButton, pixelGameSelectors.goButton, "New Pixel Order!", tag);
 };
 
