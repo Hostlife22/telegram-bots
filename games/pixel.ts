@@ -263,14 +263,23 @@ export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, f
   if (fromInitialScreen) {
     const navigateOnBoostAndTaskSection = await iframe.$$(pixelGameSelectors.balanceNavigate);
     if (!(await coolClickButton(navigateOnBoostAndTaskSection, pixelGameSelectors.balanceNavigate, "Navigate", tag))) {
-      await page.reload();
-      await delay(10000);
+      const settings =
+        "body > div:nth-child(8) > div > div._BrowserHeader_m63td_55 > div.scrollable.scrollable-x._BrowserHeaderTabsScrollable_m63td_81.scrolled-start.scrolled-end > div > div._BrowserHeaderTab_m63td_72._active_m63td_157._first_m63td_96.animated-item > button.btn-icon._BrowserHeaderButton_m63td_65._BrowserHeaderTabIcon_m63td_111 > span._BrowserHeaderTabIconInner_m63td_117 > div";
+      const elements = await page.$$(settings);
+      if (elements.length > 0) {
+        logger.info("Clicking on menu button", tag);
+        await elements[0].click();
+        await delay(3000);
+      }
+      const reloadMenuItem = "#page-chats > div.btn-menu.contextmenu.bottom-right.active.was-open > div:nth-child(2)";
+      const reloads = await page.$$(reloadMenuItem);
+      if (reloads.length > 0) {
+        logger.info("Clicking on reload button", tag);
+        await reloads[0].click();
+        await delay(3000);
+      }
+      await delay(7000);
 
-      await page.waitForSelector(commonSelectors.launchBotButton, { timeout: 30000 });
-      await delay(3000);
-
-      await safeClick(page, commonSelectors.launchBotButton, tag);
-      await clickConfirm(page, tag);
       const navigateOnBoostAndTaskSection = await iframe.$$(pixelGameSelectors.balanceNavigate);
       await coolClickButton(navigateOnBoostAndTaskSection, pixelGameSelectors.balanceNavigate, "Navigate", tag);
     }
