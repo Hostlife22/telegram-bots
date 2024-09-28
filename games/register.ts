@@ -3,7 +3,7 @@ import { logger } from "../core/Logger";
 import { AccountResults } from "../types";
 import { clickConfirm } from "../utils/confirmPopup";
 import { delay } from "../utils/delay";
-import { handleClaimTasks } from "./pixel";
+import { handleClaimTasks, handleOnboardingButtons } from "./pixel";
 import { selectFrame } from "../utils/puppeteerHelper";
 
 const registerGame = async (browser: Browser, appUrl: string, id: number) => {
@@ -31,6 +31,8 @@ const registerGame = async (browser: Browser, appUrl: string, id: number) => {
 
     if (appUrl.includes("pixel")) {
       const iframe = await selectFrame(page, tag);
+      await handleOnboardingButtons(iframe, 5000, tag);
+      await delay(5000);
       await handleClaimTasks(iframe, page, tag, true);
     }
   } catch (error) {
