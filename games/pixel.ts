@@ -50,7 +50,7 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
     await page.bringToFront();
     await page.waitForSelector(commonSelectors.launchBotButton, { timeout: 30000 });
-    await delay(5000);
+    await delay(3000);
 
     await page.bringToFront();
     await safeClick(page, commonSelectors.launchBotButton, tag);
@@ -65,7 +65,7 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
     }
 
     try {
-      await handleOnboardingButtons(iframe, 15000, tag);
+      await handleOnboardingButtons(iframe, 7000, tag);
 
       const balanceBefore = await extractBalance(iframe, tag);
 
@@ -81,7 +81,7 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
         await handleClaimTasks(iframe, page, tag, true);
       }
       await navigateOnSectionBoostSection(iframe, tag);
-      await delay(3000);
+      await delay(2000);
       const claimButton = await iframe.$$(pixelGameSelectors.claimSelector).catch(() => {
         logger.error("Claim button not found", tag);
         return [];
@@ -102,14 +102,11 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
       if (process.env.BOOST_PIXEL === "true") {
         await boostPixelClaimProcess(iframe, tag);
-        await delay(3000);
+        await delay(1000);
       } else {
         logger.warning("Boost process is disabled or insufficient balance to continue.", tag);
       }
       await goBack(page, iframe, tag);
-
-      await iframe.addScriptTag({ path: scriptPath });
-      await delay(10000);
 
       const clickCanvasAndPrint = async (iframe: Frame, tag: string) => {
         const canvas = await iframe.$$("#canvasHolder");
@@ -121,7 +118,7 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
           await coolClickButton(print, printButton, "Print button", tag);
           await delay(1000);
         }
-        await delay(3000);
+        await delay(2000);
       };
 
       await clickCanvasAndPrint(iframe, tag);
@@ -146,8 +143,6 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 };
 
 const goBack = async (page: Page, iframe: Frame, tag: string) => {
-  await delay(1000);
-
   const fuckingBackButton = await page.$$(commonSelectors.backButton);
   await fuckingBackButton[0]
     .click()
@@ -211,7 +206,7 @@ const boostPixelClaimProcess = async (iframe: Frame, tag: string) => {
       if (boostButton && boostButton.length > 0) {
         await boostButton[0]?.click();
         logger.info(`Clicked on ${boostType} boost button successfully.`, tag);
-        await delay(3000);
+        await delay(1500);
 
         const buyBoostButton = await iframe.$$(pixelGameSelectors.buyBoost);
         if (buyBoostButton && buyBoostButton.length > 0) {
@@ -227,7 +222,7 @@ const boostPixelClaimProcess = async (iframe: Frame, tag: string) => {
         } else {
           logger.warning(`Buy button for ${boostType} not found.`, tag);
         }
-        await delay(3000);
+        await delay(1500);
       } else {
         logger.warning(`Boost button for ${boostType} not found.`, tag);
       }
@@ -249,13 +244,13 @@ const navigateOnSectionBoostSection = async (iframe: Frame, tag: string) => {
   await navigateOnBoostAndTaskSection[0]?.click().catch(() => {
     logger.warning("Navigate button on task and boosts tab not found", tag);
   });
-  await delay(3000);
+  await delay(1500);
 
   const boostButtonSection = await iframe.$$(pixelGameSelectors.boostsSelector);
   await boostButtonSection[0]?.click().catch(() => {
     logger.warning("Boost section navigate button not found", tag);
   });
-  await delay(3000);
+  await delay(1500);
 };
 
 const ensureLoginCheck = async (page: Page, tag: string) => {
@@ -294,36 +289,36 @@ export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, f
       if (elements.length > 0) {
         logger.info("Clicking on menu button", tag);
         await elements[0].click();
-        await delay(3000);
+        await delay(1500);
       }
       const rel = "#page-chats > div.btn-menu.contextmenu.bottom-right.active.was-open > div:nth-child(2)";
       const reloads = await page.$$(rel);
       if (reloads.length > 0) {
         logger.info("Clicking on reload button", tag);
         await reloads[0].click();
-        await delay(3000);
+        await delay(1500);
       }
-      await delay(7000);
+      await delay(4000);
 
       const navigateOnBoostAndTaskSection = await iframe.$$(pixelGameSelectors.balanceNavigate);
       await coolClickButton(navigateOnBoostAndTaskSection, pixelGameSelectors.balanceNavigate, "Navigate", tag);
     }
   }
-  await delay(3000);
+  await delay(2000);
 
   const claimTask = async (selector: string) => {
     const boostButtonSection = await iframe.$$(selector);
     if (!(await coolClickButton(boostButtonSection, selector, selector, tag))) {
       return;
     }
-    await delay(3000);
-    await page.bringToFront();
     await delay(2000);
+    await page.bringToFront();
+    await delay(1000);
 
     if (selector.toLowerCase().includes("channel")) {
       const joinChannelButton = await page.$$(pixelGameSelectors.joinChannel);
       await coolClickButton(joinChannelButton, pixelGameSelectors.joinChannel, "Join channel", tag);
-      await delay(10000);
+      await delay(5000);
     }
 
     const claimRewardButton = await iframe.$$(selector);
@@ -346,7 +341,7 @@ export const handleOnboardingButtons = async (iframe: Frame, delayTimeout: numbe
 
   const fuckingPromiseButton = await iframe.$$(pixelGameSelectors.promiseButton);
   await coolClickButton(fuckingPromiseButton, pixelGameSelectors.promiseButton, "Consent to the user agreement", tag);
-  await delay(5000);
+  await delay(2000);
   const fuckingGoButton = await iframe.$$(pixelGameSelectors.goButton);
   await coolClickButton(fuckingGoButton, pixelGameSelectors.goButton, "New Pixel Order!", tag);
 };
