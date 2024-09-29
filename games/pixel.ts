@@ -77,11 +77,15 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
       const balance = convertToNumber(balanceBefore);
 
+      await handleClaimTasks(iframe, page, tag, true);
       await navigateOnSectionBoostSection(iframe, tag);
       await delay(3000);
-      const claimButton = await iframe.$$(pixelGameSelectors.claimSelector);
-      const claimButtonText = await iframe.$eval(pixelGameSelectors.claimSelector, (el) => el.textContent);
+      const claimButton = await iframe.$$(pixelGameSelectors.claimSelector).catch(() => {
+        logger.error("Claim button not found", tag);
+        return [];
+      });
       if (claimButton?.length > 0) {
+        const claimButtonText = await iframe.$eval(pixelGameSelectors.claimSelector, (el) => el.textContent);
         logger.info(`${claimButtonText}`, tag);
         await claimButton?.[0]
           ?.click()
