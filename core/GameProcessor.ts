@@ -29,8 +29,13 @@ export class GameProcessor {
   }
 
   private scheduleNextTask() {
-    const taskTime = new Date(Date.now() + getRandomNumberBetween(181, 228) * 60 * 1000);
+    // BASE_TASK_TIME=60 (1h)
+    const baseTime = process.env.BASE_TASK_TIME ? parseInt(process.env.BASE_TASK_TIME, 10) : 228;
+
+    const randomMinutes = getRandomNumberBetween(baseTime - 2, baseTime + 2);
+    const taskTime = new Date(Date.now() + randomMinutes * 60 * 1000);
     this.notifySchedule(taskTime);
+
     const job = scheduleJob(taskTime, async () => {
       await this.executeTask();
       job.cancel();

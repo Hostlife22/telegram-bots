@@ -46,6 +46,8 @@ To ensure the proper functioning of the project, you need to configure the `.env
 
 - `CLAIM_BLUM_TASKS="false"`: Option to execute tasks in Blum.
 
+- `BASE_TASK_TIME=60`: Variable to set a stable period of time to start tasks, without it a random time period will be selected.
+
 - `ORDER=asc`: Launch profiles in `asc`/`desc` or random (`shuffle`) order. Default is `asc`.
 
 ## Example JSON Data
