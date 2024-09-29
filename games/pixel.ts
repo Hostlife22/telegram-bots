@@ -77,7 +77,9 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
       const balance = convertToNumber(balanceBefore);
 
-      await handleClaimTasks(iframe, page, tag, true);
+      if (process.env.CLAIM_PIXEL_TASKS === "true") {
+        await handleClaimTasks(iframe, page, tag, true);
+      }
       await navigateOnSectionBoostSection(iframe, tag);
       await delay(3000);
       const claimButton = await iframe.$$(pixelGameSelectors.claimSelector).catch(() => {
