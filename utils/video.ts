@@ -248,6 +248,8 @@ const videos: VideoItem[] = [
   { code: "graduate", name: "Make money with your hobby" },
   { code: "morning", name: "TikTok in 2024" },
   { code: "tuesday", name: "Earn $5000 With A Drone" },
+  { code: "kinder", name: "Ways to Make Money on Fiverr" },
+  { code: "tommorow", name: "Digital Product Ideas" },
 ];
 
 const Fuse = require("fuse.js");
