@@ -98,7 +98,7 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
         await delay(1000);
       }
 
-      if (process.env.BOOST_PIXEL === "true" && balance >= 5) {
+      if (process.env.BOOST_PIXEL === "true") {
         await boostPixelClaimProcess(iframe, tag);
         await delay(3000);
       } else {
@@ -108,6 +108,21 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
       await iframe.addScriptTag({ path: scriptPath });
       await delay(10000);
+
+      const clickCanvasAndPrint = async (iframe: Frame, tag: string) => {
+        const canvas = await iframe.$$("#canvasHolder");
+        await coolClickButton(canvas, "#canvasHolder", "Canvas", tag);
+
+        const printButton = "div._order_panel_hqiqj_1 > div > button._button_hqiqj_147";
+        for (let i = 0; i < 10; i++) {
+          const print = await iframe.$$(printButton);
+          await coolClickButton(print, printButton, "Print button", tag);
+          await delay(1000);
+        }
+        await delay(3000);
+      };
+
+      await clickCanvasAndPrint(iframe, tag);
 
       const balanceAfter = await extractBalance(iframe, tag);
 
@@ -254,7 +269,7 @@ const ensureLoginCheck = async (page: Page, tag: string) => {
 
 const coolClickButton = async (elements: ElementHandle[], selector: string, logMessage: string, tag: string) => {
   if (elements.length === 0) {
-    logger.error(`${selector} button not found`, tag);
+    logger.error(`${logMessage} button not found`, tag);
     return false;
   }
   try {
