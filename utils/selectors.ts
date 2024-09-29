@@ -89,3 +89,12 @@ export const pixelGameSelectors = {
 
 export const getBoostPriceSelector = (index: number) =>
   `div._group_v8prs_7 > div:nth-child(${index}) > div._content_container_8sbvi_21 > div > div._item_reward_container_8sbvi_40 > span._price_text_8sbvi_45`;
+
+export const tomatoSelectors = {
+  continueButton: "div._continueWrap_hyf84_375 > div._continue_hyf84_375",
+  claimButton: "div._home_lw6uc_1 > div._farmBtn_rrulr_62._farmBtnHarvest_rrulr_141",
+  startFarmingButton: "div._home_lw6uc_1 > div._farmBtn_rrulr_62._farmBtnStart_rrulr_78",
+  diggerButton: "div._tomato_1l65e_41",
+  closeDiggerModal: "div._popup_16kb3_17._popupVisible_16kb3_30._popStyle_1l65e_99 > i._close_16kb3_57",
+  claimDigReward: "div._home_lw6uc_1 > div._popup_16kb3_17._popupVisible_16kb3_30._popStyle_1l65e_99 > div._bd_16kb3_70 button",
+};

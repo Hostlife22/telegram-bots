@@ -2,6 +2,7 @@ import { ElementHandle, Frame, Page } from "puppeteer";
 
 import { logger } from "../core/Logger";
 import { randomDelay, delay } from "./delay";
+import { commonSelectors } from "./selectors";
 
 export const hasElement = async (page: Page | Frame, selector: string): Promise<boolean> => {
   try {
@@ -82,5 +83,32 @@ export const safeClick = async (iframe: Page | Frame, selectorOrElement: string 
     await iframe.evaluate((el) => (el as HTMLElement).click(), element);
   } else {
     logger.error(`Element with selector ${selectorOrElement} is not available or detached`, tag);
+  }
+};
+
+export const ensureLoginCheck = async (page: Page, tag: string) => {
+  const isAuthPage = await hasElement(page, commonSelectors.authLoginPage);
+
+  if (isAuthPage) {
+    logger.warning("Telegram Web account is not authorized", tag);
+    await page.close();
+  }
+
+  return isAuthPage;
+};
+
+export const coolClickButton = async (iframe: Page | Frame, selector: string, logMessage: string, tag: string) => {
+  const elements = await iframe.$$(selector);
+  if (elements?.length === 0) {
+    logger.error(`${logMessage} button not found`, tag);
+    return false;
+  }
+  try {
+    await elements?.[0]?.click();
+    logger.info(`${logMessage} button clicked`, tag);
+    return true;
+  } catch (error) {
+    logger.error(`${logMessage} button not found`, tag);
+    return false;
   }
 };
