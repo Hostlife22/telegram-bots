@@ -278,7 +278,7 @@
   {
     "id": 24,
     "code": "ji97e6y",
-    "active": true,
+    "active": false,
     "username": "@smaltus",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
