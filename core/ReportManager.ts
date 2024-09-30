@@ -13,6 +13,9 @@ const reportHeaders: Record<AppName, { headers: string[] }> = {
   pixel: {
     headers: baseHeaders,
   },
+  tomato: {
+    headers: baseHeaders,
+  },
 };
 
 interface ReportData {

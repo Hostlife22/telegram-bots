@@ -5,27 +5,13 @@ import { logger } from "../core/Logger";
 import { AccountResults } from "../types";
 import { coolClickButton, ensureLoginCheck, safeClick, selectFrame } from "../utils/puppeteerHelper";
 import { commonSelectors, tomatoSelectors } from "../utils/selectors";
-
-const findTotalAndTicketAmount = async (iframe: Frame): Promise<{ savedTotal: string; ticketAmount: string }> => {
-  try {
-    const textSelector = "div._home_cu9cz_1 > div._score_vt6yl_1";
-    const ticketSelector = "div._board_pnata_1 > div._boardTickets_pnata_160";
-
-    const savedTotal = (await iframe?.$eval(textSelector, (el) => el.textContent ?? "")) || "";
-    const ticketAmount = (await iframe?.$eval(ticketSelector, (el) => el.textContent ?? "")) || "";
-
-    return { savedTotal, ticketAmount };
-  } catch (error) {
-    console.error("Error finding total and ticket amount:", error);
-    return { savedTotal: "", ticketAmount: "" };
-  }
-};
+import { convertToNumber } from "../utils/convertToNumber";
 
 export const handleClaimButtons = async (iframe: Frame, tag: string): Promise<void> => {
   await coolClickButton(iframe, tomatoSelectors.continueButton, "continue button", tag);
-  await delay(3000);
+  await delay(5000);
   await coolClickButton(iframe, tomatoSelectors.claimButton, "claim button", tag);
-  await delay(2000);
+  await delay(5000);
   await coolClickButton(iframe, tomatoSelectors.startFarmingButton, "start farming", tag);
 };
 
@@ -62,6 +48,14 @@ const playTomatoGame = async (browser: Browser, appUrl: string, id: number) => {
     await Promise.all([page.goto(appUrl), page.waitForNavigation()]);
 
     await page.bringToFront();
+    const loginCheck = await ensureLoginCheck(page, tag);
+    if (loginCheck) {
+      result.BalanceBefore = "Login error";
+      result.BalanceAfter = "Login error";
+      return result;
+    }
+
+    await page.bringToFront();
     await page.waitForSelector(commonSelectors.launchBotButton, { timeout: 30000 });
     await delay(3000);
 
@@ -76,6 +70,14 @@ const playTomatoGame = async (browser: Browser, appUrl: string, id: number) => {
     await delay(2000);
     await handleClaimDigReward(iframe, tag);
     await delay(2000);
+
+    const getBalance = async (selector: string): Promise<number> => {
+      const priceText = await iframe.$eval(selector, (el) => el.textContent);
+      return convertToNumber(priceText);
+    };
+    const balanceAfter = await getBalance(tomatoSelectors.balance);
+
+    result.BalanceAfter = balanceAfter;
   } catch (error) {
     logger.error(`An error occurred during initial setup: ${error.message}`, tag);
   }

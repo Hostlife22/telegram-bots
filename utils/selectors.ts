@@ -93,8 +93,9 @@ export const getBoostPriceSelector = (index: number) =>
 export const tomatoSelectors = {
   continueButton: "div._continueWrap_hyf84_375 > div._continue_hyf84_375",
   claimButton: "div._home_lw6uc_1 > div._farmBtn_rrulr_62._farmBtnHarvest_rrulr_141",
-  startFarmingButton: "div._home_lw6uc_1 > div._farmBtn_rrulr_62._farmBtnStart_rrulr_78",
+  startFarmingButton: "div._farmBtn_rrulr_62._farmBtnStart_rrulr_78",
   diggerButton: "div._tomato_1l65e_41",
   closeDiggerModal: "div._popup_16kb3_17._popupVisible_16kb3_30._popStyle_1l65e_99 > i._close_16kb3_57",
   claimDigReward: "div._home_lw6uc_1 > div._popup_16kb3_17._popupVisible_16kb3_30._popStyle_1l65e_99 > div._bd_16kb3_70 button",
+  balance: "div._home_lw6uc_1 > div._score_9q7q5_1 > p",
 };
