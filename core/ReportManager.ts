@@ -11,7 +11,10 @@ const reportHeaders: Record<AppName, { headers: string[] }> = {
     headers: [...baseHeaders, "Tickets"],
   },
   electra: {
-    headers: [...baseHeaders, "Tickets"],
+    headers: [...baseHeaders],
+  },
+  pixel: {
+    headers: baseHeaders,
   },
 };
 

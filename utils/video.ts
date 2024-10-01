@@ -236,6 +236,20 @@ const videos: VideoItem[] = [
   { code: "subnet", name: "4 Buisness Ideas To Start with 0$" },
   { code: "stroop", name: "10 Most Profitable Niches" },
   { code: "staking", name: "Invest As A Teenager" },
+  { code: "supercycle", name: "10 AI Tools That Will Make You Rich" },
+  { code: "supercomputer", name: "Earn $550 Per A Day By Selling ebooks" },
+  { code: "capitulation", name: "Lazy Ways to Make Money Online" },
+  { code: "swarm", name: "Websites That Will Pay You" },
+  { code: "cashtoken", name: "YouTube Gaming Channel" },
+  { code: "cash", name: "Make Money With Graphic Design" },
+  { code: "censorship", name: "Earn with your smartphone" },
+  { code: "piece", name: "Make Money by Flipping Furniture" },
+  { code: "helpful", name: "Earn $10,000 per Month on Twitch" },
+  { code: "graduate", name: "Make money with your hobby" },
+  { code: "morning", name: "TikTok in 2024" },
+  { code: "tuesday", name: "Earn $5000 With A Drone" },
+  { code: "kinder", name: "Ways to Make Money on Fiverr" },
+  { code: "tommorow", name: "Digital Product Ideas" },
 ];
 
 const Fuse = require("fuse.js");
@@ -249,4 +263,13 @@ export const getCode = async (name: string): Promise<string | undefined> => {
   return result.length > 0 ? result[0].item.code : undefined;
 };
 
-export const blumVideoCodes = ["HEYBLUM", "BEST PROJECT EVER", "GO GET", "VALUE"];
+export const blumVideoCodes = [
+  "BLUMERSSS",
+  "CRYPTOBLUM",
+  "superblum",
+  "CRYPTOSMART",
+  "HEYBLUM",
+  "BEST PROJECT EVER",
+  "GO GET",
+  "VALUE",
+];

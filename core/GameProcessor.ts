@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import { scheduleJob } from "node-schedule";
 
 import { BrowserManager } from "./BrowserManager";
-import { ParsedGameResult, TgApp } from "../types";
+import { ParsedGameResult, ShuffleArrayType, TgApp } from "../types";
 import { ReportManager } from "./ReportManager";
 import { TelegramNotifier } from "./TelegramNotifier";
 import { shuffleArray } from "../utils/shuffle";
@@ -29,8 +29,13 @@ export class GameProcessor {
   }
 
   private scheduleNextTask() {
-    const taskTime = new Date(Date.now() + getRandomNumberBetween(181, 228) * 60 * 1000);
+    // BASE_TASK_TIME=60 (1h)
+    const baseTime = process.env.BASE_TASK_TIME ? parseInt(process.env.BASE_TASK_TIME, 10) : 228;
+
+    const randomMinutes = getRandomNumberBetween(baseTime - 2, baseTime + 2);
+    const taskTime = new Date(Date.now() + randomMinutes * 60 * 1000);
     this.notifySchedule(taskTime);
+
     const job = scheduleJob(taskTime, async () => {
       await this.executeTask();
       job.cancel();
@@ -42,9 +47,27 @@ export class GameProcessor {
     try {
       await this.telegramNotifier.startPolling();
 
-      const tgApplications: TgApp[] = await this.loadApplications();
-      const totalResultGames = await this.playGames(tgApplications.filter((result) => result.active && result.id === 198));
-      const filteredTgApplication = tgApplications.filter((result) => result.active && result.id === 198);
+      let startId: number | undefined;
+      let finishId: number | undefined;
+      const args = process.argv.slice(2);
+      startId = args.length > 0 ? parseInt(args[0], 10) : parseInt(process.env.START_ID, 10);
+      finishId = args.length > 1 ? parseInt(args[1], 10) : parseInt(process.env.FINISH_ID, 10);
+
+      let tgApplications: TgApp[] = await this.loadApplications();
+
+      if (!isNaN(startId)) {
+        tgApplications = tgApplications.filter((app) => app.id >= startId);
+      }
+      if (!isNaN(finishId)) {
+        tgApplications = tgApplications.filter((app) => app.id <= finishId);
+      }
+
+      logger.warning(
+        `Start Profile Id ${startId || 1}, Finish profile Id ${finishId || tgApplications[tgApplications.length - 1].id}`,
+      );
+
+      const totalResultGames = await this.playGames(tgApplications);
+      const filteredTgApplication = tgApplications.filter((result) => result.active);
 
       this.reports.push(...totalResultGames);
       await this.telegramNotifier.sendSummary(this.processedAccounts);
@@ -83,7 +106,7 @@ export class GameProcessor {
       }
     };
 
-    for (const tgApp of shuffleArray(tgApps)) {
+    for (const tgApp of shuffleArray(tgApps, process.env.ORDER ? (process.env.ORDER as ShuffleArrayType) : undefined)) {
       if (taskPool.length >= this.parallelLimit) await Promise.race(taskPool);
       const task = runGameTask(tgApp).then(() => {
         taskPool.splice(taskPool.indexOf(task), 1);
@@ -112,7 +135,7 @@ export class GameProcessor {
       game: item.game,
       data: {
         ...item.data,
-        Account: tgApp.code,
+        Account: `#${tgApp.id} (${tgApp.code})`,
         User: tgApp.username,
       },
     }));

@@ -1,6 +1,6 @@
 import { Browser } from "puppeteer";
 
-export type AppName = "blum" | "tapswap" | "electra";
+export type AppName = "blum" | "tapswap" | "pixel" | "electra";
 // export type AppName = 'blum' | 'hamster' | 'iceberg';
 export type ShuffleArrayType = "asc" | "desc" | "shuffle";
 
@@ -10,7 +10,6 @@ export interface TgApp {
   active: boolean;
   username: string;
   games: Record<AppName, string>;
-  referralLink: string;
 }
 
 export interface AdsResponse {
@@ -68,7 +67,7 @@ export interface AccountResults {
   User: null | string;
   BalanceBefore: number | string;
   BalanceAfter: number | string;
-  Tickets: number | string;
+  Tickets?: number | string;
 }
 
 export interface ParsedGameResult {
