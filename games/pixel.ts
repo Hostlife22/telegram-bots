@@ -21,6 +21,31 @@ interface AccountResults {
   BalanceAfter: number | string;
 }
 
+const randomElementClickButton = async (elements: ElementHandle[], logMessage: string, tag: string) => {
+  if (elements.length === 0) {
+    logger.error(`${logMessage} button not found`, tag);
+    return false;
+  }
+  try {
+    const element = elements[0];
+    const boundingBox = await element.boundingBox();
+    if (!boundingBox) {
+      logger.error(`${logMessage} button bounding box not found`, tag);
+      return false;
+    }
+
+    const randomX = boundingBox.x + Math.random() * boundingBox.width;
+    const randomY = boundingBox.y + Math.random() * boundingBox.height;
+
+    await element.click({ offset: { x: randomX - boundingBox.x, y: randomY - boundingBox.y } });
+    logger.info(`${logMessage} button clicked at (${randomX}, ${randomY})`, tag);
+    return true;
+  } catch (error) {
+    logger.error(`${logMessage} button not found`, tag);
+    return false;
+  }
+};
+
 const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
   logger.debug(`🎮 Pixel #${id}`);
 
@@ -111,7 +136,7 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
       const clickCanvasAndPrint = async (iframe: Frame, tag: string) => {
         const canvas = await iframe.$$("#canvasHolder");
-        await coolClickButton(canvas, "#canvasHolder", "Canvas", tag);
+        await randomElementClickButton(canvas, "Canvas", tag);
 
         const printButton = "div._order_panel_hqiqj_1 > div > button._button_hqiqj_147";
         for (let i = 0; i < 10; i++) {
