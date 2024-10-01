@@ -34,8 +34,8 @@ const randomElementClickButton = async (elements: ElementHandle[], logMessage: s
       return false;
     }
 
-    const randomX = boundingBox.x + Math.random() * boundingBox.width;
-    const randomY = boundingBox.y + Math.random() * boundingBox.height;
+    const randomX = boundingBox.x + boundingBox.width * 0.25 + Math.random() * boundingBox.width * 0.5;
+    const randomY = boundingBox.y + boundingBox.height * 0.25 + Math.random() * boundingBox.height * 0.5;
 
     await element.click({ offset: { x: randomX - boundingBox.x, y: randomY - boundingBox.y } });
     logger.info(`${logMessage} button clicked at (${randomX}, ${randomY})`, tag);
