@@ -80,6 +80,7 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
       if (process.env.CLAIM_PIXEL_TASKS === "true") {
         await handleClaimTasks(iframe, page, tag, true);
       }
+
       await navigateOnSectionBoostSection(iframe, tag);
       await delay(2000);
       const claimButton = await iframe.$$(pixelGameSelectors.claimSelector).catch(() => {
@@ -115,7 +116,10 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
         const printButton = "div._order_panel_hqiqj_1 > div > button._button_hqiqj_147";
         for (let i = 0; i < 10; i++) {
           const print = await iframe.$$(printButton);
-          await coolClickButton(print, printButton, "Print button", tag);
+          const result = await coolClickButton(print, printButton, "Print button", tag);
+          if (!result) {
+            break;
+          }
           await delay(1000);
         }
         await delay(2000);
