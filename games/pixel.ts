@@ -212,7 +212,11 @@ const boostPixelClaimProcess = async (iframe: Frame, tag: string) => {
   logger.info(`Current balance: ${balance}`, tag);
 
   const getElementPrice = async (selector: string): Promise<number> => {
-    const priceText = await iframe.$eval(selector, (el) => el.textContent);
+    const priceText = await iframe
+      .$eval(selector, (el) => el.textContent)
+      .then((text) => text || "1000000")
+      .catch(() => "1000000");
+
     return convertToNumber(priceText);
   };
 
