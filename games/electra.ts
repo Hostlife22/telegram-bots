@@ -1,4 +1,4 @@
-import { Browser, Frame, Page } from "puppeteer";
+import { Browser, ElementHandle, Frame, Page } from "puppeteer";
 
 import { logger } from "../core/Logger";
 import { AccountResults } from "../types";
@@ -7,35 +7,65 @@ import { ensureLoginCheck, safeClick, selectFrame } from "../utils/puppeteerHelp
 import { clickConfirm } from "../utils/confirmPopup";
 import { delay } from "../utils/delay";
 
-const clickOnReward = async () => {
-  const attractionItem = document.querySelector(electroBotSelectors.collectRewardButton);
-
-  if (attractionItem) {
-    // @ts-ignore
-    attractionItem?.click();
-    logger.info(`Clicked on fucking collect reward`, "Collect reward");
-  } else {
-    logger.info("Attraction item not found");
+const coolClickButton = async (iframe: Frame | Page, selector: string, logMessage: string, tag: string) => {
+  const elements = await iframe.$$(selector);
+  if (elements.length === 0) {
+    logger.error(`${logMessage} button not found`, tag);
+    return false;
+  }
+  try {
+    await elements[0].click();
+    logger.info(`${logMessage} button clicked`, tag);
+    return true;
+  } catch (error) {
+    logger.error(`${logMessage} button not found`, tag);
+    return false;
   }
 };
 
+const autoClicker = async (page: Page | Frame, clicksPerSecond: number) => {
+  const intervalMs = 1000 / clicksPerSecond;
+
+  const clickElement = async () => {
+    const canvas = await page.$$("#react-unity-webgl-canvas-1");
+
+    if (canvas) {
+      canvas[0]?.click();
+    } else {
+      logger.error("Canvas not found");
+    }
+  };
+
+  const clickInterval = setInterval(async () => {
+    await clickElement();
+  }, intervalMs);
+
+  setTimeout(() => clearInterval(clickInterval), 88 * 1000);
+};
 const handleClaimButtons = async (iframe: Frame, page: Page, tag: string) => {
-  await safeClick(iframe, "div._button_1ybqa_1", "reward");
-  const fuckingConfirmButton = await iframe.$$("div._button_1ybqa_1");
-  console.log(fuckingConfirmButton);
-  await fuckingConfirmButton[0]?.click().then(() => {
-    console.log("FF", "clicked");
-  });
+  const claimButton =
+    "div._contentContainer_17q04_262._show_17q04_256 > div._screenContainer_171aw_1._active_171aw_15.undefined > div > div > div > div > div > div._button_1ybqa_1._primary_1ybqa_17";
+  const startFarm =
+    "div._contentContainer_17q04_262._show_17q04_256 > div._screenContainer_171aw_1._active_171aw_15.false > div > div > div._container_4o2x0_1 > div > div._pointCounterContainer_4o2x0_18._slideInBottom_u90n2_1 > div._progressBarContainer_1h01l_1";
 
-  await clickOnReward();
+  const predictionButtonUp =
+    "div._contentContainer_17q04_262._show_17q04_256 > div._screenContainer_171aw_1._active_171aw_15.false > div > div > div:nth-child(4) > div > div._modalContent_1kyar_46 > div._buttonContainer_1kyar_112 > div._button_1kyar_112._up_1kyar_98";
 
-  await iframe.$eval(electroBotSelectors.collectRewardButton, (el) => {
-    console.log(el.textContent);
-  });
-  await safeClick(iframe, electroBotSelectors.startFarmingButton, "start farm");
-  await safeClick(page, electroBotSelectors.startFarmingButton, "start farm2");
+  const predictionButtonDown =
+    "div._contentContainer_17q04_262._show_17q04_256 > div._screenContainer_171aw_1._active_171aw_15.false > div > div > div:nth-child(4) > div > div._modalContent_1kyar_46 > div._buttonContainer_1kyar_112 > div._button_1kyar_112._down_1kyar_101";
 
-  logger.info(`Found ${electroBotSelectors.collectRewardButton} collect reward button`, tag);
+  await coolClickButton(iframe, claimButton, "Claim", tag);
+  await delay(5000);
+  await coolClickButton(iframe, startFarm, "Start farming", tag);
+  await delay(3000);
+  await coolClickButton(iframe, predictionButtonDown, "prediction down", tag);
+  await delay(3000);
+
+  const playGameTab = "div._buttonContainer_17q04_285._showNav_17q04_305 > div._container_zkqhk_1 > button:nth-child(2)";
+  await coolClickButton(iframe, playGameTab, "Play Game Tab", tag);
+  await delay(3000);
+  await autoClicker(iframe, 10);
+  await delay(88000);
 };
 
 const playElectraGame = async (browser: Browser, appUrl: string, id: number) => {

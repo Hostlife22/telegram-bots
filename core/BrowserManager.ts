@@ -26,7 +26,7 @@ export class BrowserManager {
 
     const resultGames = await this.playGamesInBrowser(tgApp, browser);
     await randomDelay(4, 8, "s");
-    // await browser.close();
+    await browser.close();
 
     return resultGames;
   }

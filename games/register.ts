@@ -28,7 +28,7 @@ const registerGame = async (browser: Browser, appUrl: string, id: number) => {
     await delay(3000);
     await page.bringToFront();
     await clickConfirm(page, tag);
-    await delay(5000);
+    await delay(60000);
 
     // TODO: FLOW AFTER REGISTRATION
     if (appUrl.includes("pixel")) {
