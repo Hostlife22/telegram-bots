@@ -141,6 +141,7 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
         const printButton = "div._order_panel_hqiqj_1 > div > button._button_hqiqj_147";
         for (let i = 0; i < 10; i++) {
           const print = await iframe.$$(printButton);
+          await randomElementClickButton(canvas, "Canvas", tag);
           const result = await coolClickButton(print, printButton, "Print button", tag);
           if (!result) {
             break;
