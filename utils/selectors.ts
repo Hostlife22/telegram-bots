@@ -56,7 +56,7 @@ export const pixelGameSelectors = {
   crashGame: "div._container_ieygs_8",
   balanceLabel: "div._buttons_container_tksty_1 > div._group_tksty_8._middle_tksty_21 > button > div > div._number_jcaqa_1",
   balanceNavigate: "div._buttons_container_tksty_1 > div._group_tksty_8._middle_tksty_21 > button._button_tksty_1",
-  claimSelector: "div._content_1mmx9_21 > div._container_3i6l4_1 > button._button_3i6l4_11",
+  claimSelector: "div._content_q8u4d_22 > div._container_3i6l4_1 > button._button_3i6l4_11",
   waitClaimSelector: "div._content_1mmx9_21 > div._container_3i6l4_1 > div._info_3i6l4_32",
   boostsSelector: "div._content_1mmx9_21 > div._panel_1mia4_1 > div:nth-child(2)",
   tasksSelector: "div._content_1mmx9_21 > div._panel_1mia4_1 > div:nth-child(1)",
