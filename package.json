@@ -7,6 +7,7 @@
     "start": "ts-node main.ts",
     "add": "ts-node addGame.ts",
     "images": "ts-node getAllImagePixels.ts",
+    "processImages": "ts-node fetchImageBoard.ts",
     "copy:env": "cp .env.example .env",
     "checkJson": "ts-node findDuplicateAdsCodes.ts"
   },
