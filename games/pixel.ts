@@ -1,9 +1,6 @@
 import { Browser, ElementHandle, Frame, Page, Target } from "puppeteer";
 import path from "path";
 
-import { clickConfirm } from "../utils/confirmPopup";
-import { convertToNumber } from "../utils/convertToNumber";
-import { delay, randomDelay } from "../utils/delay";
 import { logger } from "../core/Logger";
 import { clickButton, hasElement, isElementAttached, safeClick, selectFrame } from "../utils/puppeteerHelper";
 import {
@@ -13,6 +10,9 @@ import {
   pixelGameSelectors,
   tapswapBotSelectors,
 } from "../utils/selectors";
+import sharp from "sharp";
+import { clickConfirm } from "../utils/confirmPopup";
+import { delay } from "../utils/delay";
 
 interface AccountResults {
   Account: null | string;
@@ -21,7 +21,13 @@ interface AccountResults {
   BalanceAfter: number | string;
 }
 
-const randomElementClickButton = async (elements: ElementHandle[], logMessage: string, tag: string) => {
+const randomElementClickButton = async (
+  elements: ElementHandle[],
+  logMessage: string,
+  tag: string,
+  iframe?: Frame,
+  page?: Page,
+) => {
   if (elements.length === 0) {
     logger.error(`${logMessage} button not found`, tag);
     return false;
@@ -38,13 +44,73 @@ const randomElementClickButton = async (elements: ElementHandle[], logMessage: s
     const randomY = boundingBox.y + boundingBox.height * 0.25 + Math.random() * boundingBox.height * 0.5;
 
     await element.click({ offset: { x: randomX - boundingBox.x, y: randomY - boundingBox.y } });
+
+    await iframe.evaluate(async () => {
+      if ("EyeDropper" in window) {
+        try {
+          const eyeDropper = new (window as any).EyeDropper();
+          const result = await eyeDropper.open();
+
+          logger.info(`color - ${result.sRGBHex}`, tag);
+          return result.sRGBHex; // Return the selected color.
+        } catch (error) {
+          console.error("EyeDropper API error:", error);
+          return null;
+        }
+      } else {
+        console.warn("EyeDropper API not supported in this browser.");
+        return null;
+      }
+    });
+
     logger.info(`${logMessage} button clicked at (${randomX}, ${randomY})`, tag);
     return true;
   } catch (error) {
+    console.log(error);
     logger.error(`${logMessage} button not found`, tag);
     return false;
   }
 };
+
+async function getPixelColorFromWebGLCanvas(
+  page: Frame,
+  canvasElement: ElementHandle,
+  x: number,
+  y: number,
+): Promise<string | null> {
+  return await page.evaluate(
+    ({ canvasElement, x, y }) => {
+      // Ensure the element is a canvas
+      if (!(canvasElement instanceof HTMLCanvasElement)) {
+        logger.error("Element is not a canvas.");
+        return null;
+      }
+
+      // Try to get the WebGL context (WebGL or WebGL2)
+      const gl = canvasElement.getContext("webgl") || canvasElement.getContext("webgl2");
+      if (!gl) {
+        logger.error("Failed to get WebGL context from canvas.");
+        return null;
+      }
+
+      // Create a buffer to store pixel color data
+      const pixelBuffer = new Uint8Array(4); // RGBA values
+
+      // Flip the y-coordinate because WebGL uses bottom-left origin
+      const flippedY = canvasElement.height - y;
+
+      // Read the pixel color at the specified coordinate
+      gl.readPixels(x, flippedY, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixelBuffer);
+
+      // Extract the RGBA values from the buffer
+      const [r, g, b, a] = pixelBuffer;
+
+      // Return color as rgba string
+      return `rgba(${r}, ${g}, ${b}, ${a / 255})`;
+    },
+    { canvasElement, x, y },
+  );
+}
 
 const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
   logger.debug(`🎮 Pixel #${id}`);
@@ -100,65 +166,69 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
       const scriptPath = path.resolve(__dirname, "../injectables/pixel-game.js");
 
-      const balance = convertToNumber(balanceBefore);
+      // const balance = convertToNumber(balanceBefore);
 
-      if (process.env.CLAIM_PIXEL_TASKS === "true") {
-        await handleClaimTasks(iframe, page, tag, true);
-      }
+      // if (process.env.CLAIM_PIXEL_TASKS === "true") {
+      //   await handleClaimTasks(iframe, page, tag, true);
+      // }
 
-      await navigateOnSectionBoostSection(iframe, tag);
-      await delay(2000);
-      const claimButton = await iframe.$$(pixelGameSelectors.claimSelector).catch(() => {
-        logger.error("Claim button not found", tag);
-        return [];
-      });
-      if (claimButton?.length > 0) {
-        const claimButtonText = await iframe.$eval(pixelGameSelectors.claimSelector, (el) => el.textContent);
-        logger.info(`${claimButtonText}`, tag);
-        await claimButton?.[0]
-          ?.click()
-          .then(() => {
-            logger.info("Claim button click", tag);
-          })
-          .catch(() => {
-            logger.error("Claim button not found", tag);
-          });
-        await delay(1000);
-      }
+      // await navigateOnSectionBoostSection(iframe, tag);
+      // await delay(2000);
+      // const claimButton = await iframe.$$(pixelGameSelectors.claimSelector).catch(() => {
+      //   logger.error("Claim button not found", tag);
+      //   return [];
+      // });
+      // if (claimButton?.length > 0) {
+      //   const claimButtonText = await iframe.$eval(pixelGameSelectors.claimSelector, (el) => el.textContent);
+      //   logger.info(`${claimButtonText}`, tag);
+      //   await claimButton?.[0]
+      //     ?.click()
+      //     .then(() => {
+      //       logger.info("Claim button click", tag);
+      //     })
+      //     .catch(() => {
+      //       logger.error("Claim button not found", tag);
+      //     });
+      //   await delay(1000);
+      // }
+      await delay(30000);
+      const canvas = await iframe.$$("#canvasHolder");
 
-      if (process.env.BOOST_PIXEL === "true") {
-        await boostPixelClaimProcess(iframe, tag);
-        await delay(1000);
-      } else {
-        logger.warning("Boost process is disabled or insufficient balance to continue.", tag);
-      }
-      await goBack(page, iframe, tag);
+      console.log(canvas.length, canvas);
+      await randomElementClickButton(canvas, "Canvas", tag, iframe, page);
+      // if (process.env.BOOST_PIXEL === "true") {
+      //   await boostPixelClaimProcess(iframe, tag);
+      //   await delay(1000);
+      // } else {
+      //   logger.warning("Boost process is disabled or insufficient balance to continue.", tag);
+      // }
+      // await goBack(page, iframe, tag);
 
-      const clickCanvasAndPrint = async (iframe: Frame, tag: string) => {
-        const canvas = await iframe.$$("#canvasHolder");
-        await randomElementClickButton(canvas, "Canvas", tag);
+      // const clickCanvasAndPrint = async (iframe: Frame, tag: string) => {
+      //   const canvas = await iframe.$$("#canvasHolder");
+      //   await randomElementClickButton(canvas, "Canvas", tag);
 
-        const printButton = "div._order_panel_hqiqj_1 > div > button._button_hqiqj_147";
-        for (let i = 0; i < 10; i++) {
-          const print = await iframe.$$(printButton);
-          await randomElementClickButton(canvas, "Canvas", tag);
-          const result = await coolClickButton(print, printButton, "Print button", tag);
-          if (!result) {
-            break;
-          }
-          await delay(1000);
-        }
-        await delay(2000);
-      };
+      //   const printButton = "div._order_panel_hqiqj_1 > div > button._button_hqiqj_147";
+      //   for (let i = 0; i < 10; i++) {
+      //     const print = await iframe.$$(printButton);
+      //     await randomElementClickButton(canvas, "Canvas", tag);
+      //     const result = await coolClickButton(print, printButton, "Print button", tag);
+      //     if (!result) {
+      //       break;
+      //     }
+      //     await delay(1000);
+      //   }
+      //   await delay(2000);
+      // };
 
-      await clickCanvasAndPrint(iframe, tag);
+      // await clickCanvasAndPrint(iframe, tag);
 
-      const balanceAfter = await extractBalance(iframe, tag);
+      // const balanceAfter = await extractBalance(iframe, tag);
 
-      logger.info(`💰 Ending balance: ${balanceAfter}`, tag);
-      // logger.info(`🎟  Remaining tickets: ${ticketsAfter}`, tag);
-
-      result.BalanceAfter = balanceAfter;
+      // logger.info(`💰 Ending balance: ${balanceAfter}`, tag);
+      // // logger.info(`🎟  Remaining tickets: ${ticketsAfter}`, tag);
+      // result.BalanceAfter = balanceAfter;
+      await delay(30000);
       // result.Tickets = ticketsAfter;
     } catch (error) {
       logger.error(`An error occurred during game-play: ${error.message}`, tag);
@@ -206,72 +276,72 @@ const pixelBoostSelectors: Record<BoostType, { priceSelector: string; boostButto
   },
 };
 
-const boostPixelClaimProcess = async (iframe: Frame, tag: string) => {
-  const boostTypes = (process.env.BOOST_PIXEL_TYPE || "").split(",") as BoostType[]; // e.g., "painting,recharging,energy"
+// const boostPixelClaimProcess = async (iframe: Frame, tag: string) => {
+//   const boostTypes = (process.env.BOOST_PIXEL_TYPE || "").split(",") as BoostType[]; // e.g., "painting,recharging,energy"
 
-  let balance = await extractBalance(iframe, tag);
-  logger.info(`Current balance: ${balance}`, tag);
+//   let balance = await extractBalance(iframe, tag);
+//   logger.info(`Current balance: ${balance}`, tag);
 
-  const getElementPrice = async (selector: string): Promise<number> => {
-    const priceText = await iframe
-      .$eval(selector, (el) => el.textContent)
-      .then((text) => text || "1000000")
-      .catch(() => "1000000");
+//   const getElementPrice = async (selector: string): Promise<number> => {
+//     const priceText = await iframe
+//       .$eval(selector, (el) => el.textContent)
+//       .then((text) => text || "1000000")
+//       .catch(() => "1000000");
 
-    return convertToNumber(priceText);
-  };
+//     return convertToNumber(priceText);
+//   };
 
-  let canContinue = false;
+//   let canContinue = false;
 
-  for (const boostType of boostTypes) {
-    if (!(boostType in pixelBoostSelectors)) {
-      logger.warning(`Invalid boost type: ${boostType}`, tag);
-      continue;
-    }
+//   for (const boostType of boostTypes) {
+//     if (!(boostType in pixelBoostSelectors)) {
+//       logger.warning(`Invalid boost type: ${boostType}`, tag);
+//       continue;
+//     }
 
-    const { priceSelector, boostButtonSelector } = pixelBoostSelectors[boostType];
+//     const { priceSelector, boostButtonSelector } = pixelBoostSelectors[boostType];
 
-    const boostPrice = await getElementPrice(priceSelector);
-    logger.info(`Price for ${boostType}: ${boostPrice}`, tag);
+//     const boostPrice = await getElementPrice(priceSelector);
+//     logger.info(`Price for ${boostType}: ${boostPrice}`, tag);
 
-    if (convertToNumber(balance) >= boostPrice) {
-      const boostButton = await iframe.$$(boostButtonSelector);
+//     if (convertToNumber(balance) >= boostPrice) {
+//       const boostButton = await iframe.$$(boostButtonSelector);
 
-      if (boostButton && boostButton.length > 0) {
-        await boostButton[0]?.click();
-        logger.info(`Clicked on ${boostType} boost button successfully.`, tag);
-        await delay(1500);
+//       if (boostButton && boostButton.length > 0) {
+//         await boostButton[0]?.click();
+//         logger.info(`Clicked on ${boostType} boost button successfully.`, tag);
+//         await delay(1500);
 
-        const buyBoostButton = await iframe.$$(pixelGameSelectors.buyBoost);
-        if (buyBoostButton && buyBoostButton.length > 0) {
-          await buyBoostButton[0]?.click();
-          logger.info(`Boost for ${boostType} applied successfully.`, tag);
+//         const buyBoostButton = await iframe.$$(pixelGameSelectors.buyBoost);
+//         if (buyBoostButton && buyBoostButton.length > 0) {
+//           await buyBoostButton[0]?.click();
+//           logger.info(`Boost for ${boostType} applied successfully.`, tag);
 
-          // Обновление баланса после успешного улучшения
-          balance = await extractBalance(iframe, tag);
-          logger.info(`Updated balance after boost: ${balance}`, tag);
+//           // Обновление баланса после успешного улучшения
+//           balance = await extractBalance(iframe, tag);
+//           logger.info(`Updated balance after boost: ${balance}`, tag);
 
-          // Устанавливаем флаг на повторное выполнение
-          canContinue = true;
-        } else {
-          logger.warning(`Buy button for ${boostType} not found.`, tag);
-        }
-        await delay(1500);
-      } else {
-        logger.warning(`Boost button for ${boostType} not found.`, tag);
-      }
-    } else {
-      logger.warning(`Insufficient balance for ${boostType}. Current balance: ${balance}, Required: ${boostPrice}`, tag);
-    }
-  }
+//           // Устанавливаем флаг на повторное выполнение
+//           canContinue = true;
+//         } else {
+//           logger.warning(`Buy button for ${boostType} not found.`, tag);
+//         }
+//         await delay(1500);
+//       } else {
+//         logger.warning(`Boost button for ${boostType} not found.`, tag);
+//       }
+//     } else {
+//       logger.warning(`Insufficient balance for ${boostType}. Current balance: ${balance}, Required: ${boostPrice}`, tag);
+//     }
+//   }
 
-  if (canContinue) {
-    logger.info("Enough balance to continue upgrading. Restarting boost process...", tag);
-    await boostPixelClaimProcess(iframe, tag);
-  } else {
-    logger.info("Boost process completed or insufficient balance to continue.", tag);
-  }
-};
+//   if (canContinue) {
+//     logger.info("Enough balance to continue upgrading. Restarting boost process...", tag);
+//     await boostPixelClaimProcess(iframe, tag);
+//   } else {
+//     logger.info("Boost process completed or insufficient balance to continue.", tag);
+//   }
+// };
 
 const navigateOnSectionBoostSection = async (iframe: Frame, tag: string) => {
   const navigateOnBoostAndTaskSection = await iframe.$$(pixelGameSelectors.balanceNavigate);
