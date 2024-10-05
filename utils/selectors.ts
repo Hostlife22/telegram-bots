@@ -70,19 +70,21 @@ export const pixelGameSelectors = {
   tasks: [
     // Special tasks:
     // "#telegramPremium",
-    // "#leagueBonusSilver",
+    "#leagueBonusSilver",
+    "#leagueBonusGold",
+    "#leagueBonusPlatinum",
     // "#spendStars",
 
     // Quick start:
-    // "#pain20pixels",
-    "#joinSquad",
+    "#pain20pixels",
+    // "#joinSquad",
     // "#invite3Frens",
 
     // Browser
-    "#notPixelChannel",
-    "#notPixelX",
-    "#notCoinChannel",
-    "#notCoinX",
+    // "#notPixelChannel",
+    // "#notPixelX",
+    // "#notCoinChannel",
+    // "#notCoinX",
   ],
   joinChannel: "div.chat-info-container > div.chat-utils > button.btn-primary.btn-color-primary.chat-join.rp",
 };
