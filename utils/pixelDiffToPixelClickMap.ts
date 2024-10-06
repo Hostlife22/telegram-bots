@@ -1,4 +1,5 @@
 import { existedCoordinates } from "./existedCoordinates";
+import { shuffleArray } from "./shuffle";
 
 export interface Pixel {
   x: number;
@@ -60,5 +61,6 @@ export function pixelDiffToPixelClickMap(pixelDifferences: { [key: string]: stri
     selectedPoints.push(...uniqueFilteredPixels);
   }
 
-  return removeDuplicatePixels(selectedPoints);
+  const randomArray = shuffleArray(selectedPoints, "shuffle");
+  return removeDuplicatePixels(randomArray);
 }
