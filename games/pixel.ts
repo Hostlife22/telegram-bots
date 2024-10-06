@@ -13,6 +13,9 @@ import {
   pixelGameSelectors,
   tapswapBotSelectors,
 } from "../utils/selectors";
+import { Pixel, pixelDiffToPixelClickMap } from "../utils/pixelDiffToPixelClickMap";
+import { processImages } from "../fetchImageBoard";
+import { existedCoordinates } from "../utils/existedCoordinates";
 
 interface AccountResults {
   Account: null | string;
@@ -43,6 +46,46 @@ const randomElementClickButton = async (elements: ElementHandle[], logMessage: s
   } catch (error) {
     logger.error(`${logMessage} button not found`, tag);
     return false;
+  }
+};
+
+const simpleParse = async () => {
+  const mapFromPixels = await processImages();
+  const pixels = pixelDiffToPixelClickMap(mapFromPixels);
+  return pixels;
+};
+
+const pickColor = async (iframe: Frame, requiredColor: string, tag: string) => {
+  try {
+    const openModalTrigger = await iframe.$$("div._info_hqiqj_42 > div._active_color_hqiqj_51");
+    if (openModalTrigger.length === 0) {
+      logger.error("Color picker not found", tag);
+      return;
+    }
+
+    await openModalTrigger[0]?.click();
+    await delay(1000);
+
+    const colors = await iframe.$$(pixelGameSelectors.colors);
+    if (colors.length === 0) {
+      logger.error("Color picker not found", tag);
+      return;
+    }
+    const backGroundStyles = await iframe.$$eval(pixelGameSelectors.colors, (el) => {
+      return el.map((element) => element.getAttribute("style"));
+    });
+
+    const colorIndex = backGroundStyles.findIndex((style) => style?.includes(requiredColor));
+    if (colorIndex === -1) {
+      logger.error("Color not found", tag);
+      return;
+    }
+
+    await colors[colorIndex].click();
+    await randomDelay(800, 1200, "ms");
+    await openModalTrigger[0]?.click();
+  } catch (e) {
+    logger.error(`Color picker not found ${e.message}`, tag);
   }
 };
 
@@ -96,7 +139,6 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
       result.BalanceBefore = balanceBefore;
       logger.info(`💰 Starting balance: ${balanceBefore}`, tag);
-      // logger.info(`🎟  Playing ${ticketsBefore} tickets`, tag);
 
       const scriptPath = path.resolve(__dirname, "../injectables/pixel-game.js");
 
@@ -105,61 +147,20 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
       if (process.env.CLAIM_PIXEL_TASKS === "true") {
         await handleClaimTasks(iframe, page, tag, true);
       }
+      await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "Play button", tag);
+      await delay(1000);
+      await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "Play button", tag);
+      await delay(1000);
+      await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "Play button", tag);
+      await delay(1000);
 
-      await navigateOnSectionBoostSection(iframe, tag);
-      await delay(2000);
-      const claimButton = await iframe.$$(pixelGameSelectors.claimSelector).catch(() => {
-        logger.error("Claim button not found", tag);
-        return [];
-      });
-      if (claimButton?.length > 0) {
-        const claimButtonText = await iframe.$eval(pixelGameSelectors.claimSelector, (el) => el.textContent);
-        logger.info(`${claimButtonText}`, tag);
-        await claimButton?.[0]
-          ?.click()
-          .then(() => {
-            logger.info("Claim button click", tag);
-          })
-          .catch(() => {
-            logger.error("Claim button not found", tag);
-          });
-        await delay(1000);
-      }
-
-      if (process.env.BOOST_PIXEL === "true") {
-        await boostPixelClaimProcess(iframe, tag);
-        await delay(1000);
-      } else {
-        logger.warning("Boost process is disabled or insufficient balance to continue.", tag);
-      }
-      await goBack(page, iframe, tag);
-
-      const clickCanvasAndPrint = async (iframe: Frame, tag: string) => {
-        const canvas = await iframe.$$("#canvasHolder");
-        await randomElementClickButton(canvas, "Canvas", tag);
-
-        const printButton = "div._order_panel_hqiqj_1 > div > button._button_hqiqj_147";
-        for (let i = 0; i < 10; i++) {
-          const print = await iframe.$$(printButton);
-          await randomElementClickButton(canvas, "Canvas", tag);
-          const result = await coolClickButton(print, printButton, "Print button", tag);
-          if (!result) {
-            break;
-          }
-          await delay(1000);
-        }
-        await delay(2000);
-      };
-
-      await clickCanvasAndPrint(iframe, tag);
+      await defaultGamePlay(iframe, page, tag);
 
       const balanceAfter = await extractBalance(iframe, tag);
 
       logger.info(`💰 Ending balance: ${balanceAfter}`, tag);
-      // logger.info(`🎟  Remaining tickets: ${ticketsAfter}`, tag);
 
       result.BalanceAfter = balanceAfter;
-      // result.Tickets = ticketsAfter;
     } catch (error) {
       logger.error(`An error occurred during game-play: ${error.message}`, tag);
     } finally {
@@ -170,6 +171,89 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
   }
 
   return result;
+};
+
+function canvasToPuppeteerOffset(canvasCoords: { x: number; y: number }) {
+  return {
+    x: existedCoordinates.find((coord) => coord.canvas.x === canvasCoords.x).puppeteer.x,
+    y: existedCoordinates.find((coord) => coord.canvas.y === canvasCoords.y).puppeteer.y,
+  };
+}
+
+async function clickOnCanvasByCoordinate(
+  iframe: Frame,
+  canvas: ElementHandle,
+  coordinates: { x: number; y: number },
+  tag: string,
+) {
+  try {
+    const result = canvasToPuppeteerOffset({ x: coordinates.x, y: coordinates.y });
+
+    await canvas?.click({ offset: { x: result.x, y: result.y } });
+    const positionLabel = await iframe.$eval(
+      "div._info_hqiqj_42 > div._pixel_info_container_hqiqj_61 > div._pixel_info_text_hqiqj_75",
+      (el) => el.textContent,
+    );
+    logger.info(`Clicked on canvas at (${coordinates.x}, ${coordinates.y}) with label ${positionLabel})`, tag);
+  } catch (error) {
+    logger.error(`Error clicking on canvas: ${error.message}`, tag);
+  }
+}
+
+const defaultGamePlay = async (iframe: Frame, page: Page, tag: string) => {
+  await navigateOnSectionBoostSection(iframe, tag);
+  await delay(2000);
+  const claimButton = await iframe.$$(pixelGameSelectors.claimSelector).catch(() => {
+    logger.error("Claim button not found", tag);
+    return [];
+  });
+  if (claimButton?.length > 0) {
+    const claimButtonText = await iframe.$eval(pixelGameSelectors.claimSelector, (el) => el.textContent);
+    logger.info(`${claimButtonText}`, tag);
+    await claimButton?.[0]
+      ?.click()
+      .then(() => {
+        logger.info("Claim button click", tag);
+      })
+      .catch(() => {
+        logger.error("Claim button not found", tag);
+      });
+    await delay(1000);
+  }
+
+  if (process.env.BOOST_PIXEL === "true") {
+    await boostPixelClaimProcess(iframe, tag);
+    await delay(1000);
+  } else {
+    logger.warning("Boost process is disabled or insufficient balance to continue.", tag);
+  }
+  await goBack(page, iframe, tag);
+
+  await clickCanvasAndPrint(iframe, tag);
+};
+
+const clickCanvasAndPrint = async (iframe: Frame, tag: string) => {
+  const canvas = await iframe.$$("#canvasHolder");
+  await randomElementClickButton(canvas, "Canvas", tag);
+
+  for (let i = 0; i < 11; i++) {
+    const print = await iframe.$$(pixelGameSelectors.printButton);
+
+    const parsedPixels = await simpleParse();
+    console.log(parsedPixels);
+    logger.debug(`required color ${parsedPixels[i].color}`, tag);
+    await pickColor(iframe, parsedPixels[i].color, tag);
+    await delay(1000);
+    await clickOnCanvasByCoordinate(iframe, canvas[i], parsedPixels[i], tag);
+    await delay(1000);
+    const result = await coolClickButton(print, pixelGameSelectors.printButton, "Print button", tag);
+    await randomDelay(800, 1500, "ms");
+    if (!result) {
+      break;
+    }
+    await delay(4000);
+  }
+  await delay(2000);
 };
 
 const goBack = async (page: Page, iframe: Frame, tag: string) => {

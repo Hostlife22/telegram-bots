@@ -101,13 +101,14 @@ async function fetchImageData(): Promise<{ width: number; height: number; canvas
   }
 }
 
-async function processImages() {
+export async function processImages() {
   const canvasData = await fetchImageData();
   if (!canvasData) return;
 
   const differences = await compareImages(canvasData.canvasMatrix, IMAGE_CONFIG);
-  logger.info(`Differences count: ${Object.keys(differences).length} pixels`);
-  await saveDifferencesToFile(differences, outputDifFilePath);
+  // logger.info(`Differences count: ${Object.keys(differences).length} pixels`);
+  // await saveDifferencesToFile(differences, outputDifFilePath);
+  return differences;
 }
 
 const intervalId = setInterval(async () => {
