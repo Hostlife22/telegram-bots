@@ -43,9 +43,9 @@ const randomElementClickButton = async (elements: ElementHandle[], logMessage: s
   }
 };
 
-const simpleParse = async () => {
+const simpleParse = async (slice: number) => {
   const pixels = pixelDiffToPixelClickMap(pixelStore.differences);
-  return pixels;
+  return pixels.slice(0, slice);
 };
 
 const pickColor = async (iframe: Frame, requiredColor: string, tag: string) => {
@@ -145,6 +145,7 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
       if (process.env.CLAIM_PIXEL_TASKS === "true") {
         await handleClaimTasks(iframe, page, tag, true);
       }
+      
       await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "Play button", tag);
       await delay(1000);
       await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "Play button", tag);
@@ -239,9 +240,9 @@ const clickCanvasAndPrint = async (iframe: Frame, tag: string) => {
   const canvas = await iframe.$$("#canvasHolder");
   await randomElementClickButton(canvas, "Canvas", tag);
 
-  const parsedPixels = await simpleParse();
-
-  for (let i = 0; i < parsedPixels.length; i++) {
+  for (let i = 0; i < 12; i++) {
+    const parsedPixels = await simpleParse(20);
+    console.log(`${i} - pix`, parsedPixels[i], tag);
     const print = await iframe.$$(pixelGameSelectors.printButton);
 
     logger.debug(`required color ${parsedPixels[i].color}`, tag);

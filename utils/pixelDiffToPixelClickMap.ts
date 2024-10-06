@@ -26,14 +26,7 @@ function groupByColorAndZones(pixelDifferences: { [key: string]: string }): { [c
     {} as { [color: string]: Pixel[] },
   );
 
-  const sortedGroupedByColor: { [color: string]: Pixel[] } = {};
-  if (groupedByColor["rgb(0, 0, 0)"]) {
-    sortedGroupedByColor["rgb(0, 0, 0)"] = groupedByColor["rgb(0, 0, 0)"];
-    delete groupedByColor["rgb(0, 0, 0)"];
-  }
-  Object.assign(sortedGroupedByColor, groupedByColor);
-
-  return sortedGroupedByColor;
+  return groupedByColor;
 }
 
 function removeDuplicatePixels(pixels: Pixel[]): Pixel[] {
@@ -54,24 +47,6 @@ function filterByDivisibleCoordinates(pixels: Pixel[]): Pixel[] {
     .filter((pixel) => existedCoordinates.find((coord) => coord.canvas.x === pixel.x))
     .filter((pixel) => existedCoordinates.find((coord) => coord.canvas.y === pixel.y));
 }
-
-const getRandomSliceIntervals = (arrayLength: number, count: number) => {
-  const intervals = [];
-  for (let i = 0; i < count; i++) {
-    const start = Math.floor(Math.random() * arrayLength);
-    const end = Math.min(start + Math.floor(Math.random() * (arrayLength - start)), arrayLength);
-    intervals.push({ start, end });
-  }
-  return intervals;
-};
-
-const getItemsFromIntervals = (array: any[], intervals: { start: number; end: number }[]) => {
-  const result: any[] = [];
-  intervals.forEach((interval) => {
-    result.push(...array.slice(interval.start, interval.end));
-  });
-  return result;
-};
 
 export function pixelDiffToPixelClickMap(pixelDifferences: { [key: string]: string }): Pixel[] {
   const groupedByColor = groupByColorAndZones(pixelDifferences);
