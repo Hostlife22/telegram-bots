@@ -144,8 +144,9 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
       if (process.env.CLAIM_PIXEL_TASKS === "true") {
         await handleClaimTasks(iframe, page, tag, true);
+        await delay(2000);
       }
-      
+
       await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "Play button", tag);
       await delay(1000);
       await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "Play button", tag);
@@ -453,6 +454,7 @@ export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, f
     logger.info(`Claiming task: ${task}`, tag);
     await claimTask(task);
   }
+  await goBack(page, iframe, tag);
 };
 
 export const handleOnboardingButtons = async (iframe: Frame, delayTimeout: number = 5000, tag: string): Promise<void> => {
