@@ -17,9 +17,9 @@ interface ImageItemConfig {
 }
 
 const IMAGE_CONFIG: ImageItemConfig[] = [
-  { imageName: "island", initialCoordinate: { x: 0, y: 372 } },
+  // { imageName: "island", initialCoordinate: { x: 0, y: 372 } },
   { imageName: "worldtemplate", initialCoordinate: { x: 372, y: 372 } },
-  { imageName: "pacman", initialCoordinate: { x: 744, y: 372 } },
+  // { imageName: "pacman", initialCoordinate: { x: 744, y: 372 } },
 ];
 
 const MAIN_IMAGE_SIZE = 1000;

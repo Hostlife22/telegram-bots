@@ -52,19 +52,25 @@ const randomElementClickButton = async (elements: ElementHandle[], logMessage: s
 const simpleParse = async () => {
   const mapFromPixels = await processImages();
   const pixels = pixelDiffToPixelClickMap(mapFromPixels);
+  console.log(pixels);
   return pixels;
 };
 
 const pickColor = async (iframe: Frame, requiredColor: string, tag: string) => {
   try {
     const openModalTrigger = await iframe.$$("div._info_hqiqj_42 > div._active_color_hqiqj_51");
+
+    if ((await openModalTrigger[0].evaluate((el) => el.getAttribute("style"))).includes(requiredColor)) {
+      logger.info(`Color ${requiredColor} already selected`, tag);
+      return;
+    }
     if (openModalTrigger.length === 0) {
       logger.error("Color picker not found", tag);
       return;
     }
 
     await openModalTrigger[0]?.click();
-    await delay(1000);
+    await delay(200);
 
     const colors = await iframe.$$(pixelGameSelectors.colors);
     if (colors.length === 0) {
@@ -82,7 +88,7 @@ const pickColor = async (iframe: Frame, requiredColor: string, tag: string) => {
     }
 
     await colors[colorIndex].click();
-    await randomDelay(800, 1200, "ms");
+    await randomDelay(200, 400, "ms");
     await openModalTrigger[0]?.click();
   } catch (e) {
     logger.error(`Color picker not found ${e.message}`, tag);
@@ -194,9 +200,14 @@ async function clickOnCanvasByCoordinate(
       "div._info_hqiqj_42 > div._pixel_info_container_hqiqj_61 > div._pixel_info_text_hqiqj_75",
       (el) => el.textContent,
     );
-    logger.info(`Clicked on canvas at (${coordinates.x}, ${coordinates.y}) with label ${positionLabel})`, tag);
+    logger.info(
+      `Clicked on canvas(${coordinates.x}, ${coordinates.y}), puppeteer (${result.x}, ${result.y}) with label ${positionLabel})`,
+      tag,
+    );
+    return result;
   } catch (error) {
     logger.error(`Error clicking on canvas: ${error.message}`, tag);
+    return null;
   }
 }
 
@@ -236,24 +247,27 @@ const clickCanvasAndPrint = async (iframe: Frame, tag: string) => {
   const canvas = await iframe.$$("#canvasHolder");
   await randomElementClickButton(canvas, "Canvas", tag);
 
-  for (let i = 0; i < 11; i++) {
+  const parsedPixels = await simpleParse();
+
+  for (let i = 0; i < parsedPixels.length; i++) {
     const print = await iframe.$$(pixelGameSelectors.printButton);
 
-    const parsedPixels = await simpleParse();
-    console.log(parsedPixels);
     logger.debug(`required color ${parsedPixels[i].color}`, tag);
+
     await pickColor(iframe, parsedPixels[i].color, tag);
-    await delay(1000);
-    await clickOnCanvasByCoordinate(iframe, canvas[i], parsedPixels[i], tag);
-    await delay(1000);
-    const result = await coolClickButton(print, pixelGameSelectors.printButton, "Print button", tag);
-    await randomDelay(800, 1500, "ms");
-    if (!result) {
-      break;
+
+    const coordinateClick = await clickOnCanvasByCoordinate(iframe, canvas[0], parsedPixels[i], tag);
+    if (coordinateClick) {
+      logger.info(`Coordinate ${coordinateClick.x}, ${coordinateClick.y}`, tag);
+      await delay(500);
+      const result = await coolClickButton(print, pixelGameSelectors.printButton, "Print button", tag);
+      if (!result) {
+        break;
+      }
+      await randomDelay(800, 1000, "ms");
     }
-    await delay(4000);
   }
-  await delay(2000);
+  await randomDelay(800, 1000, "ms");
 };
 
 const goBack = async (page: Page, iframe: Frame, tag: string) => {
@@ -266,7 +280,7 @@ const goBack = async (page: Page, iframe: Frame, tag: string) => {
     .catch(() => {
       logger.error("Back button not found", tag);
     });
-  await delay(1000);
+  await randomDelay(800, 1000, "ms");
 };
 
 enum BoostType {
