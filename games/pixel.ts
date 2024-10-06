@@ -5,17 +5,11 @@ import { clickConfirm } from "../utils/confirmPopup";
 import { convertToNumber } from "../utils/convertToNumber";
 import { delay, randomDelay } from "../utils/delay";
 import { logger } from "../core/Logger";
-import { clickButton, hasElement, isElementAttached, safeClick, selectFrame } from "../utils/puppeteerHelper";
-import {
-  blumBotSelectors,
-  commonSelectors,
-  getBoostPriceSelector,
-  pixelGameSelectors,
-  tapswapBotSelectors,
-} from "../utils/selectors";
-import { Pixel, pixelDiffToPixelClickMap } from "../utils/pixelDiffToPixelClickMap";
-import { processImages } from "../fetchImageBoard";
+import { hasElement, safeClick, selectFrame } from "../utils/puppeteerHelper";
+import { commonSelectors, getBoostPriceSelector, pixelGameSelectors } from "../utils/selectors";
+import { pixelDiffToPixelClickMap } from "../utils/pixelDiffToPixelClickMap";
 import { existedCoordinates } from "../utils/existedCoordinates";
+import { pixelStore } from "../core/PixelDifferenceStore";
 
 interface AccountResults {
   Account: null | string;
@@ -50,9 +44,7 @@ const randomElementClickButton = async (elements: ElementHandle[], logMessage: s
 };
 
 const simpleParse = async () => {
-  const mapFromPixels = await processImages();
-  const pixels = pixelDiffToPixelClickMap(mapFromPixels);
-  console.log(pixels);
+  const pixels = pixelDiffToPixelClickMap(pixelStore.differences);
   return pixels;
 };
 
