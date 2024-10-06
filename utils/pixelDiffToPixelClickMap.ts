@@ -14,17 +14,19 @@ function groupByColorAndZones(pixelDifferences: { [key: string]: string }): { [c
     parsedPixels.push({ x, y, color });
   }
 
-  const groupedByColor: { [color: string]: Pixel[] } = parsedPixels.reduce(
-    (groups, pixel) => {
-      const { color } = pixel;
-      if (!groups[color]) {
-        groups[color] = [];
-      }
-      groups[color].push(pixel);
-      return groups;
-    },
-    {} as { [color: string]: Pixel[] },
-  );
+  const groupedByColor: { [color: string]: Pixel[] } = parsedPixels
+    .filter((item) => item.color !== "rgb(0, 0, 0)")
+    .reduce(
+      (groups, pixel) => {
+        const { color } = pixel;
+        if (!groups[color]) {
+          groups[color] = [];
+        }
+        groups[color].push(pixel);
+        return groups;
+      },
+      {} as { [color: string]: Pixel[] },
+    );
 
   return groupedByColor;
 }
