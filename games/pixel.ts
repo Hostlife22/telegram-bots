@@ -142,6 +142,7 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
       const balance = convertToNumber(balanceBefore);
 
+
       if (process.env.CLAIM_PIXEL_TASKS === "true") {
         await handleClaimTasks(iframe, page, tag, true);
         await delay(2000);
@@ -187,15 +188,15 @@ async function clickOnCanvasByCoordinate(
   tag: string,
 ) {
   try {
-    const result = canvasToPuppeteerOffset({ x: coordinates.x, y: coordinates.y });
+    const result = canvasToPuppeteerOffset({ x: coordinates?.x, y: coordinates?.y });
 
-    await canvas?.click({ offset: { x: result.x, y: result.y } });
+    await canvas?.click({ offset: { x: result?.x, y: result?.y } });
     const positionLabel = await iframe.$eval(
       "div._info_hqiqj_42 > div._pixel_info_container_hqiqj_61 > div._pixel_info_text_hqiqj_75",
       (el) => el.textContent,
     );
     logger.info(
-      `Clicked on canvas(${coordinates.x}, ${coordinates.y}), puppeteer (${result.x}, ${result.y}) with label ${positionLabel})`,
+      `Clicked on canvas(${coordinates?.x}, ${coordinates?.y}), puppeteer (${result?.x}, ${result?.y}) with label ${positionLabel})`,
       tag,
     );
     return result;
@@ -252,7 +253,7 @@ const clickCanvasAndPrint = async (iframe: Frame, tag: string) => {
 
     const coordinateClick = await clickOnCanvasByCoordinate(iframe, canvas[0], parsedPixels[i], tag);
 
-    logger.info(`Coordinate ${coordinateClick.x}, ${coordinateClick.y}`, tag);
+    logger.info(`Coordinate ${coordinateClick?.x}, ${coordinateClick?.y}`, tag);
     await delay(500);
     const result = await coolClickButton(print, pixelGameSelectors.printButton, "Print button", tag);
     if (!result) {
