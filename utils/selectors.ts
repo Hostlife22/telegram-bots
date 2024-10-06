@@ -66,7 +66,10 @@ export const pixelGameSelectors = {
   buyBoost: "div._buttons_container_nvulu_59 > button._button_nvulu_59",
   boostPrice:
     "div._group_v8prs_7 > div:nth-child(1) > div._content_container_8sbvi_21 > div > div._item_reward_container_8sbvi_40 > span._price_text_8sbvi_45",
-
+  minusZoom: "div._layout_dlzd9_1 > div > div:nth-child(2) > button:nth-child(2)",
+  colors:
+    "div._expandable_panel_layout_1v9vd_1 > div > div._color_line_epppt_15 > div._color_item_epppt_22",
+  printButton: "div._order_panel_hqiqj_1 > div > button._button_hqiqj_147",
   tasks: [
     // Special tasks:
     // "#telegramPremium",

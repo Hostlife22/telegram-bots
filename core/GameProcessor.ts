@@ -8,6 +8,7 @@ import { TelegramNotifier } from "./TelegramNotifier";
 import { shuffleArray } from "../utils/shuffle";
 import { logger } from "./Logger";
 import { getRandomNumberBetween } from "../utils/delay";
+import { startFetchImageBoard, stopFetchImageBoard } from "../fetchImageBoard";
 
 export class GameProcessor {
   private initRun = process.env.INIT_RUN === "true";
@@ -60,6 +61,10 @@ export class GameProcessor {
     try {
       await this.telegramNotifier.startPolling();
 
+      if (process.env.GAME === "pixel") {
+        startFetchImageBoard();
+      }
+
       let startId: number | undefined;
       let finishId: number | undefined;
       const args = process.argv.slice(2);
@@ -98,6 +103,9 @@ export class GameProcessor {
       await this.telegramNotifier.notifyError(e);
     } finally {
       this.telegramNotifier.stopPolling();
+      if (process.env.GAME === "pixel") {
+        stopFetchImageBoard();
+      }
     }
   }
 

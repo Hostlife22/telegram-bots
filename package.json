@@ -6,6 +6,8 @@
   "scripts": {
     "start": "ts-node main.ts",
     "add": "ts-node addGame.ts",
+    "images": "ts-node getAllImagePixels.ts",
+    "processImages": "ts-node fetchImageBoard.ts",
     "copy:env": "cp .env.example .env",
     "checkJson": "ts-node findDuplicateAdsCodes.ts"
   },
@@ -22,17 +24,20 @@
     "@ptkdev/logger": "^1.8.0",
     "axios": "^1.6.8",
     "dotenv": "^16.4.5",
+    "fuse.js": "^7.0.0",
     "node-schedule": "^2.1.1",
     "node-telegram-bot-api": "^0.66.0",
     "puppeteer": "^23.3.0",
+    "sharp": "^0.33.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4",
-    "fuse.js": "^7.0.0"
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@types/node": "^22.5.3",
     "@types/node-schedule": "^2.1.7",
     "@types/node-telegram-bot-api": "^0.64.7",
+    "@types/ws": "^8.5.12",
     "prettier": "^3.3.3"
   }
 }
