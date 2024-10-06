@@ -257,15 +257,14 @@ const clickCanvasAndPrint = async (iframe: Frame, tag: string) => {
     await pickColor(iframe, parsedPixels[i].color, tag);
 
     const coordinateClick = await clickOnCanvasByCoordinate(iframe, canvas[0], parsedPixels[i], tag);
-    if (coordinateClick) {
-      logger.info(`Coordinate ${coordinateClick.x}, ${coordinateClick.y}`, tag);
-      await delay(500);
-      const result = await coolClickButton(print, pixelGameSelectors.printButton, "Print button", tag);
-      if (!result) {
-        break;
-      }
-      await randomDelay(800, 1000, "ms");
+
+    logger.info(`Coordinate ${coordinateClick.x}, ${coordinateClick.y}`, tag);
+    await delay(500);
+    const result = await coolClickButton(print, pixelGameSelectors.printButton, "Print button", tag);
+    if (!result) {
+      break;
     }
+    await randomDelay(800, 1000, "ms");
   }
   await randomDelay(800, 1000, "ms");
 };
