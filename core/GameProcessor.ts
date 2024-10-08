@@ -8,6 +8,7 @@ import { TelegramNotifier } from "./TelegramNotifier";
 import { shuffleArray } from "../utils/shuffle";
 import { logger } from "./Logger";
 import { getRandomNumberBetween } from "../utils/delay";
+import { startFetchImageBoard, stopFetchImageBoard } from "../fetchImageBoard";
 
 export class GameProcessor {
   private initRun = process.env.INIT_RUN === "true";
@@ -17,6 +18,7 @@ export class GameProcessor {
   private processedAccounts = new Set<string>();
   private parallelLimit = Number(process.env.PARALLEL_LIMIT) || 2;
   private reports: ParsedGameResult[] = [];
+  private isTaskScheduled = false;
 
   constructor(telegramNotifier: TelegramNotifier, browserManager: BrowserManager, reportManager: ReportManager) {
     this.telegramNotifier = telegramNotifier;
@@ -29,23 +31,39 @@ export class GameProcessor {
   }
 
   private scheduleNextTask() {
+    if (this.isTaskScheduled) {
+      logger.warning("Task is already scheduled");
+      return;
+    }
+
     // BASE_TASK_TIME=60 (1h)
     const baseTime = process.env.BASE_TASK_TIME ? parseInt(process.env.BASE_TASK_TIME, 10) : 228;
 
     const randomMinutes = getRandomNumberBetween(baseTime - 2, baseTime + 2);
     const taskTime = new Date(Date.now() + randomMinutes * 60 * 1000);
     this.notifySchedule(taskTime);
+    this.isTaskScheduled = true;
 
     const job = scheduleJob(taskTime, async () => {
-      await this.executeTask();
-      job.cancel();
-      this.scheduleNextTask();
+      try {
+        await this.executeTask();
+      } catch (err) {
+        logger.error(`An error occurred while executing the task: ${err}`);
+      } finally {
+        job.cancel();
+        this.isTaskScheduled = false;
+        this.scheduleNextTask();
+      }
     });
   }
 
   async executeTask() {
     try {
       await this.telegramNotifier.startPolling();
+
+      if (process.env.GAME === "pixel") {
+        startFetchImageBoard();
+      }
 
       let startId: number | undefined;
       let finishId: number | undefined;
@@ -85,6 +103,9 @@ export class GameProcessor {
       await this.telegramNotifier.notifyError(e);
     } finally {
       this.telegramNotifier.stopPolling();
+      if (process.env.GAME === "pixel") {
+        stopFetchImageBoard();
+      }
     }
   }
 

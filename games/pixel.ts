@@ -5,14 +5,11 @@ import { clickConfirm } from "../utils/confirmPopup";
 import { convertToNumber } from "../utils/convertToNumber";
 import { delay, randomDelay } from "../utils/delay";
 import { logger } from "../core/Logger";
-import { clickButton, ensureLoginCheck, hasElement, isElementAttached, safeClick, selectFrame } from "../utils/puppeteerHelper";
-import {
-  blumBotSelectors,
-  commonSelectors,
-  getBoostPriceSelector,
-  pixelGameSelectors,
-  tapswapBotSelectors,
-} from "../utils/selectors";
+import { ensureLoginCheck, hasElement, safeClick, selectFrame } from "../utils/puppeteerHelper";
+import { commonSelectors, getBoostPriceSelector, pixelGameSelectors } from "../utils/selectors";
+import { pixelDiffToPixelClickMap } from "../utils/pixelDiffToPixelClickMap";
+import { existedCoordinates } from "../utils/existedCoordinates";
+import { pixelStore } from "../core/PixelDifferenceStore";
 
 interface AccountResults {
   Account: null | string;
@@ -20,6 +17,75 @@ interface AccountResults {
   BalanceBefore: number | string;
   BalanceAfter: number | string;
 }
+
+const randomElementClickButton = async (elements: ElementHandle[], logMessage: string, tag: string) => {
+  if (elements.length === 0) {
+    logger.error(`${logMessage} button not found`, tag);
+    return false;
+  }
+  try {
+    const element = elements[0];
+    const boundingBox = await element.boundingBox();
+    if (!boundingBox) {
+      logger.error(`${logMessage} button bounding box not found`, tag);
+      return false;
+    }
+
+    const randomX = boundingBox.x + boundingBox.width * 0.25 + Math.random() * boundingBox.width * 0.5;
+    const randomY = boundingBox.y + boundingBox.height * 0.25 + Math.random() * boundingBox.height * 0.5;
+
+    await element.click({ offset: { x: randomX - boundingBox.x, y: randomY - boundingBox.y } });
+    logger.info(`${logMessage} button clicked at (${randomX}, ${randomY})`, tag);
+    return true;
+  } catch (error) {
+    logger.error(`${logMessage} button not found`, tag);
+    return false;
+  }
+};
+
+const simpleParse = async (slice: number) => {
+  const pixels = pixelDiffToPixelClickMap(pixelStore.differences);
+  return pixels.slice(0, slice);
+};
+
+const pickColor = async (iframe: Frame, requiredColor: string, tag: string) => {
+  try {
+    const openModalTrigger = await iframe.$$("div._info_hqiqj_42 > div._active_color_hqiqj_51");
+
+    if ((await openModalTrigger[0].evaluate((el) => el.getAttribute("style"))).includes(requiredColor)) {
+      logger.info(`Color ${requiredColor} already selected`, tag);
+      return;
+    }
+    if (openModalTrigger.length === 0) {
+      logger.error("Color picker not found", tag);
+      return;
+    }
+
+    await openModalTrigger[0]?.click();
+    await delay(200);
+
+    const colors = await iframe.$$(pixelGameSelectors.colors);
+    if (colors.length === 0) {
+      logger.error("Color picker not found", tag);
+      return;
+    }
+    const backGroundStyles = await iframe.$$eval(pixelGameSelectors.colors, (el) => {
+      return el.map((element) => element.getAttribute("style"));
+    });
+
+    const colorIndex = backGroundStyles.findIndex((style) => style?.includes(requiredColor));
+    if (colorIndex === -1) {
+      logger.error("Color not found", tag);
+      return;
+    }
+
+    await colors[colorIndex].click();
+    await randomDelay(200, 400, "ms");
+    await openModalTrigger[0]?.click();
+  } catch (e) {
+    logger.error(`Color picker not found ${e.message}`, tag);
+  }
+};
 
 const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
   logger.debug(`🎮 Pixel #${id}`);
@@ -71,7 +137,6 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
       result.BalanceBefore = balanceBefore;
       logger.info(`💰 Starting balance: ${balanceBefore}`, tag);
-      // logger.info(`🎟  Playing ${ticketsBefore} tickets`, tag);
 
       const scriptPath = path.resolve(__dirname, "../injectables/pixel-game.js");
 
@@ -79,57 +144,23 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
       if (process.env.CLAIM_PIXEL_TASKS === "true") {
         await handleClaimTasks(iframe, page, tag, true);
-      }
-      await navigateOnSectionBoostSection(iframe, tag);
-      await delay(2000);
-      const claimButton = await iframe.$$(pixelGameSelectors.claimSelector).catch(() => {
-        logger.error("Claim button not found", tag);
-        return [];
-      });
-      if (claimButton?.length > 0) {
-        const claimButtonText = await iframe.$eval(pixelGameSelectors.claimSelector, (el) => el.textContent);
-        logger.info(`${claimButtonText}`, tag);
-        await claimButton?.[0]
-          ?.click()
-          .then(() => {
-            logger.info("Claim button click", tag);
-          })
-          .catch(() => {
-            logger.error("Claim button not found", tag);
-          });
-        await delay(1000);
-      }
-
-      if (process.env.BOOST_PIXEL === "true") {
-        await boostPixelClaimProcess(iframe, tag);
-        await delay(1000);
-      } else {
-        logger.warning("Boost process is disabled or insufficient balance to continue.", tag);
-      }
-      await goBack(page, iframe, tag);
-
-      const clickCanvasAndPrint = async (iframe: Frame, tag: string) => {
-        const canvas = await iframe.$$("#canvasHolder");
-        await coolClickButton(canvas, "#canvasHolder", "Canvas", tag);
-
-        const printButton = "div._order_panel_hqiqj_1 > div > button._button_hqiqj_147";
-        for (let i = 0; i < 10; i++) {
-          const print = await iframe.$$(printButton);
-          await coolClickButton(print, printButton, "Print button", tag);
-          await delay(1000);
-        }
         await delay(2000);
-      };
+      }
 
-      await clickCanvasAndPrint(iframe, tag);
+      await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "Play button", tag);
+      await delay(1000);
+      await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "Play button", tag);
+      await delay(1000);
+      await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "Play button", tag);
+      await delay(1000);
+
+      await defaultGamePlay(iframe, page, tag);
 
       const balanceAfter = await extractBalance(iframe, tag);
 
       logger.info(`💰 Ending balance: ${balanceAfter}`, tag);
-      // logger.info(`🎟  Remaining tickets: ${ticketsAfter}`, tag);
 
       result.BalanceAfter = balanceAfter;
-      // result.Tickets = ticketsAfter;
     } catch (error) {
       logger.error(`An error occurred during game-play: ${error.message}`, tag);
     } finally {
@@ -142,6 +173,96 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
   return result;
 };
 
+function canvasToPuppeteerOffset(canvasCoords: { x: number; y: number }) {
+  return {
+    x: existedCoordinates.find((coord) => coord.canvas.x === canvasCoords.x).puppeteer.x,
+    y: existedCoordinates.find((coord) => coord.canvas.y === canvasCoords.y).puppeteer.y,
+  };
+}
+
+async function clickOnCanvasByCoordinate(
+  iframe: Frame,
+  canvas: ElementHandle,
+  coordinates: { x: number; y: number },
+  tag: string,
+) {
+  try {
+    const result = canvasToPuppeteerOffset({ x: coordinates?.x, y: coordinates?.y });
+
+    await canvas?.click({ offset: { x: result?.x, y: result?.y } });
+    const positionLabel = await iframe.$eval(
+      "div._info_hqiqj_42 > div._pixel_info_container_hqiqj_61 > div._pixel_info_text_hqiqj_75",
+      (el) => el.textContent,
+    );
+    logger.info(
+      `Clicked on canvas(${coordinates?.x}, ${coordinates?.y}), puppeteer (${result?.x}, ${result?.y}) with label ${positionLabel})`,
+      tag,
+    );
+    return result;
+  } catch (error) {
+    logger.error(`Error clicking on canvas: ${error.message}`, tag);
+    return null;
+  }
+}
+
+const defaultGamePlay = async (iframe: Frame, page: Page, tag: string) => {
+  await navigateOnSectionBoostSection(iframe, tag);
+  await delay(2000);
+  const claimButton = await iframe.$$(pixelGameSelectors.claimSelector).catch(() => {
+    logger.error("Claim button not found", tag);
+    return [];
+  });
+  if (claimButton?.length > 0) {
+    const claimButtonText = await iframe.$eval(pixelGameSelectors.claimSelector, (el) => el.textContent);
+    logger.info(`${claimButtonText}`, tag);
+    await claimButton?.[0]
+      ?.click()
+      .then(() => {
+        logger.info("Claim button click", tag);
+      })
+      .catch(() => {
+        logger.error("Claim button not found", tag);
+      });
+    await delay(1000);
+  }
+
+  if (process.env.BOOST_PIXEL === "true") {
+    await boostPixelClaimProcess(iframe, tag);
+    await delay(1000);
+  } else {
+    logger.warning("Boost process is disabled or insufficient balance to continue.", tag);
+  }
+  await goBack(page, iframe, tag);
+
+  await clickCanvasAndPrint(iframe, tag);
+};
+
+const clickCanvasAndPrint = async (iframe: Frame, tag: string) => {
+  const canvas = await iframe.$$("#canvasHolder");
+  await randomElementClickButton(canvas, "Canvas", tag);
+
+  for (let i = 0; i < 12; i++) {
+    const parsedPixels = await simpleParse(20);
+    console.log(`${i} - pix`, parsedPixels[i], tag);
+    const print = await iframe.$$(pixelGameSelectors.printButton);
+
+    logger.debug(`required color ${parsedPixels[i].color}`, tag);
+
+    await pickColor(iframe, parsedPixels[i].color, tag);
+
+    const coordinateClick = await clickOnCanvasByCoordinate(iframe, canvas[0], parsedPixels[i], tag);
+
+    logger.info(`Coordinate ${coordinateClick?.x}, ${coordinateClick?.y}`, tag);
+    await delay(500);
+    const result = await coolClickButton(print, pixelGameSelectors.printButton, "Print button", tag);
+    if (!result) {
+      break;
+    }
+    await randomDelay(800, 1000, "ms");
+  }
+  await randomDelay(800, 1000, "ms");
+};
+
 const goBack = async (page: Page, iframe: Frame, tag: string) => {
   const fuckingBackButton = await page.$$(commonSelectors.backButton);
   await fuckingBackButton[0]
@@ -152,7 +273,7 @@ const goBack = async (page: Page, iframe: Frame, tag: string) => {
     .catch(() => {
       logger.error("Back button not found", tag);
     });
-  await delay(1000);
+  await randomDelay(800, 1000, "ms");
 };
 
 enum BoostType {
@@ -183,7 +304,11 @@ const boostPixelClaimProcess = async (iframe: Frame, tag: string) => {
   logger.info(`Current balance: ${balance}`, tag);
 
   const getElementPrice = async (selector: string): Promise<number> => {
-    const priceText = await iframe.$eval(selector, (el) => el.textContent);
+    const priceText = await iframe
+      .$eval(selector, (el) => el.textContent)
+      .then((text) => text || "1000000")
+      .catch(() => "1000000");
+
     return convertToNumber(priceText);
   };
 
@@ -318,6 +443,7 @@ export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, f
     logger.info(`Claiming task: ${task}`, tag);
     await claimTask(task);
   }
+  await goBack(page, iframe, tag);
 };
 
 export const handleOnboardingButtons = async (iframe: Frame, delayTimeout: number = 5000, tag: string): Promise<void> => {
