@@ -1,5 +1,5 @@
 import puppeteer, { Browser, Frame, Page } from "puppeteer";
-import { delay } from "../utils/delay";
+import { delay, randomDelay } from "../utils/delay";
 import { clickConfirm } from "../utils/confirmPopup";
 import { logger } from "../core/Logger";
 import { AccountResults } from "../types";
@@ -17,16 +17,16 @@ export const handleClaimButtons = async (iframe: Frame, tag: string): Promise<vo
 
 const handleClaimDigReward = async (iframe: Frame, tag: string): Promise<void> => {
   await coolClickButton(iframe, tomatoSelectors.diggerButton, "open digger reward modal", tag);
-  await delay(3000);
+  await randomDelay(800, 1000, "ms");
 
   const getRewardButtons = await iframe.$$(tomatoSelectors.claimDigReward);
   if (getRewardButtons?.length > 0) {
     logger.info("clicking claim button");
     await getRewardButtons[0]?.click();
   }
-  await delay(2000);
+  await randomDelay(800, 1000, "ms");
   await coolClickButton(iframe, tomatoSelectors.closeDiggerModal, "claim rewards", tag);
-  await delay(2000);
+  await randomDelay(800, 1000, "ms");
 };
 
 const playTomatoGame = async (browser: Browser, appUrl: string, id: number) => {
@@ -57,7 +57,7 @@ const playTomatoGame = async (browser: Browser, appUrl: string, id: number) => {
 
     await page.bringToFront();
     await page.waitForSelector(commonSelectors.launchBotButton, { timeout: 30000 });
-    await delay(3000);
+    await randomDelay(800, 1000, "ms");
 
     await page.bringToFront();
     await safeClick(page, commonSelectors.launchBotButton, tag);
@@ -67,9 +67,9 @@ const playTomatoGame = async (browser: Browser, appUrl: string, id: number) => {
     const iframe = await selectFrame(page, tag);
 
     await handleClaimButtons(iframe, tag);
-    await delay(2000);
-    await handleClaimDigReward(iframe, tag);
-    await delay(2000);
+    await randomDelay(800, 1000, "ms");
+    // await handleClaimDigReward(iframe, tag);
+    // await delay(2000);
 
     const getBalance = async (selector: string): Promise<number> => {
       const priceText = await iframe.$eval(selector, (el) => el.textContent);

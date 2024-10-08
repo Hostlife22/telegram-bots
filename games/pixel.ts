@@ -5,7 +5,7 @@ import { clickConfirm } from "../utils/confirmPopup";
 import { convertToNumber } from "../utils/convertToNumber";
 import { delay, randomDelay } from "../utils/delay";
 import { logger } from "../core/Logger";
-import { ensureLoginCheck, hasElement, safeClick, selectFrame } from "../utils/puppeteerHelper";
+import { hasElement, safeClick, selectFrame } from "../utils/puppeteerHelper";
 import { commonSelectors, getBoostPriceSelector, pixelGameSelectors } from "../utils/selectors";
 import { pixelDiffToPixelClickMap } from "../utils/pixelDiffToPixelClickMap";
 import { existedCoordinates } from "../utils/existedCoordinates";
@@ -376,6 +376,17 @@ const navigateOnSectionBoostSection = async (iframe: Frame, tag: string) => {
     logger.warning("Boost section navigate button not found", tag);
   });
   await delay(1500);
+};
+
+const ensureLoginCheck = async (page: Page, tag: string) => {
+  const isAuthPage = await hasElement(page, commonSelectors.authLoginPage);
+
+  if (isAuthPage) {
+    logger.warning("Telegram Web account is not authorized", tag);
+    await page.close();
+  }
+
+  return isAuthPage;
 };
 
 const coolClickButton = async (elements: ElementHandle[], selector: string, logMessage: string, tag: string) => {
