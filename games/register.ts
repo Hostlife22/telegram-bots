@@ -39,7 +39,7 @@ const registerGame = async (browser: Browser, appUrl: string, id: number) => {
       await delay(5000);
 
       await page.bringToFront();
-      await handleClaimTasks(iframe, page, tag, true);
+      await handleClaimTasks(iframe, page, tag, true, true);
     }
   } catch (error) {
     logger.error(`An error occurred during initial setup: ${error.message}`, tag);
