@@ -12,10 +12,10 @@ export const hasElement = async (page: Page | Frame, selector: string): Promise<
   }
 };
 
-export const selectFrame = async (page: Page, tag?: string): Promise<Frame> => {
+export const selectFrame = async (page: Page, tag?: string, delayTime?: number): Promise<Frame> => {
   try {
     const iframeElement = await page.waitForSelector("div.web-app-body > iframe", { timeout: 30000 });
-    await delay(30000);
+    await delay(delayTime || 30000);
     const iframe = await iframeElement?.contentFrame();
     if (iframe) {
       logger.info("Frame selected", tag);

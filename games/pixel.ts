@@ -127,13 +127,21 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
     const wrongUploadingBot = await page.$$(pixelGameSelectors.crashGame);
     if (wrongUploadingBot.length > 0) {
-      // await retryReloadBot(page, 3, tag);
+      await reloadBotViaMenu(page, tag, false);
+      await delay(3000);
     }
 
     try {
       await handleOnboardingButtons(iframe, 7000, tag);
 
       const balanceBefore = await extractBalance(iframe, tag);
+
+      if (balanceBefore === "0") {
+        logger.warning("Balance is 0. Exiting...", tag);
+        await reloadBotViaMenu(page, tag, false);
+        await delay(3000);
+        const balanceBefore = await extractBalance(iframe, tag);
+      }
 
       result.BalanceBefore = balanceBefore;
       logger.info(`💰 Starting balance: ${balanceBefore}`, tag);
@@ -142,22 +150,17 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
       const balance = convertToNumber(balanceBefore);
 
-
       if (process.env.CLAIM_PIXEL_TASKS === "true") {
-        await handleClaimTasks(iframe, page, tag, true);
+        await handleClaimTasks(iframe, page, tag, true, false);
         await delay(2000);
       }
 
-      await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "Play button", tag);
-      await delay(1000);
-      await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "Play button", tag);
-      await delay(1000);
-      await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "Play button", tag);
-      await delay(1000);
-
+      await changeMapZoom(iframe, tag);
       await defaultGamePlay(iframe, page, tag);
+      // const coordinates = await getCoordinateMap(iframe, tag);
 
-      const balanceAfter = await extractBalance(iframe, tag);
+      const iframe2 = await selectFrame(page, tag);
+      const balanceAfter = await extractBalance(iframe2, tag);
 
       logger.info(`💰 Ending balance: ${balanceAfter}`, tag);
 
@@ -173,6 +176,47 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
   return result;
 };
+
+const changeMapZoom = async (iframe: Frame, tag: string) => {
+  await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "- Zoom button", tag);
+  await randomDelay(200, 500, "ms");
+  await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "- Zoom button", tag);
+  await randomDelay(200, 500, "ms");
+  await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "- Zoom button", tag);
+};
+
+async function getCoordinateMap(iframe: Frame, tag: string) {
+  const coordinates = [];
+  const canvas = await iframe.$$("#canvasHolder");
+  try {
+    for (let i = 0; i <= 300; i += 1) {
+      let x = 90 + i;
+      let y = 142;
+      await canvas[0]?.click({ offset: { x, y } });
+
+      const positionLabel = await iframe.$eval(
+        "div._info_hqiqj_42 > div._pixel_info_container_hqiqj_61 > div._pixel_info_text_hqiqj_75",
+        (el) => el.textContent,
+      );
+
+      logger.info(`Clicked puppeteer on px (${x}, ${y}) canvas coordinates ${positionLabel}`, tag);
+
+      const mapper = positionLabel.split(",");
+
+      coordinates.push({
+        puppeteer: { x, y },
+        canvas: { x: mapper[0], y: mapper[1] },
+      });
+      await delay(800);
+    }
+  } catch (error) {
+    logger.error(`Error clicking on canvas: ${error.message}`, tag);
+    return null;
+  }
+
+  // Return the array of coordinates
+  return coordinates;
+}
 
 function canvasToPuppeteerOffset(canvasCoords: { x: number; y: number }) {
   return {
@@ -235,31 +279,49 @@ const defaultGamePlay = async (iframe: Frame, page: Page, tag: string) => {
   }
   await goBack(page, iframe, tag);
 
-  await clickCanvasAndPrint(iframe, tag);
+  await clickCanvasAndPrint(page, tag);
 };
 
-const clickCanvasAndPrint = async (iframe: Frame, tag: string) => {
-  const canvas = await iframe.$$("#canvasHolder");
-  await randomElementClickButton(canvas, "Canvas", tag);
+const checkStartedCoordinate = async (iframe: Frame, canvas: ElementHandle, tag: string) => {
+  await canvas?.click({ offset: { x: 90, y: 142 } });
 
-  for (let i = 0; i < 12; i++) {
-    const parsedPixels = await simpleParse(20);
-    console.log(`${i} - pix`, parsedPixels[i], tag);
-    const print = await iframe.$$(pixelGameSelectors.printButton);
+  const positionLabel = await iframe.$eval(
+    "div._info_hqiqj_42 > div._pixel_info_container_hqiqj_61 > div._pixel_info_text_hqiqj_75",
+    (el) => el.textContent,
+  );
+  logger.debug(`Clicked puppeteer on px (90, 142) canvas coordinates ${positionLabel}`, tag);
+  return positionLabel.split(",")[0].includes("0");
+};
 
-    logger.debug(`required color ${parsedPixels[i].color}`, tag);
+const clickCanvasAndPrint = async (page: Page, tag: string) => {
+  for (let i = 0; i < 20; i++) {
+    const iframe = await selectFrame(page, tag, 1000);
+    const canvas = await iframe.$$("#canvasHolder");
+    const parsedPixelsInit = await simpleParse(30);
 
-    await pickColor(iframe, parsedPixels[i].color, tag);
-
-    const coordinateClick = await clickOnCanvasByCoordinate(iframe, canvas[0], parsedPixels[i], tag);
-
-    logger.info(`Coordinate ${coordinateClick?.x}, ${coordinateClick?.y}`, tag);
+    await clickOnCanvasByCoordinate(iframe, canvas[0], parsedPixelsInit[i], tag);
     await delay(500);
-    const result = await coolClickButton(print, pixelGameSelectors.printButton, "Print button", tag);
-    if (!result) {
-      break;
+    if (await checkStartedCoordinate(iframe, canvas[0], tag)) {
+      const parsedPixels = await simpleParse(30);
+      console.log(`${i} - pix`, parsedPixels[i], tag);
+      const coordinateClick = await clickOnCanvasByCoordinate(iframe, canvas[0], parsedPixels[i], tag);
+      const print = await iframe.$$(pixelGameSelectors.printButton);
+
+      logger.debug(`required color ${parsedPixels[i].color}`, tag);
+
+      await pickColor(iframe, parsedPixels[i].color, tag);
+
+      logger.info(`Coordinate ${coordinateClick?.x}, ${coordinateClick?.y}`, tag);
+      await delay(500);
+      const result = await coolClickButton(print, pixelGameSelectors.printButton, "Print button", tag);
+      if (!result) {
+        break;
+      }
+    } else {
+      await reloadBotViaMenu(page, tag, false);
+      await delay(3000);
+      await changeMapZoom(iframe, tag);
     }
-    await randomDelay(800, 1000, "ms");
   }
   await randomDelay(800, 1000, "ms");
 };
@@ -405,27 +467,30 @@ const coolClickButton = async (elements: ElementHandle[], selector: string, logM
   }
 };
 
-export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, fromInitialScreen = true) => {
+const reloadBotViaMenu = async (page: Page, tag: string, isRegister: boolean) => {
+  const settings =
+    "body > div:nth-child(8) > div > div._BrowserHeader_m63td_55 > div.scrollable.scrollable-x._BrowserHeaderTabsScrollable_m63td_81.scrolled-start.scrolled-end > div > div._BrowserHeaderTab_m63td_72._active_m63td_157._first_m63td_96.animated-item > button.btn-icon._BrowserHeaderButton_m63td_65._BrowserHeaderTabIcon_m63td_111 > span._BrowserHeaderTabIconInner_m63td_117 > div";
+  const elements = await page.$$(settings);
+  if (elements.length > 0) {
+    logger.info("Clicking on menu button", tag);
+    await elements[0].click();
+    await delay(1500);
+  }
+  const rel = `#page-chats > div.btn-menu.contextmenu.bottom-right.active.was-open > div:nth-child(${isRegister ? "2" : "1"})`;
+  const reloads = await page.$$(rel);
+  if (reloads.length > 0) {
+    logger.info("Clicking on reload button", tag);
+    await reloads[0].click();
+    await delay(1500);
+  }
+  await delay(4000);
+};
+
+export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, fromInitialScreen = true, isRegister: boolean) => {
   if (fromInitialScreen) {
     const navigateOnBoostAndTaskSection = await iframe.$$(pixelGameSelectors.balanceNavigate);
     if (!(await coolClickButton(navigateOnBoostAndTaskSection, pixelGameSelectors.balanceNavigate, "Navigate", tag))) {
-      const settings =
-        "body > div:nth-child(8) > div > div._BrowserHeader_m63td_55 > div.scrollable.scrollable-x._BrowserHeaderTabsScrollable_m63td_81.scrolled-start.scrolled-end > div > div._BrowserHeaderTab_m63td_72._active_m63td_157._first_m63td_96.animated-item > button.btn-icon._BrowserHeaderButton_m63td_65._BrowserHeaderTabIcon_m63td_111 > span._BrowserHeaderTabIconInner_m63td_117 > div";
-      const elements = await page.$$(settings);
-      if (elements.length > 0) {
-        logger.info("Clicking on menu button", tag);
-        await elements[0].click();
-        await delay(1500);
-      }
-      const rel = "#page-chats > div.btn-menu.contextmenu.bottom-right.active.was-open > div:nth-child(2)";
-      const reloads = await page.$$(rel);
-      if (reloads.length > 0) {
-        logger.info("Clicking on reload button", tag);
-        await reloads[0].click();
-        await delay(1500);
-      }
-      await delay(4000);
-
+      await reloadBotViaMenu(page, tag, isRegister);
       const navigateOnBoostAndTaskSection = await iframe.$$(pixelGameSelectors.balanceNavigate);
       await coolClickButton(navigateOnBoostAndTaskSection, pixelGameSelectors.balanceNavigate, "Navigate", tag);
     }
