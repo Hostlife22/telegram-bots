@@ -127,13 +127,21 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
     const wrongUploadingBot = await page.$$(pixelGameSelectors.crashGame);
     if (wrongUploadingBot.length > 0) {
-      // await retryReloadBot(page, 3, tag);
+      await reloadBotViaMenu(page, tag, false);
+      await delay(3000);
     }
 
     try {
       await handleOnboardingButtons(iframe, 7000, tag);
 
       const balanceBefore = await extractBalance(iframe, tag);
+
+      if (balanceBefore === "0") {
+        logger.warning("Balance is 0. Exiting...", tag);
+        await reloadBotViaMenu(page, tag, false);
+        await delay(3000);
+        const balanceBefore = await extractBalance(iframe, tag);
+      }
 
       result.BalanceBefore = balanceBefore;
       logger.info(`💰 Starting balance: ${balanceBefore}`, tag);
@@ -171,9 +179,9 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
 const changeMapZoom = async (iframe: Frame, tag: string) => {
   await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "- Zoom button", tag);
-  await randomDelay(200, 500, 'ms');
+  await randomDelay(200, 500, "ms");
   await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "- Zoom button", tag);
-  await randomDelay(200, 500, 'ms');
+  await randomDelay(200, 500, "ms");
   await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "- Zoom button", tag);
 };
 
