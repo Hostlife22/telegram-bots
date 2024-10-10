@@ -127,13 +127,21 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
     const wrongUploadingBot = await page.$$(pixelGameSelectors.crashGame);
     if (wrongUploadingBot.length > 0) {
-      // await retryReloadBot(page, 3, tag);
+      await reloadBotViaMenu(page, tag, false);
+      await delay(3000);
     }
 
     try {
       await handleOnboardingButtons(iframe, 7000, tag);
 
-      const balanceBefore = await extractBalance(iframe, tag);
+      let balanceBefore = await extractBalance(iframe, tag);
+
+      if (balanceBefore === "0") {
+        logger.warning("Balance is 0. Exiting...", tag);
+        await reloadBotViaMenu(page, tag, false);
+        await delay(3000);
+        balanceBefore = await extractBalance(iframe, tag);
+      }
 
       result.BalanceBefore = balanceBefore;
       logger.info(`💰 Starting balance: ${balanceBefore}`, tag);
@@ -205,6 +213,25 @@ async function clickOnCanvasByCoordinate(
   }
 }
 
+const reloadBotViaMenu = async (page: Page, tag: string, isRegister: boolean) => {
+  const settings =
+    "body > div:nth-child(8) > div > div._BrowserHeader_m63td_55 > div.scrollable.scrollable-x._BrowserHeaderTabsScrollable_m63td_81.scrolled-start.scrolled-end > div > div._BrowserHeaderTab_m63td_72._active_m63td_157._first_m63td_96.animated-item > button.btn-icon._BrowserHeaderButton_m63td_65._BrowserHeaderTabIcon_m63td_111 > span._BrowserHeaderTabIconInner_m63td_117 > div";
+  const elements = await page.$$(settings);
+  if (elements.length > 0) {
+    logger.info("Clicking on menu button", tag);
+    await elements[0].click();
+    await delay(1500);
+  }
+  const rel = `#page-chats > div.btn-menu.contextmenu.bottom-right.active.was-open > div:nth-child(${isRegister ? "2" : "1"})`;
+  const reloads = await page.$$(rel);
+  if (reloads.length > 0) {
+    logger.info("Clicking on reload button", tag);
+    await reloads[0].click();
+    await delay(1500);
+  }
+  await delay(4000);
+};
+
 const defaultGamePlay = async (iframe: Frame, page: Page, tag: string) => {
   await navigateOnSectionBoostSection(iframe, tag);
   await delay(2000);
@@ -241,7 +268,7 @@ const clickCanvasAndPrint = async (iframe: Frame, tag: string) => {
   const canvas = await iframe.$$("#canvasHolder");
   await randomElementClickButton(canvas, "Canvas", tag);
 
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < 50; i++) {
     const parsedPixels = await simpleParse(20);
     console.log(`${i} - pix`, parsedPixels[i], tag);
     const print = await iframe.$$(pixelGameSelectors.printButton);
@@ -408,22 +435,7 @@ export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, f
   if (fromInitialScreen) {
     const navigateOnBoostAndTaskSection = await iframe.$$(pixelGameSelectors.balanceNavigate);
     if (!(await coolClickButton(navigateOnBoostAndTaskSection, pixelGameSelectors.balanceNavigate, "Navigate", tag))) {
-      const settings =
-        "body > div:nth-child(8) > div > div._BrowserHeader_m63td_55 > div.scrollable.scrollable-x._BrowserHeaderTabsScrollable_m63td_81.scrolled-start.scrolled-end > div > div._BrowserHeaderTab_m63td_72._active_m63td_157._first_m63td_96.animated-item > button.btn-icon._BrowserHeaderButton_m63td_65._BrowserHeaderTabIcon_m63td_111 > span._BrowserHeaderTabIconInner_m63td_117 > div";
-      const elements = await page.$$(settings);
-      if (elements.length > 0) {
-        logger.info("Clicking on menu button", tag);
-        await elements[0].click();
-        await delay(1500);
-      }
-      const rel = "#page-chats > div.btn-menu.contextmenu.bottom-right.active.was-open > div:nth-child(2)";
-      const reloads = await page.$$(rel);
-      if (reloads.length > 0) {
-        logger.info("Clicking on reload button", tag);
-        await reloads[0].click();
-        await delay(1500);
-      }
-      await delay(4000);
+      await reloadBotViaMenu(page, tag, false);
 
       const navigateOnBoostAndTaskSection = await iframe.$$(pixelGameSelectors.balanceNavigate);
       await coolClickButton(navigateOnBoostAndTaskSection, pixelGameSelectors.balanceNavigate, "Navigate", tag);
@@ -440,12 +452,17 @@ export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, f
     await page.bringToFront();
     await delay(1000);
 
+    // const joinChannelButton = await page.$$(pixelGameSelectors.joinChannel);
+    // await coolClickButton(joinChannelButton, pixelGameSelectors.joinChannel, "Join channel", tag);
     if (selector.toLowerCase().includes("channel")) {
-      const joinChannelButton = await page.$$(pixelGameSelectors.joinChannel);
-      await coolClickButton(joinChannelButton, pixelGameSelectors.joinChannel, "Join channel", tag);
-      await delay(5000);
-    }
+      const subscribeChButton = await page.$$(pixelGameSelectors.joinNotCoinChannel);
+      await coolClickButton(subscribeChButton, pixelGameSelectors.joinNotCoinChannel, "Join channel", tag);
+      await delay(3000);
 
+      const subscribeComButton = await page.$$(pixelGameSelectors.joinNotCoinCommunity);
+      await coolClickButton(subscribeComButton, pixelGameSelectors.joinNotCoinCommunity, "Join community", tag);
+      await delay(2000);
+    }
     const claimRewardButton = await iframe.$$(selector);
     await coolClickButton(claimRewardButton, selector, `Claim reward ${selector}`, tag);
   };
