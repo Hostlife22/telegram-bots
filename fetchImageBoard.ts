@@ -20,12 +20,13 @@ interface ImageItemConfig {
 
 const IMAGE_CONFIG: ImageItemConfig[] = [
   // { imageName: "island", initialCoordinate: { x: 0, y: 372 } },
-  { imageName: "worldtemplate", initialCoordinate: { x: 372, y: 372 } },
+  // { imageName: "worldtemplate", initialCoordinate: { x: 372, y: 372 } },
+  { imageName: "durov", initialCoordinate: { x: 244, y: 244 } },
   // { imageName: "pacman", initialCoordinate: { x: 744, y: 372 } },
 ];
 
 const MAIN_IMAGE_SIZE = 1000;
-const STENCIL_SIZE = 256;
+const STENCIL_SIZE = 512;
 
 let websocketFailureCount = 0;
 let processImagesErrorCount = 0;
@@ -125,6 +126,7 @@ function connectWebSocket() {
   socket.on("open", () => {
     logger.info("WebSocket connection established");
     websocketFailureCount = 0;
+    pixelStore.differences = {};
     socket.send(JSON.stringify({ action: "subscribe", channel: "imageUpdates" }));
   });
 
