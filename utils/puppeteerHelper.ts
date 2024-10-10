@@ -2,6 +2,7 @@ import { ElementHandle, Frame, Page } from "puppeteer";
 
 import { logger } from "../core/Logger";
 import { randomDelay, delay } from "./delay";
+import { commonSelectors } from "./selectors";
 
 export const hasElement = async (page: Page | Frame, selector: string): Promise<boolean> => {
   try {
@@ -79,8 +80,20 @@ export const isElementAttached = async (element: ElementHandle) => {
 export const safeClick = async (iframe: Page | Frame, selectorOrElement: string | ElementHandle<Element>, tag?: string) => {
   const element = typeof selectorOrElement === "string" ? await iframe.$(selectorOrElement) : selectorOrElement;
   if (element && (await isElementAttached(element))) {
+    logger.info(`Clicking element with selector ${selectorOrElement}`, tag);
     await iframe.evaluate((el) => (el as HTMLElement).click(), element);
   } else {
     logger.error(`Element with selector ${selectorOrElement} is not available or detached`, tag);
   }
+};
+
+export const ensureLoginCheck = async (page: Page, tag: string) => {
+  const isAuthPage = await hasElement(page, commonSelectors.authLoginPage);
+
+  if (isAuthPage) {
+    logger.warning("Telegram Web account is not authorized", tag);
+    await page.close();
+  }
+
+  return isAuthPage;
 };
