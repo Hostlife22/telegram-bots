@@ -452,12 +452,17 @@ export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, f
     await page.bringToFront();
     await delay(1000);
 
+    // const joinChannelButton = await page.$$(pixelGameSelectors.joinChannel);
+    // await coolClickButton(joinChannelButton, pixelGameSelectors.joinChannel, "Join channel", tag);
     if (selector.toLowerCase().includes("channel")) {
-      const joinChannelButton = await page.$$(pixelGameSelectors.joinChannel);
-      await coolClickButton(joinChannelButton, pixelGameSelectors.joinChannel, "Join channel", tag);
-      await delay(5000);
-    }
+      const subscribeChButton = await page.$$(pixelGameSelectors.joinNotCoinChannel);
+      await coolClickButton(subscribeChButton, pixelGameSelectors.joinNotCoinChannel, "Join channel", tag);
+      await delay(3000);
 
+      const subscribeComButton = await page.$$(pixelGameSelectors.joinNotCoinCommunity);
+      await coolClickButton(subscribeComButton, pixelGameSelectors.joinNotCoinCommunity, "Join community", tag);
+      await delay(2000);
+    }
     const claimRewardButton = await iframe.$$(selector);
     await coolClickButton(claimRewardButton, selector, `Claim reward ${selector}`, tag);
   };

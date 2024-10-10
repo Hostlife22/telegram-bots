@@ -67,11 +67,11 @@ export const pixelGameSelectors = {
   boostPrice:
     "div._group_v8prs_7 > div:nth-child(1) > div._content_container_8sbvi_21 > div > div._item_reward_container_8sbvi_40 > span._price_text_8sbvi_45",
   minusZoom: "div._layout_dlzd9_1 > div > div:nth-child(2) > button:nth-child(2)",
-  colors:
-    "div._expandable_panel_layout_1v9vd_1 > div > div._color_line_epppt_15 > div._color_item_epppt_22",
+  colors: "div._expandable_panel_layout_1v9vd_1 > div > div._color_line_epppt_15 > div._color_item_epppt_22",
   printButton: "div._order_panel_hqiqj_1 > div > button._button_hqiqj_147",
   tasks: [
     // Special tasks:
+    "div._content_q8u4d_22 > div._info_layout_bt2qf_1 > div > div:nth-child(7) > div > div", //Me bot
     // "#telegramPremium",
     "#leagueBonusSilver",
     "#leagueBonusGold",
@@ -80,16 +80,21 @@ export const pixelGameSelectors = {
 
     // Quick start:
     "#pain20pixels",
-    // "#joinSquad",
+    "#joinSquad",
     // "#invite3Frens",
 
     // Browser
-    // "#notPixelChannel",
-    // "#notPixelX",
-    // "#notCoinChannel",
-    // "#notCoinX",
+    "#notPixelChannel",
+    "#notPixelX",
+    "#notCoinChannel",
+    "#notCoinX",
   ],
   joinChannel: "div.chat-info-container > div.chat-utils > button.btn-primary.btn-color-primary.chat-join.rp",
+  joinNotCoinCommunity:
+    "#column-center > div > div.chat.tabs-tab.can-click-date.active > div.sidebar-header.topbar.has-avatar.is-pinned-message-shown > div.chat-info-container > div.chat-utils > button.btn-primary.btn-color-primary.chat-join.rp",
+  joinNotCoinChannel:
+    "#column-center > div > div.chat.tabs-tab.can-click-date.active > div.sidebar-header.topbar.has-avatar.is-pinned-message-shown > div.chat-info-container > div.chat-utils > button.btn-primary.btn-color-primary.chat-join.rp",
+    
 };
 
 export const getBoostPriceSelector = (index: number) =>
