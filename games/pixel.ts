@@ -138,6 +138,8 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
     await wrongUploadingBot(initialFrame, page, tag);
 
     if ((await initialFrame.$$(pixelGameSelectors.crashGameButton)).length > 0) {
+      logger.error(`Finish game with Uploading Error`);
+      await page.close();
       return {
         ...result,
         BalanceBefore: "Bot is uploading wrong after 3 reloads",
