@@ -132,10 +132,20 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
     await clickConfirm(page, tag);
 
     await page.bringToFront();
-    const iframe = await selectFrame(page, tag);
-    await wrongUploadingBot(iframe, page, tag);
+    const initialFrame = await selectFrame(page, tag);
+    await wrongUploadingBot(initialFrame, page, tag);
+    await wrongUploadingBot(initialFrame, page, tag);
+    await wrongUploadingBot(initialFrame, page, tag);
+
+    if ((await initialFrame.$$(pixelGameSelectors.crashGameButton)).length > 0) {
+      return {
+        ...result,
+        BalanceBefore: "Bot is uploading wrong after 3 reloads",
+      };
+    }
 
     try {
+      const iframe = await selectFrame(page, tag);
       await handleOnboardingButtons(iframe, 7000, tag);
 
       let balanceBefore = await extractBalance(iframe, tag);
