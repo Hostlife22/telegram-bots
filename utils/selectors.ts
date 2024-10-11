@@ -55,7 +55,7 @@ export const pixelGameSelectors = {
   goButton: "div._button_container_1drph_81 > button._button_1drph_81",
   crashGame: "div._container_ieygs_8",
   balanceLabel: "div._buttons_container_1tu7a_1 > div._group_1tu7a_8._middle_1tu7a_21 > button > div > div._number_jcaqa_1",
-  balanceNavigate:"div._buttons_container_1tu7a_1 > div._group_1tu7a_8._middle_1tu7a_21 > button._button_1tu7a_1",
+  balanceNavigate: "div._buttons_container_1tu7a_1 > div._group_1tu7a_8._middle_1tu7a_21 > button._button_1tu7a_1",
   claimSelector: "#root > div > div._layout_q8u4d_1 > div._content_q8u4d_22 > div._container_13oyr_1 > button._button_13oyr_11",
   waitClaimSelector: "div._container_3i6l4_1 > div._info_3i6l4_32",
   boostsSelector: "div._panel_1mia4_1 > div:nth-child(2)",
@@ -64,6 +64,7 @@ export const pixelGameSelectors = {
   boostRechargingSelector: "div._info_layout_bt2qf_1 > div > div._group_v8prs_7 > div:nth-child(2)",
   boostEnergyLimitSelector: "div._info_layout_bt2qf_1 > div > div._group_v8prs_7 > div:nth-child(3)",
   buyBoost: "div._buttons_container_nvulu_59 > button._button_nvulu_59",
+  crashGameButton: "button._button_ieygs_63",
   boostPrice:
     "div._group_v8prs_7 > div:nth-child(1) > div._content_container_8sbvi_21 > div > div._item_reward_container_8sbvi_40 > span._price_text_8sbvi_45",
   minusZoom: "div._layout_dlzd9_1 > div > div:nth-child(2) > button:nth-child(2)",
@@ -94,7 +95,6 @@ export const pixelGameSelectors = {
     "#column-center > div > div.chat.tabs-tab.can-click-date.active > div.sidebar-header.topbar.has-avatar.is-pinned-message-shown > div.chat-info-container > div.chat-utils > button.btn-primary.btn-color-primary.chat-join.rp",
   joinNotCoinChannel:
     "#column-center > div > div.chat.tabs-tab.can-click-date.active > div.sidebar-header.topbar.has-avatar.is-pinned-message-shown > div.chat-info-container > div.chat-utils > button.btn-primary.btn-color-primary.chat-join.rp",
-    
 };
 
 export const getBoostPriceSelector = (index: number) =>

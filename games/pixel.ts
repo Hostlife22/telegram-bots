@@ -87,6 +87,15 @@ const pickColor = async (iframe: Frame, requiredColor: string, tag: string) => {
   }
 };
 
+const wrongUploadingBot = async (iframe: Frame, page: Page, tag: string) => {
+  const wrongUploadingBot = await page.$$(pixelGameSelectors.crashGameButton);
+  if (wrongUploadingBot.length > 0) {
+    logger.warning("Bot is uploading wrong, reload bot...", tag);
+    await reloadBotViaMenu(page, tag, false);
+    await randomDelay(3000, 5000, "ms");
+  }
+};
+
 const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
   logger.debug(`🎮 Pixel #${id}`);
 
@@ -124,12 +133,7 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
     await page.bringToFront();
     const iframe = await selectFrame(page, tag);
-
-    const wrongUploadingBot = await page.$$(pixelGameSelectors.crashGame);
-    if (wrongUploadingBot.length > 0) {
-      await reloadBotViaMenu(page, tag, false);
-      await delay(3000);
-    }
+    await wrongUploadingBot(iframe, page, tag);
 
     try {
       await handleOnboardingButtons(iframe, 7000, tag);
