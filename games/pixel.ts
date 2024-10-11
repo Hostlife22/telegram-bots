@@ -88,7 +88,7 @@ const pickColor = async (iframe: Frame, requiredColor: string, tag: string) => {
 };
 
 const wrongUploadingBot = async (iframe: Frame, page: Page, tag: string) => {
-  const wrongUploadingBot = await page.$$(pixelGameSelectors.crashGameButton);
+  const wrongUploadingBot = await iframe.$$(pixelGameSelectors.crashGameButton);
   if (wrongUploadingBot.length > 0) {
     logger.warning("Bot is uploading wrong, reload bot...", tag);
     await reloadBotViaMenu(page, tag, false);
