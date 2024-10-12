@@ -28,7 +28,7 @@ export class GameProcessor {
   }
 
   start() {
-    this.initRun ? this.executeTask() : this.scheduleNextTask();
+    this.initRun ? this.executeTask().then(() => this.scheduleNextTask()) : this.scheduleNextTask();
   }
 
   private scheduleNextTask() {
@@ -38,7 +38,8 @@ export class GameProcessor {
     }
 
     const baseTime = parseInt(process.env.BASE_TASK_TIME || "228", 10);
-    const randomMinutes = getRandomNumberBetween(baseTime - 2, baseTime + 2);
+    const randomNumber = getRandomNumberBetween(baseTime - 2, baseTime + 2);
+    const randomMinutes = randomNumber > 1 ? randomNumber : 1;
     const taskTime = new Date(Date.now() + randomMinutes * 60 * 1000);
 
     this.isTaskScheduled = true;
@@ -153,7 +154,6 @@ export class GameProcessor {
   private clearProcessedData() {
     this.reports = [];
     this.processedAccounts.clear();
-    this.scheduleNextTask();
   }
 
   prepareResultGames(resultGames: ParsedGameResult[], tgApp: TgApp): ParsedGameResult[] {
