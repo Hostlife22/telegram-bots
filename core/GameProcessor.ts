@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import cron from "node-cron";
+import { scheduleJob } from "node-schedule";
 
 import { BrowserManager } from "./BrowserManager";
 import { ParsedGameResult, ShuffleArrayType, TgApp } from "../types";
@@ -18,7 +18,8 @@ export class GameProcessor {
   private processedAccounts = new Set<string>();
   private parallelLimit = Number(process.env.PARALLEL_LIMIT) || 2;
   private reports: ParsedGameResult[] = [];
-  private cronJob: cron.ScheduledTask | null = null;
+  private isTaskScheduled = false;
+  private isTaskRunning = false;
 
   constructor(telegramNotifier: TelegramNotifier, browserManager: BrowserManager, reportManager: ReportManager) {
     this.telegramNotifier = telegramNotifier;
@@ -31,34 +32,34 @@ export class GameProcessor {
   }
 
   private scheduleNextTask() {
-    if (this.cronJob) {
-      logger.warning("Task is already scheduled");
+    if (this.isTaskScheduled || this.isTaskRunning) {
+      logger.warning("Task is already scheduled or running");
       return;
     }
 
-    // BASE_TASK_TIME=60 (1h)
-    const baseTime = process.env.BASE_TASK_TIME ? parseInt(process.env.BASE_TASK_TIME, 10) : 228;
-
+    const baseTime = parseInt(process.env.BASE_TASK_TIME || "228", 10);
     const randomMinutes = getRandomNumberBetween(baseTime - 2, baseTime + 2);
     const taskTime = new Date(Date.now() + randomMinutes * 60 * 1000);
 
+    this.isTaskScheduled = true;
     this.notifySchedule(taskTime);
-    logger.debug(`Next task will run in ${randomMinutes} minutes at ${taskTime}`);
+    logger.info(`Next task will run in ${randomMinutes} minutes at ${taskTime}`);
 
-    this.cronJob = cron.schedule(`*/${randomMinutes} * * * *`, async () => {
+    scheduleJob(taskTime, async () => {
+      this.isTaskScheduled = false;
+
       try {
-        logger.debug(`Task started at ${new Date()}`);
+        this.isTaskRunning = true;
+        logger.info(`Task started at ${new Date()}`);
         await this.executeTask();
       } catch (err) {
         logger.error(`An error occurred while executing the task: ${err}`);
       } finally {
-        logger.debug(`Task finished at ${new Date()}`);
-        this.cronJob = null;
+        this.isTaskRunning = false;
+        logger.info(`Task finished at ${new Date()}`);
         this.scheduleNextTask();
       }
     });
-
-    this.cronJob.start();
   }
 
   async executeTask() {
