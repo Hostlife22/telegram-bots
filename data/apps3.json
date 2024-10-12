@@ -7890,7 +7890,7 @@
     "id": 718,
     "code": "kngumoo",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -7901,7 +7901,7 @@
     "id": 719,
     "code": "kngumop",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -7912,7 +7912,7 @@
     "id": 720,
     "code": "kngumoq",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -7923,7 +7923,7 @@
     "id": 721,
     "code": "kngumor",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -7934,7 +7934,7 @@
     "id": 722,
     "code": "kngumos",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -7945,7 +7945,7 @@
     "id": 723,
     "code": "kngumot",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -7956,7 +7956,7 @@
     "id": 724,
     "code": "kngumou",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -7967,7 +7967,7 @@
     "id": 725,
     "code": "kngumov",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -7978,7 +7978,7 @@
     "id": 726,
     "code": "kngumow",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -7989,7 +7989,7 @@
     "id": 727,
     "code": "kngumox",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8000,7 +8000,7 @@
     "id": 728,
     "code": "kngumoy",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8011,7 +8011,7 @@
     "id": 729,
     "code": "kngump0",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8022,7 +8022,7 @@
     "id": 730,
     "code": "kngump1",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8033,7 +8033,7 @@
     "id": 731,
     "code": "kngump3",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8044,7 +8044,7 @@
     "id": 732,
     "code": "kngump5",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8055,7 +8055,7 @@
     "id": 733,
     "code": "kngump7",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8066,7 +8066,7 @@
     "id": 734,
     "code": "kngump9",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8077,7 +8077,7 @@
     "id": 735,
     "code": "kngumpb",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8088,7 +8088,7 @@
     "id": 736,
     "code": "kngumpe",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8099,7 +8099,7 @@
     "id": 737,
     "code": "kngumph",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8110,7 +8110,7 @@
     "id": 738,
     "code": "kngumpj",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8121,7 +8121,7 @@
     "id": 739,
     "code": "kngumpk",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8132,7 +8132,7 @@
     "id": 740,
     "code": "kngumpm",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8143,7 +8143,7 @@
     "id": 741,
     "code": "kngumpn",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8154,7 +8154,7 @@
     "id": 742,
     "code": "kngumpo",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8165,7 +8165,7 @@
     "id": 743,
     "code": "kngumpp",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8176,7 +8176,7 @@
     "id": 744,
     "code": "kngumpr",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8187,7 +8187,7 @@
     "id": 745,
     "code": "kngumps",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8198,7 +8198,7 @@
     "id": 746,
     "code": "kngumpt",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8209,7 +8209,7 @@
     "id": 747,
     "code": "kngumpu",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8220,7 +8220,7 @@
     "id": 748,
     "code": "kngumpv",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8231,7 +8231,7 @@
     "id": 749,
     "code": "kngumpw",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8242,7 +8242,7 @@
     "id": 750,
     "code": "kngumpx",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8253,7 +8253,7 @@
     "id": 751,
     "code": "kngumpy",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8264,7 +8264,7 @@
     "id": 752,
     "code": "kngumq0",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8275,7 +8275,7 @@
     "id": 753,
     "code": "kngumq1",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8286,7 +8286,7 @@
     "id": 754,
     "code": "kngumq2",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8297,7 +8297,7 @@
     "id": 755,
     "code": "kngumq3",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8308,7 +8308,7 @@
     "id": 756,
     "code": "kngumq5",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8319,7 +8319,7 @@
     "id": 757,
     "code": "kngumq7",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8330,7 +8330,7 @@
     "id": 758,
     "code": "kngumq8",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8341,7 +8341,7 @@
     "id": 759,
     "code": "kngumq9",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8352,7 +8352,7 @@
     "id": 760,
     "code": "kngumqa",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8363,7 +8363,7 @@
     "id": 761,
     "code": "kngumqb",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8374,7 +8374,7 @@
     "id": 762,
     "code": "kngumqc",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8385,7 +8385,7 @@
     "id": 763,
     "code": "kngumqd",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8396,7 +8396,7 @@
     "id": 764,
     "code": "kngumqe",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8407,7 +8407,7 @@
     "id": 765,
     "code": "kngumqf",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8418,7 +8418,7 @@
     "id": 766,
     "code": "kngumqg",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8429,7 +8429,7 @@
     "id": 767,
     "code": "kngumqh",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8440,7 +8440,7 @@
     "id": 768,
     "code": "kngumqi",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8451,7 +8451,7 @@
     "id": 769,
     "code": "kngumqj",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8462,7 +8462,7 @@
     "id": 770,
     "code": "kngumqk",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8473,7 +8473,7 @@
     "id": 771,
     "code": "kngumql",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8484,7 +8484,7 @@
     "id": 772,
     "code": "kngumqm",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8495,7 +8495,7 @@
     "id": 773,
     "code": "kngumqn",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8506,7 +8506,7 @@
     "id": 774,
     "code": "kngumqo",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8517,7 +8517,7 @@
     "id": 775,
     "code": "kngumqp",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8528,7 +8528,7 @@
     "id": 776,
     "code": "kngumqq",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8539,7 +8539,7 @@
     "id": 777,
     "code": "kngumqr",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8550,7 +8550,7 @@
     "id": 778,
     "code": "kngumqs",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8561,7 +8561,7 @@
     "id": 779,
     "code": "kngumqt",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8572,7 +8572,7 @@
     "id": 780,
     "code": "kngumqu",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8583,7 +8583,7 @@
     "id": 781,
     "code": "kngumqv",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8594,7 +8594,7 @@
     "id": 782,
     "code": "kngumqw",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8605,7 +8605,7 @@
     "id": 783,
     "code": "kngumqx",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8616,7 +8616,7 @@
     "id": 784,
     "code": "kngumr0",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8627,7 +8627,7 @@
     "id": 785,
     "code": "kngumr1",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8638,7 +8638,7 @@
     "id": 786,
     "code": "kngumr2",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8649,7 +8649,7 @@
     "id": 787,
     "code": "kngumr3",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8660,7 +8660,7 @@
     "id": 788,
     "code": "kngumr4",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8671,7 +8671,7 @@
     "id": 789,
     "code": "kngumr5",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8682,7 +8682,7 @@
     "id": 790,
     "code": "kngumr6",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8693,7 +8693,7 @@
     "id": 791,
     "code": "kngumr7",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8704,7 +8704,7 @@
     "id": 792,
     "code": "kngumr8",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8715,7 +8715,7 @@
     "id": 793,
     "code": "kngumr9",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8726,7 +8726,7 @@
     "id": 794,
     "code": "kngumra",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8737,7 +8737,7 @@
     "id": 795,
     "code": "kngumrb",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8748,7 +8748,7 @@
     "id": 796,
     "code": "kngumrc",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8759,7 +8759,7 @@
     "id": 797,
     "code": "kngumrd",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8770,7 +8770,7 @@
     "id": 798,
     "code": "kngumre",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8781,7 +8781,7 @@
     "id": 799,
     "code": "kngumrf",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8792,7 +8792,7 @@
     "id": 800,
     "code": "kngumrg",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8803,7 +8803,7 @@
     "id": 801,
     "code": "kngumrh",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8814,7 +8814,7 @@
     "id": 802,
     "code": "kngumri",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8825,7 +8825,7 @@
     "id": 803,
     "code": "kngumrj",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8836,7 +8836,7 @@
     "id": 804,
     "code": "kngumrk",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8847,7 +8847,7 @@
     "id": 805,
     "code": "kngumrl",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8858,7 +8858,7 @@
     "id": 806,
     "code": "kngumrm",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8869,7 +8869,7 @@
     "id": 807,
     "code": "kngumrn",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8880,7 +8880,7 @@
     "id": 808,
     "code": "kngumro",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8891,7 +8891,7 @@
     "id": 809,
     "code": "kngumrq",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8902,7 +8902,7 @@
     "id": 810,
     "code": "kngumrr",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8913,7 +8913,7 @@
     "id": 811,
     "code": "kngumrs",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8924,7 +8924,7 @@
     "id": 812,
     "code": "kngumru",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8935,7 +8935,7 @@
     "id": 813,
     "code": "kngumrv",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8946,7 +8946,7 @@
     "id": 814,
     "code": "kngumrw",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8957,7 +8957,7 @@
     "id": 815,
     "code": "kngumrx",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8968,7 +8968,7 @@
     "id": 816,
     "code": "kngumry",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8979,7 +8979,7 @@
     "id": 817,
     "code": "kngums0",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -8990,7 +8990,7 @@
     "id": 818,
     "code": "kngums1",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9001,7 +9001,7 @@
     "id": 819,
     "code": "kngums2",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9012,7 +9012,7 @@
     "id": 820,
     "code": "kngums3",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9023,7 +9023,7 @@
     "id": 821,
     "code": "kngums4",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9034,7 +9034,7 @@
     "id": 822,
     "code": "kngums5",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9045,7 +9045,7 @@
     "id": 823,
     "code": "kngums6",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9056,7 +9056,7 @@
     "id": 824,
     "code": "kngums7",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9067,7 +9067,7 @@
     "id": 825,
     "code": "kngums8",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9078,7 +9078,7 @@
     "id": 826,
     "code": "kngums9",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9089,7 +9089,7 @@
     "id": 827,
     "code": "kngumsa",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9100,7 +9100,7 @@
     "id": 828,
     "code": "kngumsb",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9111,7 +9111,7 @@
     "id": 829,
     "code": "kngumsc",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9122,7 +9122,7 @@
     "id": 830,
     "code": "kngumsd",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9133,7 +9133,7 @@
     "id": 831,
     "code": "kngumse",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9144,7 +9144,7 @@
     "id": 832,
     "code": "kngumsf",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9155,7 +9155,7 @@
     "id": 833,
     "code": "kngumsg",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9166,7 +9166,7 @@
     "id": 834,
     "code": "kngumsh",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9177,7 +9177,7 @@
     "id": 835,
     "code": "kngumsi",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9188,7 +9188,7 @@
     "id": 836,
     "code": "kngumsj",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9199,7 +9199,7 @@
     "id": 837,
     "code": "kngumsk",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9210,7 +9210,7 @@
     "id": 838,
     "code": "kngumsl",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9221,7 +9221,7 @@
     "id": 839,
     "code": "kngumsm",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9232,7 +9232,7 @@
     "id": 840,
     "code": "kngumso",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9243,7 +9243,7 @@
     "id": 841,
     "code": "kngumsp",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9254,7 +9254,7 @@
     "id": 842,
     "code": "kngumsr",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9265,7 +9265,7 @@
     "id": 843,
     "code": "kngumss",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9276,7 +9276,7 @@
     "id": 844,
     "code": "kngumst",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9287,7 +9287,7 @@
     "id": 845,
     "code": "kngumsu",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9298,7 +9298,7 @@
     "id": 846,
     "code": "kngumsv",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9309,7 +9309,7 @@
     "id": 847,
     "code": "kngumsw",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9320,7 +9320,7 @@
     "id": 848,
     "code": "kngumsx",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9331,7 +9331,7 @@
     "id": 849,
     "code": "kngumsy",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9342,7 +9342,7 @@
     "id": 850,
     "code": "kngumt0",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9353,7 +9353,7 @@
     "id": 851,
     "code": "kngumt1",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9364,7 +9364,7 @@
     "id": 852,
     "code": "kngumt3",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9375,7 +9375,7 @@
     "id": 853,
     "code": "kngumt4",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9386,7 +9386,7 @@
     "id": 854,
     "code": "kngumt5",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9397,7 +9397,7 @@
     "id": 855,
     "code": "kngumt6",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9408,7 +9408,7 @@
     "id": 856,
     "code": "kngumt7",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9419,7 +9419,7 @@
     "id": 857,
     "code": "kngumt8",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9430,7 +9430,7 @@
     "id": 858,
     "code": "kngumt9",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9441,7 +9441,7 @@
     "id": 859,
     "code": "kngumta",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9452,7 +9452,7 @@
     "id": 860,
     "code": "kngumtb",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9463,7 +9463,7 @@
     "id": 861,
     "code": "kngumtc",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9474,7 +9474,7 @@
     "id": 862,
     "code": "kngumtd",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9485,7 +9485,7 @@
     "id": 863,
     "code": "kngumte",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9496,7 +9496,7 @@
     "id": 864,
     "code": "kngumtf",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
@@ -9507,396 +9507,396 @@
     "id": 865,
     "code": "kngumtg",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 866,
     "code": "kngumth",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 867,
     "code": "kngumti",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 868,
     "code": "kngumtj",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 869,
     "code": "kngumtk",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 870,
     "code": "kngumtl",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 871,
     "code": "kngumtm",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 872,
     "code": "kngumtn",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 873,
     "code": "kngumto",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 874,
     "code": "kngumtp",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 875,
     "code": "kngumtq",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 876,
     "code": "kngumtr",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 877,
     "code": "kngumtt",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 878,
     "code": "kngumtu",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 879,
     "code": "kngumtv",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 880,
     "code": "kngumtw",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 881,
     "code": "kngumtx",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 882,
     "code": "kngumty",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 883,
     "code": "kngumu0",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 884,
     "code": "kngumu1",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 885,
     "code": "kngumu3",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 886,
     "code": "kngumu4",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 887,
     "code": "kngumu5",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 888,
     "code": "kngumu7",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 889,
     "code": "kngumu8",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 890,
     "code": "kngumu9",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 891,
     "code": "kngumua",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 892,
     "code": "kngumuc",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 893,
     "code": "kngumud",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 894,
     "code": "kngumue",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 895,
     "code": "kngumuf",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 896,
     "code": "kngumug",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 897,
     "code": "kngumui",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 898,
     "code": "kngumuj",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 899,
     "code": "kngumuk",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
     "id": 900,
     "code": "kngumul",
     "username": "",
-    "active": false,
+    "active": true,
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
@@ -9907,7 +9907,7 @@
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
@@ -9918,7 +9918,7 @@
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
@@ -9929,7 +9929,7 @@
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
@@ -9940,7 +9940,7 @@
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
@@ -9951,7 +9951,7 @@
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
@@ -9962,7 +9962,7 @@
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
@@ -9973,7 +9973,7 @@
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
@@ -9984,7 +9984,7 @@
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
@@ -9995,7 +9995,7 @@
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
@@ -10006,7 +10006,7 @@
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
@@ -10017,7 +10017,7 @@
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
@@ -10028,7 +10028,7 @@
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
@@ -10039,7 +10039,7 @@
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
@@ -10050,7 +10050,7 @@
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
@@ -10061,7 +10061,7 @@
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "pixel": "https://web.telegram.org/k/#@notpixel",
-      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df5989026881"
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df422998914"
     }
   },
   {
