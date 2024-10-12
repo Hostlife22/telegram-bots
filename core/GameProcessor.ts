@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { scheduleJob } from "node-schedule";
+import cron from "node-cron";
 
 import { BrowserManager } from "./BrowserManager";
 import { ParsedGameResult, ShuffleArrayType, TgApp } from "../types";
@@ -18,7 +18,7 @@ export class GameProcessor {
   private processedAccounts = new Set<string>();
   private parallelLimit = Number(process.env.PARALLEL_LIMIT) || 2;
   private reports: ParsedGameResult[] = [];
-  private isTaskScheduled = false;
+  private cronJob: cron.ScheduledTask | null = null;
 
   constructor(telegramNotifier: TelegramNotifier, browserManager: BrowserManager, reportManager: ReportManager) {
     this.telegramNotifier = telegramNotifier;
@@ -31,7 +31,7 @@ export class GameProcessor {
   }
 
   private scheduleNextTask() {
-    if (this.isTaskScheduled) {
+    if (this.cronJob) {
       logger.warning("Task is already scheduled");
       return;
     }
@@ -41,20 +41,24 @@ export class GameProcessor {
 
     const randomMinutes = getRandomNumberBetween(baseTime - 2, baseTime + 2);
     const taskTime = new Date(Date.now() + randomMinutes * 60 * 1000);
-    this.notifySchedule(taskTime);
-    this.isTaskScheduled = true;
 
-    const job = scheduleJob(taskTime, async () => {
+    this.notifySchedule(taskTime);
+    logger.debug(`Next task will run in ${randomMinutes} minutes at ${taskTime}`);
+
+    this.cronJob = cron.schedule(`*/${randomMinutes} * * * *`, async () => {
       try {
+        logger.debug(`Task started at ${new Date()}`);
         await this.executeTask();
       } catch (err) {
         logger.error(`An error occurred while executing the task: ${err}`);
       } finally {
-        job.cancel();
-        this.isTaskScheduled = false;
+        logger.debug(`Task finished at ${new Date()}`);
+        this.cronJob = null;
         this.scheduleNextTask();
       }
     });
+
+    this.cronJob.start();
   }
 
   async executeTask() {
