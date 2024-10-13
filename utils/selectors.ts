@@ -28,7 +28,7 @@ export const blumBotSelectors = {
   weeklyTasks: "div.pages-tasks-card.is-short button.is-status-not-started",
   weeklyTasksList: "div.nested-tasks > div.pages-tasks-list-item-label button.is-status-not-started",
   weeklyTasksListClaim: "div.nested-tasks > div.pages-tasks-list-item-label button.is-status-ready-for-claim",
-  weeklyTasksListClose: "div.kit-bottom-sheet > dialog > div.header > div.right-slot > div",
+  weeklyTasksListClose: "div.kit-bottom-sheet > dialog > div.header-with-banner > div > div.right-slot > button",
 };
 
 export const tapswapBotSelectors = {
