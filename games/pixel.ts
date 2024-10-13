@@ -109,6 +109,8 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
     BalanceAfter: -1,
   };
 
+  return result;
+
   try {
     await page.waitForNetworkIdle();
 
@@ -285,7 +287,7 @@ const clickCanvasAndPrint = async (iframe: Frame, tag: string) => {
   await randomElementClickButton(canvas, "Canvas", tag);
 
   for (let i = 0; i < 50; i++) {
-    const parsedPixels = await simpleParse(20);
+    const parsedPixels = await simpleParse(35);
     console.log(`${i} - pix`, parsedPixels[i], tag);
     const print = await iframe.$$(pixelGameSelectors.printButton);
 
