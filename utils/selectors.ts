@@ -71,6 +71,8 @@ export const pixelGameSelectors = {
   colors: "div._expandable_panel_layout_1v9vd_1 > div > div._color_line_epppt_15 > div._color_item_epppt_22",
   printButton: "div._order_panel_hqiqj_1 > div > button._button_hqiqj_147",
   joiBotButton: "div._content_q8u4d_22 > div._info_layout_bt2qf_1 > div > div:nth-child(1) > div > div",
+  joiNotCompleted:
+    "div._content_q8u4d_22 > div._info_layout_bt2qf_1 > div > div:nth-child(1) > div > div > div._row_main_information_bt2qf_103 > div:nth-child(2)",
   tasks: [
     // Special tasks:
     "div._content_q8u4d_22 > div._info_layout_bt2qf_1 > div > div:nth-child(7) > div > div", //Me bot
