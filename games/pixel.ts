@@ -109,8 +109,6 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
     BalanceAfter: -1,
   };
 
-  return result;
-
   try {
     await page.waitForNetworkIdle();
 
