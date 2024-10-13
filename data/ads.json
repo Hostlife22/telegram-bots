@@ -278,8 +278,8 @@
   {
     "id": 24,
     "code": "ji97e6y",
-    "active": false,
-    "username": "@smaltus",
+    "active": true,
+    "username": "@nananders",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "tapswap": "https://web.telegram.org/k/#@tapswap_bot",
