@@ -250,6 +250,27 @@ const reloadBotViaMenu = async (page: Page, tag: string, isRegister: boolean) =>
   await delay(4000);
 };
 
+const closeBotViaMenu = async (page: Page, tag: string, isRegister: boolean) => {
+  const settings =
+    "body > div:nth-child(8) > div > div._BrowserHeader_m63td_55 > div.scrollable.scrollable-x._BrowserHeaderTabsScrollable_m63td_81.scrolled-start.scrolled-end > div > div._BrowserHeaderTab_m63td_72._active_m63td_157 > button.btn-icon._BrowserHeaderButton_m63td_65._BrowserHeaderTabIcon_m63td_111 > span._BrowserHeaderTabIconInner_m63td_117 > div";
+
+  const elements = await page.$$(settings);
+  if (elements.length > 0) {
+    logger.info("Clicking on menu button", tag);
+    await elements[0].click();
+    await delay(1500);
+  }
+
+  const closeBtnItem = `#page-chats > div.btn-menu.contextmenu.bottom-right.active.was-open > div:nth-child(3)`;
+  const closeBtn = await page.$$(closeBtnItem);
+  if (closeBtn.length > 0) {
+    logger.info("Clicking on reload button", tag);
+    await closeBtn[0].click();
+    await delay(1500);
+    await clickConfirm(page, tag);
+  }
+};
+
 const defaultGamePlay = async (iframe: Frame, page: Page, tag: string) => {
   await navigateOnSectionBoostSection(iframe, tag);
   await delay(2000);
@@ -489,6 +510,21 @@ export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, f
     logger.info(`Claiming task: ${task}`, tag);
     await claimTask(task);
   }
+
+  if (process.env.CLAIM_JOY === "true") {
+    for (let index = 0; index < 5; index++) {
+      const joyButtonTaskOpenBtn = await iframe.$$(pixelGameSelectors.joiBotButton);
+      await coolClickButton(joyButtonTaskOpenBtn, pixelGameSelectors.joiBotButton, "Open joy button", tag);
+      await delay(2000);
+      await clickConfirm(page, tag);
+      await delay(5000);
+      await closeBotViaMenu(page, tag, false);
+      await delay(2000);
+      await coolClickButton(joyButtonTaskOpenBtn, pixelGameSelectors.joiBotButton, "Claim joy button", tag);
+      await delay(3000);
+    }
+  }
+
   await goBack(page, iframe, tag);
 };
 
