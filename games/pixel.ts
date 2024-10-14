@@ -171,6 +171,8 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
         await delay(2000);
       }
 
+      await selectTemplate(iframe, tag);
+
       await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "Play button", tag);
       await delay(1000);
       await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "Play button", tag);
@@ -266,6 +268,104 @@ const closeBotViaMenu = async (page: Page, tag: string, isRegister: boolean) => 
     await closeBtn[0].click();
     await delay(1500);
     await clickConfirm(page, tag);
+  }
+};
+
+const selectTemplate = async (iframe: Frame, tag: string) => {
+  const BURGER_BUTTON_SELECTOR =
+    "#root > div > div._header_dwodb_1 > div > div._buttons_container_1tu7a_1 > div._group_1tu7a_8._left_1tu7a_15 > button._burger_button_1tu7a_65";
+  const MY_TEMPLATES_BUTTON_SELECTOR = "#root > div > nav > div._top_container_12qyz_10 > ul > li:nth-child(4)";
+  const CATALOG_BUTTON_SELECTOR =
+    "#root > div > div._layout_q8u4d_1 > div._content_q8u4d_22 > div._panel_1mia4_1 > div:nth-child(2)";
+  const LOAD_MORE_BUTTON_SELECTOR =
+    "#root > div > div._layout_q8u4d_1 > div._content_q8u4d_22 > div._info_layout_1p9dg_1 > div > div._button_container_94gj5_11 > button";
+  const TEMPLATE_BUTTON_SELECTOR =
+    "#root > div > div._layout_q8u4d_1 > div._content_q8u4d_22 > div._info_layout_1p9dg_1 > div > div._container_94gj5_5 > div:nth-child(106) > div > img";
+  const SELECT_TEMPLATE_BUTTON_SELECTOR = "body > div._layout_16huv_1 > div > div > div > button";
+  const NOT_BUTTON_SELECTOR = "body > div._layout_16huv_1 > div > div > div > div._not_button_13ays_92";
+  const CLOSE_TEMPLATE_BUTTON_SELECTOR = "body > div._layout_16huv_1 > div > div > div > div._close_button_13ays_18";
+  const RETURN_BUTTON_SELECTOR = "#root > div > div._layout_q8u4d_1 > button";
+
+  try {
+    const burgerButton = await iframe.$$(BURGER_BUTTON_SELECTOR);
+    await coolClickButton(burgerButton, BURGER_BUTTON_SELECTOR, "Burger Button", tag);
+    await delay(2000);
+
+    const myTemplatesButton = await iframe.$$(MY_TEMPLATES_BUTTON_SELECTOR);
+    await coolClickButton(myTemplatesButton, MY_TEMPLATES_BUTTON_SELECTOR, "My Templates Button", tag);
+    await delay(2000);
+
+    const catalogButton = await iframe.$$(CATALOG_BUTTON_SELECTOR);
+    await coolClickButton(catalogButton, CATALOG_BUTTON_SELECTOR, "Catalog Button", tag);
+    await delay(5000);
+
+    const loadMoreButton = await iframe.$$(LOAD_MORE_BUTTON_SELECTOR);
+    await coolClickButton(loadMoreButton, LOAD_MORE_BUTTON_SELECTOR, "Load More Button", tag);
+    await delay(3000);
+    await coolClickButton(loadMoreButton, LOAD_MORE_BUTTON_SELECTOR, "Load More Button", tag);
+    await delay(3000);
+    await coolClickButton(loadMoreButton, LOAD_MORE_BUTTON_SELECTOR, "Load More Button", tag);
+    await delay(3000);
+    await coolClickButton(loadMoreButton, LOAD_MORE_BUTTON_SELECTOR, "Load More Button", tag);
+    await delay(3000);
+    await coolClickButton(loadMoreButton, LOAD_MORE_BUTTON_SELECTOR, "Load More Button", tag);
+    await delay(3000);
+    await coolClickButton(loadMoreButton, LOAD_MORE_BUTTON_SELECTOR, "Load More Button", tag);
+    await delay(3000);
+    await coolClickButton(loadMoreButton, LOAD_MORE_BUTTON_SELECTOR, "Load More Button", tag);
+    await delay(3000);
+    await coolClickButton(loadMoreButton, LOAD_MORE_BUTTON_SELECTOR, "Load More Button", tag);
+    await delay(3000);
+
+    let index = 102;
+    let templateButton;
+
+    while (true) {
+      const currentSelector = ` #root > div > div._layout_q8u4d_1 > div._content_q8u4d_22 > div._info_layout_1p9dg_1 > div > div._container_94gj5_5 > div:nth-child(${index}) > div > img`;
+      templateButton = await iframe.$(currentSelector);
+
+      if (templateButton) {
+        const imgSrc = await templateButton.evaluate((img: HTMLImageElement) => img.src);
+        if (imgSrc === "https://static.notpx.app/templates/5726256852.png") {
+          const parentDivSelector = `#root > div > div._layout_q8u4d_1 > div._content_q8u4d_22 > div._info_layout_1p9dg_1 > div > div._container_94gj5_5 > div:nth-child(${index})`;
+          await coolClickButton(await iframe.$$(parentDivSelector), parentDivSelector, "Template Button", tag);
+          await delay(2000);
+          break;
+        }
+      }
+
+      index++;
+    }
+
+    let selectTemplateClicked = false;
+    for (let i = 0; i < 5; i++) {
+      const selectTemplateButton = await iframe.$$(SELECT_TEMPLATE_BUTTON_SELECTOR);
+      await coolClickButton(selectTemplateButton, SELECT_TEMPLATE_BUTTON_SELECTOR, "Select Template Button", tag);
+      await delay(5000);
+
+      try {
+        await iframe.waitForSelector(NOT_BUTTON_SELECTOR, { timeout: 3000 });
+        selectTemplateClicked = true;
+        break;
+      } catch {
+        // Continue to the next iteration if the template was not selected
+      }
+    }
+
+    const closeTemplateButton = await iframe.$$(CLOSE_TEMPLATE_BUTTON_SELECTOR);
+    const closeTemplateResult = await coolClickButton(
+      closeTemplateButton,
+      CLOSE_TEMPLATE_BUTTON_SELECTOR,
+      "Close Template Button",
+      tag,
+    );
+    await delay(2000);
+
+    // Return to the templates button
+    const returnButton = await iframe.$$(RETURN_BUTTON_SELECTOR);
+    await coolClickButton(returnButton, RETURN_BUTTON_SELECTOR, "Return Button", tag);
+  } catch (error) {
+    console.error("An error occurred during the template selection process:", error);
   }
 };
 
