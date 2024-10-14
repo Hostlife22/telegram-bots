@@ -4,6 +4,7 @@ import { AppName, PlayGameFn } from "../types";
 import playBlumGame from "./blum";
 import playPixelGame from "./pixel";
 import playTapSwap from "./tapswap";
+import playElectraGame from "./electra";
 import registerGame from "./register";
 
 export default async function playGame(appName: AppName, browser: Browser, appUrl: string, id: number) {
@@ -11,6 +12,7 @@ export default async function playGame(appName: AppName, browser: Browser, appUr
     pixel: playPixelGame,
     blum: playBlumGame,
     tapswap: playTapSwap,
+    electra: playElectraGame,
     register: registerGame,
   };
 

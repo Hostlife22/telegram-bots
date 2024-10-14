@@ -10,6 +10,9 @@ const reportHeaders: Record<AppName, { headers: string[] }> = {
   tapswap: {
     headers: [...baseHeaders, "Tickets"],
   },
+  electra: {
+    headers: [...baseHeaders],
+  },
   pixel: {
     headers: baseHeaders,
   },

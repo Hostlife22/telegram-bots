@@ -32,7 +32,7 @@ export const blumBotSelectors = {
 };
 
 export const tapswapBotSelectors = {
-  backButton: " div._BrowserHeader_m63td_55 > button:nth-child(1)",
+  backButton: "div._BrowserHeader_m63td_55 > button:nth-child(1)",
   checkButton: "div._listContainer_1519s_1 > div > div > button._button_fffa0_1",
   claimButton: "div._actionContent_1v85a_75 > button._button_fffa0_1",
   claimPriceButton: "div._actionContent_1v85a_75 > button._button_fffa0_1._primary_fffa0_13._large_fffa0_49._fullWidth_fffa0_37",
@@ -102,3 +102,10 @@ export const pixelGameSelectors = {
 
 export const getBoostPriceSelector = (index: number) =>
   `div._group_v8prs_7 > div:nth-child(${index}) > div._content_container_8sbvi_21 > div > div._item_reward_container_8sbvi_40 > span._price_text_8sbvi_45`;
+
+export const electroBotSelectors = {
+  collectRewardButton:
+    "#root > div > div > div._contentContainer_17q04_262._show_17q04_256 > div._screenContainer_171aw_1._active_171aw_15.undefined > div > div > div > div > div > div._button_1ybqa_1._primary_1ybqa_17",
+  startFarmingButton: "div._pointCounterContainer_4o2x0_18 > div._farmingNotStartedContainer_1h01l_34",
+  test: "#root > div > div > div._contentContainer_17q04_262._show_17q04_256 > div._screenContainer_171aw_1._active_171aw_15.false > div > div > div._container_4o2x0_1 > div > div._pointCounterContainer_4o2x0_18._slideInBottom_u90n2_1 > div > div",
+};
