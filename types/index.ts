@@ -1,6 +1,6 @@
 import { Browser } from "puppeteer";
 
-export type AppName = "blum" | "tapswap" | "pixel";
+export type AppName = "blum" | "tapswap" | "pixel" | "tomato";
 // export type AppName = 'blum' | 'hamster' | 'iceberg';
 export type ShuffleArrayType = "asc" | "desc" | "shuffle";
 

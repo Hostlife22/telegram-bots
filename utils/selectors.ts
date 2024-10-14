@@ -2,6 +2,8 @@ export const commonSelectors = {
   backButton: "div._BrowserHeader_m63td_55 > button:nth-child(1)",
   launchBotButton: "div.new-message-bot-commands-view",
   authLoginPage: "div.tabs-container.auth-pages__container",
+  launch2:
+    "#column-center > div > div > div.chat-input.chat-input-main > div > div.rows-wrapper-wrapper > div > div.new-message-wrapper.rows-wrapper-row.has-offset > div.new-message-bot-commands.is-view",
 };
 
 export const blumBotSelectors = {
@@ -102,3 +104,20 @@ export const pixelGameSelectors = {
 
 export const getBoostPriceSelector = (index: number) =>
   `div._group_v8prs_7 > div:nth-child(${index}) > div._content_container_8sbvi_21 > div > div._item_reward_container_8sbvi_40 > span._price_text_8sbvi_45`;
+
+export const tomatoSelectors = {
+  continueButton: "div._continueWrap_hyf84_375 > div._continue_hyf84_375",
+  claimButton: "div._home_lw6uc_1 > div._farmBtn_rrulr_62._farmBtnHarvest_rrulr_141",
+  startFarmingButton: "div._farmBtn_rrulr_62._farmBtnStart_rrulr_78",
+  diggerButton: "div._tomato_1l65e_41",
+  closeDiggerModal: "div._popup_16kb3_17._popupVisible_16kb3_30._popStyle_1l65e_99 > i._close_16kb3_57",
+  claimDigReward: "div._home_lw6uc_1 > div._popup_16kb3_17._popupVisible_16kb3_30._popStyle_1l65e_99 > div._bd_16kb3_70 button",
+  balance: "div._home_lw6uc_1 > div._score_9q7q5_1 > p",
+  // New
+  newContinue: "div._phaseTwo_842pa_152 > div._continueWrap_842pa_348 > div._continue_842pa_348",
+  newEnter: "div._layout_o460a_1 > div > div._cta_1id1y_54",
+  newClaim: "div._home_lw6uc_1 > div._farmBtnWrapper_sptob_62 > div._farmBtnBox_sptob_69 > div._farmBtn_sptob_62",
+  newStartFarming: "div._home_lw6uc_1 > div._framBtnBox_ebzlt_62 > div._farmBtn_ebzlt_75._farmBtnStart_ebzlt_89",
+  spinModalOpenButton: "div._layout_o460a_1._layoutTabbar_o460a_21 > div._home_lw6uc_1 > div._entry_wzwhq_219",
+  newClaimDigReward: "div._home_lw6uc_1 > div._popup_16kb3_17._popupVisible_16kb3_30._popStyle_1l65e_99 > div > div > button:nth-child(1)",
+};
