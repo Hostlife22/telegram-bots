@@ -171,7 +171,7 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
         await delay(2000);
       }
 
-      await selectTemplate(iframe, tag);
+      await checkSelectedTemplate(iframe, tag);
 
       await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "Play button", tag);
       await delay(1000);
@@ -230,6 +230,37 @@ async function clickOnCanvasByCoordinate(
     return null;
   }
 }
+
+const checkSelectedTemplate = async (iframe: Frame, tag: string) => {
+  const PIXEL_TEMPLATE_URL = process.env.PIXEL_TEMPLATE_URL;
+
+  if (!PIXEL_TEMPLATE_URL) {
+    throw new Error("PIXEL_TEMPLATE_URL is not defined in the environment variables.");
+  }
+
+  let isSelecting = false;
+  try {
+    const buttons = await iframe.$$("div._buttons_container_b4e6p_17 > button");
+
+    for (const button of buttons) {
+      const img = await button.$("img._image_wekpw_19");
+      if (img) {
+        const src = await img.evaluate((el: HTMLImageElement) => el.src);
+        if (src === PIXEL_TEMPLATE_URL) {
+          logger.info(`Template with url ${PIXEL_TEMPLATE_URL} is already selected`, tag);
+          isSelecting = true;
+        }
+      }
+    }
+    if (!isSelecting) {
+      logger.info(`Template with url ${PIXEL_TEMPLATE_URL} is not selected`, tag);
+      logger.debug(`Start selecting template with url ${PIXEL_TEMPLATE_URL}`, tag);
+      await selectTemplate(iframe, tag);
+    }
+  } catch (error) {
+    logger.error("An error occurred while selecting the template:", tag);
+  }
+};
 
 const reloadBotViaMenu = async (page: Page, tag: string, isRegister: boolean) => {
   const settings =
@@ -299,42 +330,35 @@ const selectTemplate = async (iframe: Frame, tag: string) => {
     await coolClickButton(catalogButton, CATALOG_BUTTON_SELECTOR, "Catalog Button", tag);
     await delay(5000);
 
-    const loadMoreButton = await iframe.$$(LOAD_MORE_BUTTON_SELECTOR);
-    await coolClickButton(loadMoreButton, LOAD_MORE_BUTTON_SELECTOR, "Load More Button", tag);
-    await delay(3000);
-    await coolClickButton(loadMoreButton, LOAD_MORE_BUTTON_SELECTOR, "Load More Button", tag);
-    await delay(3000);
-    await coolClickButton(loadMoreButton, LOAD_MORE_BUTTON_SELECTOR, "Load More Button", tag);
-    await delay(3000);
-    await coolClickButton(loadMoreButton, LOAD_MORE_BUTTON_SELECTOR, "Load More Button", tag);
-    await delay(3000);
-    await coolClickButton(loadMoreButton, LOAD_MORE_BUTTON_SELECTOR, "Load More Button", tag);
-    await delay(3000);
-    await coolClickButton(loadMoreButton, LOAD_MORE_BUTTON_SELECTOR, "Load More Button", tag);
-    await delay(3000);
-    await coolClickButton(loadMoreButton, LOAD_MORE_BUTTON_SELECTOR, "Load More Button", tag);
-    await delay(3000);
-    await coolClickButton(loadMoreButton, LOAD_MORE_BUTTON_SELECTOR, "Load More Button", tag);
-    await delay(3000);
+    let templateFound = false;
+    let index = 1;
 
-    let index = 102;
-    let templateButton;
+    while (!templateFound) {
+      while (true) {
+        const currentSelector = `#root > div > div._layout_q8u4d_1 > div._content_q8u4d_22 > div._info_layout_1p9dg_1 > div > div._container_94gj5_5 > div:nth-child(${index}) > div > img`;
+        const templateButton = await iframe.$(currentSelector);
 
-    while (true) {
-      const currentSelector = ` #root > div > div._layout_q8u4d_1 > div._content_q8u4d_22 > div._info_layout_1p9dg_1 > div > div._container_94gj5_5 > div:nth-child(${index}) > div > img`;
-      templateButton = await iframe.$(currentSelector);
-
-      if (templateButton) {
-        const imgSrc = await templateButton.evaluate((img: HTMLImageElement) => img.src);
-        if (imgSrc === "https://static.notpx.app/templates/5726256852.png") {
-          const parentDivSelector = `#root > div > div._layout_q8u4d_1 > div._content_q8u4d_22 > div._info_layout_1p9dg_1 > div > div._container_94gj5_5 > div:nth-child(${index})`;
-          await coolClickButton(await iframe.$$(parentDivSelector), parentDivSelector, "Template Button", tag);
-          await delay(2000);
+        if (templateButton) {
+          const imgSrc = await templateButton.evaluate((img: HTMLImageElement) => img.src);
+          if (imgSrc === "https://static.notpx.app/templates/5726256852.png") {
+            const parentDivSelector = `#root > div > div._layout_q8u4d_1 > div._content_q8u4d_22 > div._info_layout_1p9dg_1 > div > div._container_94gj5_5 > div:nth-child(${index})`;
+            await coolClickButton(await iframe.$$(parentDivSelector), parentDivSelector, "Template Button", tag);
+            await delay(2000);
+            templateFound = true;
+            break;
+          }
+        } else {
           break;
         }
+
+        index++;
       }
 
-      index++;
+      if (!templateFound) {
+        const loadMoreButton = await iframe.$$(LOAD_MORE_BUTTON_SELECTOR);
+        await coolClickButton(loadMoreButton, LOAD_MORE_BUTTON_SELECTOR, "Load More Button", tag);
+        await delay(3000);
+      }
     }
 
     let selectTemplateClicked = false;
