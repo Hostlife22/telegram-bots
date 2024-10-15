@@ -16,7 +16,7 @@ function groupByColorAndZones(pixelDifferences: { [key: string]: string }): { [c
   }
 
   const groupedByColor: { [color: string]: Pixel[] } = parsedPixels
-    .filter((item) => item.color !== "rgb(0, 0, 0)")
+    // .filter((item) => item.color !== "rgb(0, 0, 0)")
     .reduce(
       (groups, pixel) => {
         const { color } = pixel;

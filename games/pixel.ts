@@ -416,6 +416,7 @@ const defaultGamePlay = async (iframe: Frame, page: Page, tag: string) => {
 const clickCanvasAndPrint = async (iframe: Frame, tag: string) => {
   const canvas = await iframe.$$("#canvasHolder");
   await randomElementClickButton(canvas, "Canvas", tag);
+  await randomDelay(800, 1000, "ms");
 
   for (let i = 0; i < 50; i++) {
     const parsedPixels = await simpleParse(35);
