@@ -3,6 +3,7 @@ import { readFileSync, writeFileSync } from "fs";
 import path from "path";
 import sharp from "sharp";
 import WebSocket from "ws";
+import "dotenv/config";
 
 import { logger } from "./core/Logger";
 import { pixelStore } from "./core/PixelDifferenceStore";
