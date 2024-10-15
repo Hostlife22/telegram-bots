@@ -384,10 +384,34 @@
     }
   },
   {
+    "id": 33,
+    "code": "ji97e79",
+    "active": true,
+    "username": "@martinodelapalma",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot",
+      "pixel": "https://web.telegram.org/k/#@notpixel",
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df1257871143"
+    }
+  },
+  {
     "id": 34,
     "code": "ji97e7a",
     "active": true,
     "username": "@didibuzy",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot",
+      "pixel": "https://web.telegram.org/k/#@notpixel",
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df1257871143"
+    }
+  },
+  {
+    "id": 35,
+    "code": "ji97e7b",
+    "active": true,
+    "username": "@mesagodock",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "tapswap": "https://web.telegram.org/k/#@tapswap_bot",
@@ -492,6 +516,18 @@
     }
   },
   {
+    "id": 44,
+    "code": "ji97e7k",
+    "active": true,
+    "username": "kevharrar",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot",
+      "pixel": "https://web.telegram.org/k/#@notpixel",
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df1257871143"
+    }
+  },
+  {
     "id": 45,
     "code": "ji97e7l",
     "active": true,
@@ -508,6 +544,18 @@
     "code": "ji97e7m",
     "active": true,
     "username": "@glarnibex",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot",
+      "pixel": "https://web.telegram.org/k/#@notpixel",
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df1257871143"
+    }
+  },
+  {
+    "id": 47,
+    "code": "ji97e7n",
+    "active": true,
+    "username": "@teriosina",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "tapswap": "https://web.telegram.org/k/#@tapswap_bot",
@@ -745,6 +793,18 @@
     }
   },
   {
+    "id": 67,
+    "code": "ji97e8c",
+    "active": true,
+    "username": "@bananaflow",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot",
+      "pixel": "https://web.telegram.org/k/#@notpixel",
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df1257871143"
+    }
+  },
+  {
     "id": 68,
     "code": "ji97e8d",
     "active": true,
@@ -821,6 +881,18 @@
     "code": "ji97e8j",
     "active": true,
     "username": "@watanabema",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot",
+      "pixel": "https://web.telegram.org/k/#@notpixel",
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df1257871143"
+    }
+  },
+  {
+    "id": 75,
+    "code": "ji97e8k",
+    "active": true,
+    "username": "@cleanplov",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "tapswap": "https://web.telegram.org/k/#@tapswap_bot",
@@ -997,6 +1069,18 @@
     }
   },
   {
+    "id": 90,
+    "code": "ji97e92",
+    "active": true,
+    "username": "@lisebell",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot",
+      "pixel": "https://web.telegram.org/k/#@notpixel",
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df1257871143"
+    }
+  },
+  {
     "id": 91,
     "code": "ji97e93",
     "active": true,
@@ -1109,6 +1193,18 @@
     "code": "ji97e9d",
     "active": true,
     "username": "@applesuckdick",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot",
+      "pixel": "https://web.telegram.org/k/#@notpixel",
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df1257871143"
+    }
+  },
+  {
+    "id": 101,
+    "code": "ji97e9e",
+    "active": true,
+    "username": "@mardanyai",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
       "tapswap": "https://web.telegram.org/k/#@tapswap_bot",
@@ -1297,6 +1393,31 @@
       "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df1257871143"
     }
   },
+  {
+    "id": 117,
+    "code": "ji97e9w",
+    "active": true,
+    "username": "@lindglover",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot",
+      "pixel": "https://web.telegram.org/k/#@notpixel",
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df1257871143"
+    }
+  },
+  {
+    "id": 118,
+    "code": "ji97e9x",
+    "active": true,
+    "username": "@emilyjuar",
+    "games": {
+      "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
+      "tapswap": "https://web.telegram.org/k/#@tapswap_bot",
+      "pixel": "https://web.telegram.org/k/#@notpixel",
+      "register": "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df1257871143"
+    }
+  },
+
   {
     "id": 119,
     "code": "ji97e9y",
