@@ -159,6 +159,13 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
         balanceBefore = await extractBalance(iframe, tag);
       }
 
+      if (balanceBefore === "[None]") {
+        logger.warning("Balance is None. Trying reload bot...", tag);
+        await reloadBotViaMenu(page, tag, false);
+        await randomDelay(3000, 4000, "ms");
+        balanceBefore = await extractBalance(iframe, tag);
+      }
+
       result.BalanceBefore = balanceBefore;
       logger.info(`💰 Starting balance: ${balanceBefore}`, tag);
 
@@ -330,8 +337,9 @@ const selectTemplate = async (iframe: Frame, tag: string) => {
 
     let templateFound = false;
     let index = 1;
+    const maxIndex = 240;
 
-    while (!templateFound) {
+    while (!templateFound && index <= maxIndex) {
       while (true) {
         const currentSelector = `#root > div > div._layout_q8u4d_1 > div._content_q8u4d_22 > div._info_layout_1p9dg_1 > div > div._container_94gj5_5 > div:nth-child(${index}) > div > img`;
         const templateButton = await iframe.$(currentSelector);
