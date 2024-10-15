@@ -264,6 +264,7 @@ export const getCode = async (name: string): Promise<string | undefined> => {
 };
 
 export const blumVideoCodes = [
+  "CRYPTOFAN",
   "Blumexplorer",
   "SOBLUM",
   "WOWBLUM",
