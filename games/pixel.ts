@@ -232,10 +232,10 @@ async function clickOnCanvasByCoordinate(
 }
 
 const checkSelectedTemplate = async (iframe: Frame, tag: string) => {
-  const PIXEL_TEMPLATE_URL = process.env.PIXEL_TEMPLATE_URL;
+  const IMG_TEMPLATE_URL = process.env.IMG_TEMPLATE_URL;
 
-  if (!PIXEL_TEMPLATE_URL) {
-    throw new Error("PIXEL_TEMPLATE_URL is not defined in the environment variables.");
+  if (!IMG_TEMPLATE_URL) {
+    throw new Error("IMG_TEMPLATE_URL is not defined in the environment variables.");
   }
 
   let isSelecting = false;
@@ -246,15 +246,15 @@ const checkSelectedTemplate = async (iframe: Frame, tag: string) => {
       const img = await button.$("img._image_wekpw_19");
       if (img) {
         const src = await img.evaluate((el: HTMLImageElement) => el.src);
-        if (src === PIXEL_TEMPLATE_URL) {
-          logger.info(`Template with url ${PIXEL_TEMPLATE_URL} is already selected`, tag);
+        if (src === IMG_TEMPLATE_URL) {
+          logger.info(`Template with url ${IMG_TEMPLATE_URL} is already selected`, tag);
           isSelecting = true;
         }
       }
     }
     if (!isSelecting) {
-      logger.info(`Template with url ${PIXEL_TEMPLATE_URL} is not selected`, tag);
-      logger.debug(`Start selecting template with url ${PIXEL_TEMPLATE_URL}`, tag);
+      logger.info(`Template with url ${IMG_TEMPLATE_URL} is not selected`, tag);
+      logger.debug(`Start selecting template with url ${IMG_TEMPLATE_URL}`, tag);
       await selectTemplate(iframe, tag);
     }
   } catch (error) {
@@ -310,8 +310,6 @@ const selectTemplate = async (iframe: Frame, tag: string) => {
     "#root > div > div._layout_q8u4d_1 > div._content_q8u4d_22 > div._panel_1mia4_1 > div:nth-child(2)";
   const LOAD_MORE_BUTTON_SELECTOR =
     "#root > div > div._layout_q8u4d_1 > div._content_q8u4d_22 > div._info_layout_1p9dg_1 > div > div._button_container_94gj5_11 > button";
-  const TEMPLATE_BUTTON_SELECTOR =
-    "#root > div > div._layout_q8u4d_1 > div._content_q8u4d_22 > div._info_layout_1p9dg_1 > div > div._container_94gj5_5 > div:nth-child(106) > div > img";
   const SELECT_TEMPLATE_BUTTON_SELECTOR = "body > div._layout_16huv_1 > div > div > div > button";
   const NOT_BUTTON_SELECTOR = "body > div._layout_16huv_1 > div > div > div > div._not_button_13ays_92";
   const CLOSE_TEMPLATE_BUTTON_SELECTOR = "body > div._layout_16huv_1 > div > div > div > div._close_button_13ays_18";
@@ -340,7 +338,7 @@ const selectTemplate = async (iframe: Frame, tag: string) => {
 
         if (templateButton) {
           const imgSrc = await templateButton.evaluate((img: HTMLImageElement) => img.src);
-          if (imgSrc === "https://static.notpx.app/templates/5726256852.png") {
+          if (imgSrc === process.env.IMG_TEMPLATE_URL) {
             const parentDivSelector = `#root > div > div._layout_q8u4d_1 > div._content_q8u4d_22 > div._info_layout_1p9dg_1 > div > div._container_94gj5_5 > div:nth-child(${index})`;
             await coolClickButton(await iframe.$$(parentDivSelector), parentDivSelector, "Template Button", tag);
             await delay(2000);
@@ -361,7 +359,6 @@ const selectTemplate = async (iframe: Frame, tag: string) => {
       }
     }
 
-    let selectTemplateClicked = false;
     for (let i = 0; i < 5; i++) {
       const selectTemplateButton = await iframe.$$(SELECT_TEMPLATE_BUTTON_SELECTOR);
       await coolClickButton(selectTemplateButton, SELECT_TEMPLATE_BUTTON_SELECTOR, "Select Template Button", tag);
@@ -369,27 +366,18 @@ const selectTemplate = async (iframe: Frame, tag: string) => {
 
       try {
         await iframe.waitForSelector(NOT_BUTTON_SELECTOR, { timeout: 3000 });
-        selectTemplateClicked = true;
         break;
-      } catch {
-        // Continue to the next iteration if the template was not selected
-      }
+      } catch {}
     }
 
     const closeTemplateButton = await iframe.$$(CLOSE_TEMPLATE_BUTTON_SELECTOR);
-    const closeTemplateResult = await coolClickButton(
-      closeTemplateButton,
-      CLOSE_TEMPLATE_BUTTON_SELECTOR,
-      "Close Template Button",
-      tag,
-    );
+    await coolClickButton(closeTemplateButton, CLOSE_TEMPLATE_BUTTON_SELECTOR, "Close Template Button", tag);
     await delay(2000);
 
-    // Return to the templates button
     const returnButton = await iframe.$$(RETURN_BUTTON_SELECTOR);
     await coolClickButton(returnButton, RETURN_BUTTON_SELECTOR, "Return Button", tag);
   } catch (error) {
-    console.error("An error occurred during the template selection process:", error);
+    logger.error(`An error occurred during the template selection process: ${error}`, tag);
   }
 };
 
