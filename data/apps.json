@@ -4602,7 +4602,7 @@
   {
     "id": 461,
     "code": "knbhvlu",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
@@ -4612,7 +4612,7 @@
   {
     "id": 462,
     "code": "knbhvlv",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
@@ -4622,7 +4622,7 @@
   {
     "id": 463,
     "code": "knbhvlw",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
@@ -4632,7 +4632,7 @@
   {
     "id": 464,
     "code": "knbhvlx",
-    "active": false,
+    "active": true,
     "username": "",
     "games": {
       "blum": "https://web.telegram.org/k/#@BlumCryptoBot",
