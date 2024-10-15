@@ -1,6 +1,7 @@
 import sharp from "sharp";
 import path from "path";
 import fs from "fs";
+import "dotenv/config";
 
 import { logger } from "./core/Logger";
 
