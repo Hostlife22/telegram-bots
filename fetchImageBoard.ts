@@ -227,15 +227,16 @@ export function startFetchImageBoard() {
     return;
   }
   isFetching = true;
-  processImages().then(() => {
-    connectWebSocket();
-  });
+  processImages();
+  // .then(() => {
+  //   connectWebSocket();
+  // });
 
   processImagesInterval = setInterval(() => {
-    if (websocketFailureCount > maxWebSocketFailures) {
-      logger.info("Fetching images...");
-      processImages();
-    }
+    // if (websocketFailureCount > maxWebSocketFailures) {
+    logger.debug("Fetching image...");
+    processImages();
+    // }
   }, 7000);
 }
 
