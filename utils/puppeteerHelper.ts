@@ -4,6 +4,38 @@ import { logger } from "../core/Logger";
 import { randomDelay, delay } from "./delay";
 import { commonSelectors } from "./selectors";
 
+export const reloadBotViaMenu = async (page: Page, tag: string, isRegister: boolean) => {
+  const settings =
+    "body > div:nth-child(8) > div > div._BrowserHeader_m63td_55 > div.scrollable.scrollable-x._BrowserHeaderTabsScrollable_m63td_81.scrolled-start.scrolled-end > div > div._BrowserHeaderTab_m63td_72._active_m63td_157._first_m63td_96.animated-item > button.btn-icon._BrowserHeaderButton_m63td_65._BrowserHeaderTabIcon_m63td_111 > span._BrowserHeaderTabIconInner_m63td_117 > div";
+  const elements = await page.$$(settings);
+  if (elements.length > 0) {
+    logger.info("Clicking on menu button", tag);
+    await elements[0].click();
+    await delay(1500);
+  }
+  const rel = `#page-chats > div.btn-menu.contextmenu.bottom-right.active.was-open > div:nth-child(${isRegister ? "2" : "1"})`;
+  const reloads = await page.$$(rel);
+  if (reloads.length > 0) {
+    logger.info("Clicking on reload button", tag);
+    await reloads[0].click();
+    await delay(1500);
+  }
+  await delay(4000);
+};
+
+export const goBack = async (page: Page, tag: string) => {
+  const fuckingBackButton = await page.$$(commonSelectors.backButton);
+  await fuckingBackButton[0]
+    .click()
+    .then(() => {
+      logger.info("Back button click", tag);
+    })
+    .catch(() => {
+      logger.error("Back button not found", tag);
+    });
+  await randomDelay(800, 1000, "ms");
+};
+
 export const hasElement = async (page: Page | Frame, selector: string): Promise<boolean> => {
   try {
     const elements = await page.$$(selector);

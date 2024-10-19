@@ -5,7 +5,7 @@ import { clickConfirm } from "../utils/confirmPopup";
 import { convertToNumber } from "../utils/convertToNumber";
 import { delay, randomDelay } from "../utils/delay";
 import { logger } from "../core/Logger";
-import { hasElement, safeClick, selectFrame } from "../utils/puppeteerHelper";
+import { hasElement, reloadBotViaMenu, safeClick, selectFrame } from "../utils/puppeteerHelper";
 import { commonSelectors, getBoostPriceSelector, pixelGameSelectors } from "../utils/selectors";
 import { pixelDiffToPixelClickMap } from "../utils/pixelDiffToPixelClickMap";
 import { existedCoordinates } from "../utils/existedCoordinates";
@@ -267,25 +267,6 @@ const checkSelectedTemplate = async (iframe: Frame, tag: string) => {
   } catch (error) {
     logger.error("An error occurred while selecting the template:", tag);
   }
-};
-
-const reloadBotViaMenu = async (page: Page, tag: string, isRegister: boolean) => {
-  const settings =
-    "body > div:nth-child(8) > div > div._BrowserHeader_m63td_55 > div.scrollable.scrollable-x._BrowserHeaderTabsScrollable_m63td_81.scrolled-start.scrolled-end > div > div._BrowserHeaderTab_m63td_72._active_m63td_157._first_m63td_96.animated-item > button.btn-icon._BrowserHeaderButton_m63td_65._BrowserHeaderTabIcon_m63td_111 > span._BrowserHeaderTabIconInner_m63td_117 > div";
-  const elements = await page.$$(settings);
-  if (elements.length > 0) {
-    logger.info("Clicking on menu button", tag);
-    await elements[0].click();
-    await delay(1500);
-  }
-  const rel = `#page-chats > div.btn-menu.contextmenu.bottom-right.active.was-open > div:nth-child(${isRegister ? "2" : "1"})`;
-  const reloads = await page.$$(rel);
-  if (reloads.length > 0) {
-    logger.info("Clicking on reload button", tag);
-    await reloads[0].click();
-    await delay(1500);
-  }
-  await delay(4000);
 };
 
 const closeBotViaMenu = async (page: Page, tag: string, isRegister: boolean) => {

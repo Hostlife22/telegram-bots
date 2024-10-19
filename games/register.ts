@@ -4,8 +4,10 @@ import { AccountResults } from "../types";
 import { clickConfirm } from "../utils/confirmPopup";
 import { delay } from "../utils/delay";
 import { handleClaimTasks, handleOnboardingButtons } from "./pixel";
-import { safeClick, selectFrame } from "../utils/puppeteerHelper";
-import { blumBotSelectors } from "../utils/selectors";
+import { coolClickButton, goBack, reloadBotViaMenu, safeClick, selectFrame } from "../utils/puppeteerHelper";
+import { blumBotSelectors, tomatoSelectors } from "../utils/selectors";
+import { handleClaimDigReward } from "./tomato";
+import { convertToNumber } from "../utils/convertToNumber";
 
 const registerGame = async (browser: Browser, appUrl: string, id: number) => {
   logger.debug(`🎮 register game #${id}`);
@@ -48,6 +50,39 @@ const registerGame = async (browser: Browser, appUrl: string, id: number) => {
       await safeClick(iframe, blumBotSelectors.buttonSelector, tag);
       await delay(5000);
       logger.info("🎮 Blum Game registered successfully", tag);
+    } else if (appUrl.toLowerCase().includes("tomarket")) {
+      const iframe = await selectFrame(page, tag);
+      await coolClickButton(iframe, tomatoSelectors.startEarning, "Start Earning btn", tag);
+      await delay(4500);
+      await coolClickButton(iframe, tomatoSelectors.newContinue, "Continue btn", tag);
+      await delay(2000);
+      await coolClickButton(iframe, tomatoSelectors.newEnter, "Enter Button", tag);
+      await delay(2000);
+
+      await reloadBotViaMenu(page, tag, true);
+      await goBack(page, tag);
+
+      const iframe2 = await selectFrame(page, tag);
+      await coolClickButton(iframe2, tomatoSelectors.levelStarBtn, "Level star Button", tag);
+      await delay(2000);
+
+      await coolClickButton(iframe2, tomatoSelectors.revealYourLevel, "Reveal Your Level Button", tag);
+      await delay(4000);
+
+      await goBack(page, tag);
+
+      await handleClaimDigReward(iframe2, tag);
+      await delay(1000);
+      await coolClickButton(iframe2, tomatoSelectors.newStartFarming, "Start Farming", tag);
+
+      const getBalance = async (selector: string): Promise<number> => {
+        const priceText = await iframe.$eval(selector, (el) => el.textContent);
+        return convertToNumber(priceText);
+      };
+      const balanceAfter = await getBalance(tomatoSelectors.balance);
+
+      result.BalanceBefore = "Registered successful";
+      result.BalanceAfter = balanceAfter;
     }
   } catch (error) {
     logger.error(`An error occurred during initial setup: ${error.message}`, tag);
