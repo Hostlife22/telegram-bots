@@ -70,6 +70,14 @@ const playTomatoGame = async (browser: Browser, appUrl: string, id: number) => {
     await handleClaimDigReward(iframe, tag);
     await delay(2000);
 
+    await coolClickButton(iframe, tomatoSelectors.levelStarBtn, "Level star Button", tag);
+    await delay(2000);
+
+    await coolClickButton(iframe, tomatoSelectors.revealYourLevel, "Reveal Your Level Button", tag);
+    await delay(4000);
+
+    await goBack(page, tag);
+
     await coolClickButton(iframe, tomatoSelectors.spinModalOpenButton, "Open spinner button", tag);
     await delay(7000);
 
