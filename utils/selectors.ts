@@ -111,7 +111,7 @@ export const tomatoSelectors = {
   startFarmingButton: "div._farmBtn_rrulr_62._farmBtnStart_rrulr_78",
   diggerButton: "div._tomato_1l65e_41",
   closeDiggerModal: "div._popup_16kb3_17._popupVisible_16kb3_30._popStyle_1l65e_99 > i._close_16kb3_57",
-  claimDigReward: "div._home_lw6uc_1 > div._popup_16kb3_17._popupVisible_16kb3_30._popStyle_1l65e_99 > div._bd_16kb3_70 button",
+  claimDigReward: "div._bd_pnpwc_84 button",
   balance: "div._layout_o460a_1._layoutTabbar_o460a_21 > div._home_lw6uc_1 > div._score_1tlfu_1 > p",
   // New
   newContinue: "div._phaseTwo_842pa_152 > div._continueWrap_842pa_348 > div._continue_842pa_348",
