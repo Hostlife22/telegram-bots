@@ -6,7 +6,7 @@ import { delay } from "../utils/delay";
 import { handleClaimTasks, handleOnboardingButtons } from "./pixel";
 import { coolClickButton, goBack, reloadBotViaMenu, safeClick, selectFrame } from "../utils/puppeteerHelper";
 import { blumBotSelectors, tomatoSelectors } from "../utils/selectors";
-import { handleClaimDigReward } from "./tomato";
+import { handleClaimDigReward, levelRevealOrUp } from "./tomato";
 import { convertToNumber } from "../utils/convertToNumber";
 
 const registerGame = async (browser: Browser, appUrl: string, id: number) => {
@@ -66,10 +66,7 @@ const registerGame = async (browser: Browser, appUrl: string, id: number) => {
       await coolClickButton(iframe2, tomatoSelectors.levelStarBtn, "Level star Button", tag);
       await delay(2000);
 
-      await coolClickButton(iframe2, tomatoSelectors.revealYourLevel, "Reveal Your Level Button", tag);
-      await delay(4000);
-
-      await goBack(page, tag);
+      await levelRevealOrUp(iframe2, page, tag);
 
       await handleClaimDigReward(iframe2, tag);
       await delay(1000);

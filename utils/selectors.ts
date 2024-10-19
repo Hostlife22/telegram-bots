@@ -127,5 +127,7 @@ export const tomatoSelectors = {
   levelStarBtn: "div._layout_o460a_1._layoutTabbar_o460a_21 > div._home_lw6uc_1 > div._levelWrapper_1tlfu_120",
   revealYourLevel: "div._layout_o460a_1 > div > div._score_1i45r_20 > button._btn_1i45r_156",
 
+  checkMyLevel: "div._layout_o460a_1._layoutTabbar_o460a_21 > div._home_lw6uc_1 > div._levelWrapper_1tlfu_120",
+  upMyLevel: "div._fixedBox_79gla_125 > div._btns_79gla_188 > button._btn_79gla_188._upgradeBtn_79gla_216",
   firstFreeSpinBtn: "div._button_wzwhq_68._buttonLarge_wzwhq_83._buttonFree_wzwhq_103._buttonLargeGreen_wzwhq_180",
 };

@@ -33,6 +33,25 @@ export const handleClaimDigReward = async (iframe: Frame, tag: string): Promise<
   await randomDelay(800, 1000, "ms");
 };
 
+export const levelRevealOrUp = async (iframe: Frame, page: Page, tag: string) => {
+  const revealLevelBtn = await iframe.$$(tomatoSelectors.revealYourLevel);
+  if (revealLevelBtn.length) {
+    await coolClickButton(iframe, tomatoSelectors.revealYourLevel, "Reveal Your Level Button", tag);
+    await delay(4000);
+
+    await coolClickButton(iframe, tomatoSelectors.upMyLevel, "Level Up", tag);
+    await delay(2000);
+    await goBack(page, tag);
+  } else {
+    await coolClickButton(iframe, tomatoSelectors.checkMyLevel, "Check My Level Button", tag);
+    await delay(4000);
+
+    await coolClickButton(iframe, tomatoSelectors.upMyLevel, "Level Up", tag);
+    await delay(2000);
+    await goBack(page, tag);
+  }
+};
+
 const playTomatoGame = async (browser: Browser, appUrl: string, id: number) => {
   logger.debug(`🍅 register game #${id}`);
 
@@ -73,10 +92,7 @@ const playTomatoGame = async (browser: Browser, appUrl: string, id: number) => {
     await coolClickButton(iframe, tomatoSelectors.levelStarBtn, "Level star Button", tag);
     await delay(2000);
 
-    await coolClickButton(iframe, tomatoSelectors.revealYourLevel, "Reveal Your Level Button", tag);
-    await delay(4000);
-
-    await goBack(page, tag);
+    await levelRevealOrUp(iframe, page, tag);
 
     await coolClickButton(iframe, tomatoSelectors.spinModalOpenButton, "Open spinner button", tag);
     await delay(7000);
