@@ -69,8 +69,9 @@ You need to create a JSON file in the `data` folder with the following structure
 
 ### Add new Game to profile json
 
-1. npm run add -- gameKey gameUrl jsonPath
-2. yarn add -- gameKey gameUrl jsonPath
+1. npm run add -- gameKey gameUrl jsonPath 1-10 (1,2,3, ..., 10)
+2. npm run add -- gameKey gameUrl jsonPath 1 10 45 (1, 10, 45)
+3. yarn add -- gameKey gameUrl jsonPath
 
 ### Add game by referral link
 
