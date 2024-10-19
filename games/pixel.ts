@@ -87,6 +87,15 @@ const pickColor = async (iframe: Frame, requiredColor: string, tag: string) => {
   }
 };
 
+const wrongUploadingBot = async (iframe: Frame, page: Page, tag: string) => {
+  const wrongUploadingBot = await iframe.$$(pixelGameSelectors.crashGameButton);
+  if (wrongUploadingBot.length > 0) {
+    logger.warning("Bot is uploading wrong, reload bot...", tag);
+    await reloadBotViaMenu(page, tag, false);
+    await randomDelay(3000, 5000, "ms");
+  }
+};
+
 const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
   logger.debug(`🎮 Pixel #${id}`);
 
@@ -123,15 +132,22 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
     await clickConfirm(page, tag);
 
     await page.bringToFront();
-    const iframe = await selectFrame(page, tag);
+    const initialFrame = await selectFrame(page, tag);
+    await wrongUploadingBot(initialFrame, page, tag);
+    await wrongUploadingBot(initialFrame, page, tag);
+    await wrongUploadingBot(initialFrame, page, tag);
 
-    const wrongUploadingBot = await page.$$(pixelGameSelectors.crashGame);
-    if (wrongUploadingBot.length > 0) {
-      await reloadBotViaMenu(page, tag, false);
-      await delay(3000);
+    if ((await initialFrame.$$(pixelGameSelectors.crashGameButton)).length > 0) {
+      logger.error(`Finish game with Uploading Error`);
+      await page.close();
+      return {
+        ...result,
+        BalanceBefore: "Bot is uploading wrong after 3 reloads",
+      };
     }
 
     try {
+      const iframe = await selectFrame(page, tag);
       await handleOnboardingButtons(iframe, 7000, tag);
 
       let balanceBefore = await extractBalance(iframe, tag);
@@ -140,6 +156,13 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
         logger.warning("Balance is 0. Exiting...", tag);
         await reloadBotViaMenu(page, tag, false);
         await delay(3000);
+        balanceBefore = await extractBalance(iframe, tag);
+      }
+
+      if (balanceBefore === "[None]") {
+        logger.warning("Balance is None. Trying reload bot...", tag);
+        await reloadBotViaMenu(page, tag, false);
+        await randomDelay(3000, 4000, "ms");
         balanceBefore = await extractBalance(iframe, tag);
       }
 
@@ -154,6 +177,8 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
         await handleClaimTasks(iframe, page, tag, true);
         await delay(2000);
       }
+
+      await checkSelectedTemplate(iframe, tag);
 
       await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "Play button", tag);
       await delay(1000);
@@ -213,6 +238,37 @@ async function clickOnCanvasByCoordinate(
   }
 }
 
+const checkSelectedTemplate = async (iframe: Frame, tag: string) => {
+  const IMG_TEMPLATE_URL = process.env.IMG_TEMPLATE_URL;
+
+  if (!IMG_TEMPLATE_URL) {
+    throw new Error("IMG_TEMPLATE_URL is not defined in the environment variables.");
+  }
+
+  let isSelecting = false;
+  try {
+    const buttons = await iframe.$$("div._buttons_container_b4e6p_17 > button");
+
+    for (const button of buttons) {
+      const img = await button.$("img._image_wekpw_19");
+      if (img) {
+        const src = await img.evaluate((el: HTMLImageElement) => el.src);
+        if (src === IMG_TEMPLATE_URL) {
+          logger.info(`Template with url ${IMG_TEMPLATE_URL} is already selected`, tag);
+          isSelecting = true;
+        }
+      }
+    }
+    if (!isSelecting) {
+      logger.info(`Template with url ${IMG_TEMPLATE_URL} is not selected`, tag);
+      logger.debug(`Start selecting template with url ${IMG_TEMPLATE_URL}`, tag);
+      await selectTemplate(iframe, tag);
+    }
+  } catch (error) {
+    logger.error("An error occurred while selecting the template:", tag);
+  }
+};
+
 const reloadBotViaMenu = async (page: Page, tag: string, isRegister: boolean) => {
   const settings =
     "body > div:nth-child(8) > div > div._BrowserHeader_m63td_55 > div.scrollable.scrollable-x._BrowserHeaderTabsScrollable_m63td_81.scrolled-start.scrolled-end > div > div._BrowserHeaderTab_m63td_72._active_m63td_157._first_m63td_96.animated-item > button.btn-icon._BrowserHeaderButton_m63td_65._BrowserHeaderTabIcon_m63td_111 > span._BrowserHeaderTabIconInner_m63td_117 > div";
@@ -230,6 +286,107 @@ const reloadBotViaMenu = async (page: Page, tag: string, isRegister: boolean) =>
     await delay(1500);
   }
   await delay(4000);
+};
+
+const closeBotViaMenu = async (page: Page, tag: string, isRegister: boolean) => {
+  const settings =
+    "body > div:nth-child(8) > div > div._BrowserHeader_m63td_55 > div.scrollable.scrollable-x._BrowserHeaderTabsScrollable_m63td_81.scrolled-start.scrolled-end > div > div._BrowserHeaderTab_m63td_72._active_m63td_157 > button.btn-icon._BrowserHeaderButton_m63td_65._BrowserHeaderTabIcon_m63td_111 > span._BrowserHeaderTabIconInner_m63td_117 > div";
+
+  const elements = await page.$$(settings);
+  if (elements.length > 0) {
+    logger.info("Clicking on menu button", tag);
+    await elements[0].click();
+    await delay(1500);
+  }
+
+  const closeBtnItem = `#page-chats > div.btn-menu.contextmenu.bottom-right.active.was-open > div:nth-child(3)`;
+  const closeBtn = await page.$$(closeBtnItem);
+  if (closeBtn.length > 0) {
+    logger.info("Clicking on reload button", tag);
+    await closeBtn[0].click();
+    await delay(1500);
+    await clickConfirm(page, tag);
+  }
+};
+
+const selectTemplate = async (iframe: Frame, tag: string) => {
+  const BURGER_BUTTON_SELECTOR =
+    "#root > div > div._header_dwodb_1 > div > div._buttons_container_1tu7a_1 > div._group_1tu7a_8._left_1tu7a_15 > button._burger_button_1tu7a_65";
+  const MY_TEMPLATES_BUTTON_SELECTOR = "#root > div > nav > div._top_container_12qyz_10 > ul > li:nth-child(4)";
+  const CATALOG_BUTTON_SELECTOR =
+    "#root > div > div._layout_q8u4d_1 > div._content_q8u4d_22 > div._panel_1mia4_1 > div:nth-child(2)";
+  const LOAD_MORE_BUTTON_SELECTOR =
+    "#root > div > div._layout_q8u4d_1 > div._content_q8u4d_22 > div._info_layout_1p9dg_1 > div > div._button_container_94gj5_11 > button";
+  const SELECT_TEMPLATE_BUTTON_SELECTOR = "body > div._layout_16huv_1 > div > div > div > button";
+  const NOT_BUTTON_SELECTOR = "body > div._layout_16huv_1 > div > div > div > div._not_button_13ays_92";
+  const CLOSE_TEMPLATE_BUTTON_SELECTOR = "body > div._layout_16huv_1 > div > div > div > div._close_button_13ays_18";
+  const RETURN_BUTTON_SELECTOR = "#root > div > div._layout_q8u4d_1 > button";
+
+  try {
+    const burgerButton = await iframe.$$(BURGER_BUTTON_SELECTOR);
+    await coolClickButton(burgerButton, BURGER_BUTTON_SELECTOR, "Burger Button", tag);
+    await delay(2000);
+
+    const myTemplatesButton = await iframe.$$(MY_TEMPLATES_BUTTON_SELECTOR);
+    await coolClickButton(myTemplatesButton, MY_TEMPLATES_BUTTON_SELECTOR, "My Templates Button", tag);
+    await delay(2000);
+
+    const catalogButton = await iframe.$$(CATALOG_BUTTON_SELECTOR);
+    await coolClickButton(catalogButton, CATALOG_BUTTON_SELECTOR, "Catalog Button", tag);
+    await delay(5000);
+
+    let templateFound = false;
+    let index = 1;
+    const maxIndex = 240;
+
+    while (!templateFound && index <= maxIndex) {
+      while (true) {
+        const currentSelector = `#root > div > div._layout_q8u4d_1 > div._content_q8u4d_22 > div._info_layout_1p9dg_1 > div > div._container_94gj5_5 > div:nth-child(${index}) > div > img`;
+        const templateButton = await iframe.$(currentSelector);
+
+        if (templateButton) {
+          const imgSrc = await templateButton.evaluate((img: HTMLImageElement) => img.src);
+          if (imgSrc === process.env.IMG_TEMPLATE_URL) {
+            const parentDivSelector = `#root > div > div._layout_q8u4d_1 > div._content_q8u4d_22 > div._info_layout_1p9dg_1 > div > div._container_94gj5_5 > div:nth-child(${index})`;
+            await coolClickButton(await iframe.$$(parentDivSelector), parentDivSelector, "Template Button", tag);
+            await delay(2000);
+            templateFound = true;
+            break;
+          }
+        } else {
+          break;
+        }
+
+        index++;
+      }
+
+      if (!templateFound) {
+        const loadMoreButton = await iframe.$$(LOAD_MORE_BUTTON_SELECTOR);
+        await coolClickButton(loadMoreButton, LOAD_MORE_BUTTON_SELECTOR, "Load More Button", tag);
+        await delay(3000);
+      }
+    }
+
+    for (let i = 0; i < 5; i++) {
+      const selectTemplateButton = await iframe.$$(SELECT_TEMPLATE_BUTTON_SELECTOR);
+      await coolClickButton(selectTemplateButton, SELECT_TEMPLATE_BUTTON_SELECTOR, "Select Template Button", tag);
+      await delay(5000);
+
+      try {
+        await iframe.waitForSelector(NOT_BUTTON_SELECTOR, { timeout: 3000 });
+        break;
+      } catch {}
+    }
+
+    const closeTemplateButton = await iframe.$$(CLOSE_TEMPLATE_BUTTON_SELECTOR);
+    await coolClickButton(closeTemplateButton, CLOSE_TEMPLATE_BUTTON_SELECTOR, "Close Template Button", tag);
+    await delay(2000);
+
+    const returnButton = await iframe.$$(RETURN_BUTTON_SELECTOR);
+    await coolClickButton(returnButton, RETURN_BUTTON_SELECTOR, "Return Button", tag);
+  } catch (error) {
+    logger.error(`An error occurred during the template selection process: ${error}`, tag);
+  }
 };
 
 const defaultGamePlay = async (iframe: Frame, page: Page, tag: string) => {
@@ -267,9 +424,10 @@ const defaultGamePlay = async (iframe: Frame, page: Page, tag: string) => {
 const clickCanvasAndPrint = async (iframe: Frame, tag: string) => {
   const canvas = await iframe.$$("#canvasHolder");
   await randomElementClickButton(canvas, "Canvas", tag);
+  await randomDelay(800, 1000, "ms");
 
   for (let i = 0; i < 50; i++) {
-    const parsedPixels = await simpleParse(20);
+    const parsedPixels = await simpleParse(35);
     console.log(`${i} - pix`, parsedPixels[i], tag);
     const print = await iframe.$$(pixelGameSelectors.printButton);
 
@@ -471,6 +629,30 @@ export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, f
     logger.info(`Claiming task: ${task}`, tag);
     await claimTask(task);
   }
+
+  if (process.env.CLAIM_JOY === "true") {
+    for (let index = 0; index < 5; index++) {
+      if (!(await hasElement(iframe, pixelGameSelectors.joiNotCompleted))) break;
+
+      const joyButtonTaskOpenBtn = await iframe.$$(pixelGameSelectors.joiBotButton);
+      await coolClickButton(joyButtonTaskOpenBtn, pixelGameSelectors.joiBotButton, "Open joy button", tag);
+      await delay(2000);
+
+      if (index === 0) {
+        await clickConfirm(page, tag);
+        await delay(5000);
+        await closeBotViaMenu(page, tag, false);
+        await delay(2000);
+      } else {
+        await clickConfirm(page, tag, false);
+        await delay(2000);
+      }
+
+      await coolClickButton(joyButtonTaskOpenBtn, pixelGameSelectors.joiBotButton, "Claim joy button", tag);
+      await delay(3000);
+    }
+  }
+
   await goBack(page, iframe, tag);
 };
 

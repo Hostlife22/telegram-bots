@@ -19,6 +19,7 @@ export class GameProcessor {
   private parallelLimit = Number(process.env.PARALLEL_LIMIT) || 2;
   private reports: ParsedGameResult[] = [];
   private isTaskScheduled = false;
+  private isTaskRunning = false;
 
   constructor(telegramNotifier: TelegramNotifier, browserManager: BrowserManager, reportManager: ReportManager) {
     this.telegramNotifier = telegramNotifier;
@@ -27,31 +28,36 @@ export class GameProcessor {
   }
 
   start() {
-    this.initRun ? this.executeTask() : this.scheduleNextTask();
+    this.initRun ? this.executeTask().then(() => this.scheduleNextTask()) : this.scheduleNextTask();
   }
 
   private scheduleNextTask() {
-    if (this.isTaskScheduled) {
-      logger.warning("Task is already scheduled");
+    if (this.isTaskScheduled || this.isTaskRunning) {
+      logger.warning("Task is already scheduled or running");
       return;
     }
 
-    // BASE_TASK_TIME=60 (1h)
-    const baseTime = process.env.BASE_TASK_TIME ? parseInt(process.env.BASE_TASK_TIME, 10) : 228;
-
-    const randomMinutes = getRandomNumberBetween(baseTime - 2, baseTime + 2);
+    const baseTime = parseInt(process.env.BASE_TASK_TIME || "228", 10);
+    const randomNumber = getRandomNumberBetween(baseTime - 2, baseTime + 2);
+    const randomMinutes = randomNumber > 1 ? randomNumber : 1;
     const taskTime = new Date(Date.now() + randomMinutes * 60 * 1000);
-    this.notifySchedule(taskTime);
-    this.isTaskScheduled = true;
 
-    const job = scheduleJob(taskTime, async () => {
+    this.isTaskScheduled = true;
+    this.notifySchedule(taskTime);
+    logger.info(`Next task will run in ${randomMinutes} minutes at ${taskTime}`);
+
+    scheduleJob(taskTime, async () => {
+      this.isTaskScheduled = false;
+
       try {
+        this.isTaskRunning = true;
+        logger.info(`Task started at ${new Date()}`);
         await this.executeTask();
       } catch (err) {
         logger.error(`An error occurred while executing the task: ${err}`);
       } finally {
-        job.cancel();
-        this.isTaskScheduled = false;
+        this.isTaskRunning = false;
+        logger.info(`Task finished at ${new Date()}`);
         this.scheduleNextTask();
       }
     });
@@ -148,7 +154,6 @@ export class GameProcessor {
   private clearProcessedData() {
     this.reports = [];
     this.processedAccounts.clear();
-    this.scheduleNextTask();
   }
 
   prepareResultGames(resultGames: ParsedGameResult[], tgApp: TgApp): ParsedGameResult[] {

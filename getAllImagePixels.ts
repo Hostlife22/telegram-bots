@@ -1,6 +1,7 @@
 import sharp from "sharp";
 import path from "path";
 import fs from "fs";
+import "dotenv/config";
 
 import { logger } from "./core/Logger";
 
@@ -16,7 +17,8 @@ const IMAGE_CONFIG: ImageItemConfig[] = [
   // { imageName: "island", initialCoordinate: { x: 0, y: 372 } },
   // { imageName: "worldtemplate", initialCoordinate: { x: 372, y: 372 } },
   // { imageName: "pacman", initialCoordinate: { x: 744, y: 372 } },
-  { imageName: "durov", initialCoordinate: { x: 244, y: 244 } },
+  // { imageName: "durov", initialCoordinate: { x: 244, y: 244 } },
+  { imageName: process.env.IMG_NAME, initialCoordinate: { x: Number(process.env.IMG_X), y: Number(process.env.IMG_Y) } },
 ];
 
 async function getAllImagePixels(imagePath: string) {

@@ -3,6 +3,7 @@ import { readFileSync, writeFileSync } from "fs";
 import path from "path";
 import sharp from "sharp";
 import WebSocket from "ws";
+import "dotenv/config";
 
 import { logger } from "./core/Logger";
 import { pixelStore } from "./core/PixelDifferenceStore";
@@ -21,12 +22,13 @@ interface ImageItemConfig {
 const IMAGE_CONFIG: ImageItemConfig[] = [
   // { imageName: "island", initialCoordinate: { x: 0, y: 372 } },
   // { imageName: "worldtemplate", initialCoordinate: { x: 372, y: 372 } },
-  { imageName: "durov", initialCoordinate: { x: 244, y: 244 } },
+  // { imageName: "durov", initialCoordinate: { x: 244, y: 244 } },
   // { imageName: "pacman", initialCoordinate: { x: 744, y: 372 } },
+  { imageName: process.env.IMG_NAME, initialCoordinate: { x: Number(process.env.IMG_X), y: Number(process.env.IMG_Y) } },
 ];
 
 const MAIN_IMAGE_SIZE = 1000;
-const STENCIL_SIZE = 512;
+const STENCIL_SIZE = Number(process.env.IMG_STENCIL_SIZE) || 512;
 
 let websocketFailureCount = 0;
 let processImagesErrorCount = 0;
@@ -225,15 +227,16 @@ export function startFetchImageBoard() {
     return;
   }
   isFetching = true;
-  processImages().then(() => {
-    connectWebSocket();
-  });
+  processImages();
+  // .then(() => {
+  //   connectWebSocket();
+  // });
 
   processImagesInterval = setInterval(() => {
-    if (websocketFailureCount > maxWebSocketFailures) {
-      logger.info("Fetching images...");
-      processImages();
-    }
+    // if (websocketFailureCount > maxWebSocketFailures) {
+    logger.debug("Fetching image...");
+    processImages();
+    // }
   }, 7000);
 }
 

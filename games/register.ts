@@ -4,7 +4,8 @@ import { AccountResults } from "../types";
 import { clickConfirm } from "../utils/confirmPopup";
 import { delay } from "../utils/delay";
 import { handleClaimTasks, handleOnboardingButtons } from "./pixel";
-import { selectFrame } from "../utils/puppeteerHelper";
+import { safeClick, selectFrame } from "../utils/puppeteerHelper";
+import { blumBotSelectors } from "../utils/selectors";
 
 const registerGame = async (browser: Browser, appUrl: string, id: number) => {
   logger.debug(`🎮 register game #${id}`);
@@ -40,6 +41,13 @@ const registerGame = async (browser: Browser, appUrl: string, id: number) => {
 
       await page.bringToFront();
       await handleClaimTasks(iframe, page, tag, true);
+    } else if (appUrl.includes("blum")) {
+      const iframe = await selectFrame(page, tag);
+      await safeClick(iframe, blumBotSelectors.buttonSelector, tag);
+      await delay(5000);
+      await safeClick(iframe, blumBotSelectors.buttonSelector, tag);
+      await delay(5000);
+      logger.info("🎮 Blum Game registered successfully", tag);
     }
   } catch (error) {
     logger.error(`An error occurred during initial setup: ${error.message}`, tag);
