@@ -35,20 +35,21 @@ export const handleClaimDigReward = async (iframe: Frame, tag: string): Promise<
 
 export const levelRevealOrUp = async (iframe: Frame, page: Page, tag: string) => {
   const revealLevelBtn = await iframe.$$(tomatoSelectors.revealYourLevel);
+  const levelUp = async () => {
+    await coolClickButton(iframe, tomatoSelectors.upMyLevel, "Level Up", tag);
+    await delay(1000);
+    await coolClickButton(iframe, tomatoSelectors.useStarsBtn, "Use Stars btn", tag);
+    await delay(2000);
+    await goBack(page, tag);
+  };
   if (revealLevelBtn.length) {
     await coolClickButton(iframe, tomatoSelectors.revealYourLevel, "Reveal Your Level Button", tag);
     await delay(4000);
-
-    await coolClickButton(iframe, tomatoSelectors.upMyLevel, "Level Up", tag);
-    await delay(2000);
-    await goBack(page, tag);
+    await levelUp();
   } else {
     await coolClickButton(iframe, tomatoSelectors.checkMyLevel, "Check My Level Button", tag);
     await delay(4000);
-
-    await coolClickButton(iframe, tomatoSelectors.upMyLevel, "Level Up", tag);
-    await delay(2000);
-    await goBack(page, tag);
+    await levelUp();
   }
 };
 

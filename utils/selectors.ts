@@ -129,5 +129,6 @@ export const tomatoSelectors = {
 
   checkMyLevel: "div._layout_o460a_1._layoutTabbar_o460a_21 > div._home_lw6uc_1 > div._levelWrapper_1tlfu_120",
   upMyLevel: "div._fixedBox_79gla_125 > div._btns_79gla_188 > button._btn_79gla_188._upgradeBtn_79gla_216",
+  useStarsBtn: "div._popup_pnpwc_17._popupVisible_pnpwc_30 > div > div > button._injectBtn_ec1vf_100",
   firstFreeSpinBtn: "div._button_wzwhq_68._buttonLarge_wzwhq_83._buttonFree_wzwhq_103._buttonLargeGreen_wzwhq_180",
 };
