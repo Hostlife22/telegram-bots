@@ -110,7 +110,7 @@ export const tomatoSelectors = {
   claimButton: "div._home_lw6uc_1 > div._farmBtn_rrulr_62._farmBtnHarvest_rrulr_141",
   startFarmingButton: "div._farmBtn_rrulr_62._farmBtnStart_rrulr_78",
   diggerButton: "div._tomato_1l65e_41",
-  closeDiggerModal: "div._popup_16kb3_17._popupVisible_16kb3_30._popStyle_1l65e_99 > i._close_16kb3_57",
+  closeDiggerModal: "i._close_pnpwc_71",
   claimDigReward: "div._bd_pnpwc_84 button",
   balance: "div._layout_o460a_1._layoutTabbar_o460a_21 > div._home_lw6uc_1 > div._score_1tlfu_1 > p",
   // New
@@ -123,10 +123,9 @@ export const tomatoSelectors = {
     "div._home_lw6uc_1 > div._popup_16kb3_17._popupVisible_16kb3_30._popStyle_1l65e_99 > div > div > button:nth-child(1)",
 
   // New register
+  wrongUpload: "div._mobile_va9m0_1 > div._heading_va9m0_12",
   startEarning: "div._btnWrap_1w1k2_52 > div._btn_1w1k2_52",
-  levelStarBtn: "div._layout_o460a_1._layoutTabbar_o460a_21 > div._home_lw6uc_1 > div._levelWrapper_1tlfu_120",
   revealYourLevel: "div._layout_o460a_1 > div > div._score_1i45r_20 > button._btn_1i45r_156",
-
   checkMyLevel: "div._layout_o460a_1._layoutTabbar_o460a_21 > div._home_lw6uc_1 > div._levelWrapper_1tlfu_120",
   upMyLevel: "div._fixedBox_79gla_125 > div._btns_79gla_188 > button._btn_79gla_188._upgradeBtn_79gla_216",
   useStarsBtn: "div._popup_pnpwc_17._popupVisible_pnpwc_30 > div > div > button._injectBtn_ec1vf_100",

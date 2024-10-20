@@ -3,7 +3,7 @@ import { delay, randomDelay } from "../utils/delay";
 import { clickConfirm } from "../utils/confirmPopup";
 import { logger } from "../core/Logger";
 import { AccountResults } from "../types";
-import { coolClickButton, ensureLoginCheck, goBack, safeClick, selectFrame } from "../utils/puppeteerHelper";
+import { coolClickButton, ensureLoginCheck, goBack, reloadBotViaMenu, safeClick, selectFrame } from "../utils/puppeteerHelper";
 import { commonSelectors, tomatoSelectors } from "../utils/selectors";
 import { convertToNumber, parseStringToNumber } from "../utils/convertToNumber";
 
@@ -34,27 +34,35 @@ export const handleClaimDigReward = async (iframe: Frame, tag: string): Promise<
 };
 
 export const levelRevealOrUp = async (iframe: Frame, page: Page, tag: string) => {
-  const revealLevelBtn = await iframe.$$(tomatoSelectors.revealYourLevel);
   const levelUp = async () => {
+    const revealLevelBtn = await iframe.$$(tomatoSelectors.revealYourLevel);
+    if (revealLevelBtn.length) {
+      await coolClickButton(iframe, tomatoSelectors.revealYourLevel, "Reveal My Level Button", tag);
+      await delay(10000);
+    }
     await coolClickButton(iframe, tomatoSelectors.upMyLevel, "Level Up", tag);
     await delay(1000);
     await coolClickButton(iframe, tomatoSelectors.useStarsBtn, "Use Stars btn", tag);
     await delay(2000);
     await goBack(page, tag);
   };
-  if (revealLevelBtn.length) {
-    await coolClickButton(iframe, tomatoSelectors.revealYourLevel, "Reveal Your Level Button", tag);
-    await delay(4000);
-    await levelUp();
-  } else {
-    await coolClickButton(iframe, tomatoSelectors.checkMyLevel, "Check My Level Button", tag);
-    await delay(4000);
-    await levelUp();
+
+  await coolClickButton(iframe, tomatoSelectors.checkMyLevel, "Check My Level Button", tag);
+  await delay(10000);
+  await levelUp();
+};
+
+const wrongUploadingBot = async (iframe: Frame, page: Page, tag: string) => {
+  const wrongUploadingBot = await iframe.$$(tomatoSelectors.wrongUpload);
+  if (wrongUploadingBot.length > 0) {
+    logger.warning("Bot is uploading wrong, reload bot...", tag);
+    await reloadBotViaMenu(page, tag, false);
+    await randomDelay(3000, 5000, "ms");
   }
 };
 
 const playTomatoGame = async (browser: Browser, appUrl: string, id: number) => {
-  logger.debug(`🍅 register game #${id}`);
+  logger.debug(`🍅 Tomato game #${id}`);
 
   const result: AccountResults = {
     Account: null,
@@ -83,15 +91,26 @@ const playTomatoGame = async (browser: Browser, appUrl: string, id: number) => {
     await clickConfirm(page, tag);
 
     await page.bringToFront();
+    const initialFrame = await selectFrame(page, tag);
+
+    await wrongUploadingBot(initialFrame, page, tag);
+
+    const initialFrame2 = await selectFrame(page, tag);
+    if ((await initialFrame2.$$(tomatoSelectors.wrongUpload)).length > 0) {
+      logger.error(`Finish game with Uploading Error`);
+      await page.close();
+      return {
+        ...result,
+        BalanceBefore: "Bot is uploading wrong after 3 reloads",
+      };
+    }
+
     const iframe = await selectFrame(page, tag);
 
     await handleClaimButtons(iframe, tag);
     await randomDelay(800, 1000, "ms");
     await handleClaimDigReward(iframe, tag);
-    await delay(2000);
-
-    await coolClickButton(iframe, tomatoSelectors.levelStarBtn, "Level star Button", tag);
-    await delay(2000);
+    await delay(5000);
 
     await levelRevealOrUp(iframe, page, tag);
 
@@ -100,10 +119,15 @@ const playTomatoGame = async (browser: Browser, appUrl: string, id: number) => {
 
     await coolClickButton(iframe, tomatoSelectors.firstFreeSpinBtn, "First Spin button", tag);
     await delay(3000);
-    const label = await iframe.$eval(
-      "div._button_wzwhq_68._buttonSmall_wzwhq_93._buttonSpinTg_wzwhq_145._buttonSmallBlue_wzwhq_176 > div > div._tip_1tkeu_1",
-      (el) => el.textContent,
-    );
+    const label = await iframe
+      ?.$eval(
+        "div._button_wzwhq_68._buttonSmall_wzwhq_93._buttonSpinTg_wzwhq_145._buttonSmallBlue_wzwhq_176 > div > div._tip_1tkeu_1",
+        (el) => el.textContent,
+      )
+      .catch(() => {
+        logger.warning(`Spinner count is null or not exist`);
+        return "0";
+      });
 
     logger.info(`label: ${label}`);
     const spinCount = parseStringToNumber(label);

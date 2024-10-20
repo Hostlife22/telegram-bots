@@ -63,8 +63,6 @@ const registerGame = async (browser: Browser, appUrl: string, id: number) => {
       await goBack(page, tag);
 
       const iframe2 = await selectFrame(page, tag);
-      await coolClickButton(iframe2, tomatoSelectors.levelStarBtn, "Level star Button", tag);
-      await delay(2000);
 
       await levelRevealOrUp(iframe2, page, tag);
 
