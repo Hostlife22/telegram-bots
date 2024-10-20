@@ -69,14 +69,17 @@ You need to create a JSON file in the `data` folder with the following structure
 
 ### Add new Game to profile json
 
-1. npm run add -- gameKey gameUrl jsonPath 1-10 (1,2,3, ..., 10)
-2. npm run add -- gameKey gameUrl jsonPath 1 10 45 (1, 10, 45)
-3. yarn add -- gameKey gameUrl jsonPath
+#### Update `const gameUrls = [...]` in addGame.ts
+
+1. npm run add -- gameKey jsonPath 10 (1-10 - firstUrl, 10-20 - secondUrl, ... )
+2. npm run add -- gameKey jsonPath 50 (1-50, 50-100, 100-150, ...)
+3. yarn add -- gameKey jsonPath 1 (one register for all)
 
 ### Add game by referral link
 
-- Replace `org/a` by `org/k`
-  Example: `npm run add register https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df1257871143 path`
+#### Update `const gameUrls = [...]` in addGame.ts
 
-1. npm run add -- register gameUrl jsonPath
-2. yarn add -- register gameUrl jsonPath
+- Example: `npm run add register path 1`
+
+1. npm run add -- register jsonPath 1 
+2. yarn add -- register jsonPath 1 
