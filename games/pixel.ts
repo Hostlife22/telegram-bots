@@ -178,7 +178,7 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
         await delay(2000);
       }
 
-      await checkSelectedTemplate(iframe, tag);
+      // await checkSelectedTemplate(iframe, tag);
 
       await coolClickButton(await iframe.$$(pixelGameSelectors.minusZoom), pixelGameSelectors.minusZoom, "Play button", tag);
       await delay(1000);

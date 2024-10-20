@@ -67,8 +67,11 @@ async function compareImages(mainPixels: Uint8Array, imageConfigs: ImageItemConf
         const gStencil = stencilPixels[stencilIndex + 1];
         const bStencil = stencilPixels[stencilIndex + 2];
 
-        if (rMain !== rStencil || gMain !== gStencil || bMain !== bStencil) {
-          const coordinateKey = `${startX + x},${startY + y}`;
+        const coordinateKey = `${startX + x},${startY + y}`;
+
+        if (rMain === rStencil && gMain === gStencil && bMain === bStencil) {
+          pixelStore.removeDifference(coordinateKey);
+        } else {
           pixelStore.addDifference(coordinateKey, rgbToString(rStencil, gStencil, bStencil));
         }
       }
@@ -119,7 +122,7 @@ export async function processImages() {
   processImagesErrorCount = 0;
 
   await compareImages(canvasData.canvasMatrix, IMAGE_CONFIG);
-  await pixelStore.saveToFile(outputDifFilePath);
+  // await pixelStore.saveToFile(outputDifFilePath);
 }
 
 function connectWebSocket() {
