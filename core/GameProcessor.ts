@@ -38,13 +38,12 @@ export class GameProcessor {
     }
 
     const baseTime = parseInt(process.env.BASE_TASK_TIME || "228", 10);
-    const randomNumber = getRandomNumberBetween(baseTime - 2, baseTime + 2);
-    const randomMinutes = randomNumber > 1 ? randomNumber : 1;
-    const taskTime = new Date(Date.now() + randomMinutes * 60 * 1000);
+
+    const taskTime = new Date(Date.now() + baseTime * 60 * 1000);
 
     this.isTaskScheduled = true;
     this.notifySchedule(taskTime);
-    logger.info(`Next task will run in ${randomMinutes} minutes at ${taskTime}`);
+    logger.info(`Next task will run in ${baseTime} minutes at ${taskTime}`);
 
     scheduleJob(taskTime, async () => {
       this.isTaskScheduled = false;

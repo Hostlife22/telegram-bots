@@ -18,46 +18,59 @@ export const handleClaimButtons = async (iframe: Frame, tag: string): Promise<vo
 };
 
 export const handleClaimDigReward = async (iframe: Frame, tag: string): Promise<void> => {
-  await coolClickButton(iframe, tomatoSelectors.diggerButton, "open digger reward modal", tag);
-  await randomDelay(800, 1000, "ms");
+  try {
+    await coolClickButton(iframe, tomatoSelectors.diggerButton, "open digger reward modal", tag);
+    await randomDelay(800, 1000, "ms");
 
-  const getRewardButtons = await iframe?.$$(tomatoSelectors.claimDigReward);
-  if (getRewardButtons?.length > 0) {
-    logger.info("clicking claim button");
-    await getRewardButtons[0]?.click();
-  } else {
-    logger.warning("no reward to claim");
+    const getRewardButtons = await iframe?.$$(tomatoSelectors.claimDigReward).catch(() => []);
+    if (getRewardButtons?.length > 0) {
+      logger.info("clicking claim button");
+      await getRewardButtons[0]?.click();
+    } else {
+      logger.warning("no reward to claim");
+    }
+    await randomDelay(800, 1000, "ms");
+    await coolClickButton(iframe, tomatoSelectors.closeDiggerModal, "claim rewards", tag);
+    await randomDelay(800, 1000, "ms");
+  } catch (error) {
+    logger.error(`handleClaimDigReward error`, tag);
+    console.log(tag, error);
   }
-  await randomDelay(800, 1000, "ms");
-  await coolClickButton(iframe, tomatoSelectors.closeDiggerModal, "claim rewards", tag);
-  await randomDelay(800, 1000, "ms");
 };
 
 export const levelRevealOrUp = async (iframe: Frame, page: Page, tag: string) => {
-  const levelUp = async () => {
-    const revealLevelBtn = await iframe.$$(tomatoSelectors.revealYourLevel);
-    if (revealLevelBtn.length) {
-      await coolClickButton(iframe, tomatoSelectors.revealYourLevel, "Reveal My Level Button", tag);
-      await delay(10000);
-    }
-    await coolClickButton(iframe, tomatoSelectors.upMyLevel, "Level Up", tag);
-    await delay(1000);
-    await coolClickButton(iframe, tomatoSelectors.useStarsBtn, "Use Stars btn", tag);
-    await delay(2000);
-    await goBack(page, tag);
-  };
+  try {
+    const levelUp = async () => {
+      const revealLevelBtn = await iframe?.$$(tomatoSelectors.revealYourLevel).catch(() => []);
+      if (revealLevelBtn.length) {
+        await coolClickButton(iframe, tomatoSelectors.revealYourLevel, "Reveal My Level Button", tag);
+        await delay(10000);
+      }
+      await coolClickButton(iframe, tomatoSelectors.upMyLevel, "Level Up", tag);
+      await delay(1000);
+      await coolClickButton(iframe, tomatoSelectors.useStarsBtn, "Use Stars btn", tag);
+      await delay(2000);
+      await goBack(page, tag);
+    };
 
-  await coolClickButton(iframe, tomatoSelectors.checkMyLevel, "Check My Level Button", tag);
-  await delay(10000);
-  await levelUp();
+    await coolClickButton(iframe, tomatoSelectors.checkMyLevel, "Check My Level Button", tag);
+    await delay(10000);
+    await levelUp();
+  } catch (error) {
+    logger.error(`levelRevealOrUp error ${error?.message}`, tag);
+  }
 };
 
 const wrongUploadingBot = async (iframe: Frame, page: Page, tag: string) => {
-  const wrongUploadingBot = await iframe.$$(tomatoSelectors.wrongUpload);
-  if (wrongUploadingBot.length > 0) {
-    logger.warning("Bot is uploading wrong, reload bot...", tag);
-    await reloadBotViaMenu(page, tag, false);
-    await randomDelay(3000, 5000, "ms");
+  try {
+    const wrongUploadingBot = await iframe?.$$(tomatoSelectors.wrongUpload).catch(() => []);
+    if (wrongUploadingBot.length > 0) {
+      logger.warning("Bot is uploading wrong, reload bot...", tag);
+      await reloadBotViaMenu(page, tag, false);
+      await randomDelay(3000, 5000, "ms");
+    }
+  } catch {
+    logger.error(`Wrong uploading bot error`);
   }
 };
 
@@ -96,7 +109,7 @@ const playTomatoGame = async (browser: Browser, appUrl: string, id: number) => {
     await wrongUploadingBot(initialFrame, page, tag);
 
     const initialFrame2 = await selectFrame(page, tag);
-    if ((await initialFrame2.$$(tomatoSelectors.wrongUpload)).length > 0) {
+    if ((await initialFrame2?.$$(tomatoSelectors.wrongUpload)).length > 0) {
       logger.error(`Finish game with Uploading Error`);
       await page.close();
       return {
