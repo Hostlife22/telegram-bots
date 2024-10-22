@@ -4,12 +4,15 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "ts-node main.ts",
     "add": "ts-node addGame.ts",
     "images": "ts-node getAllImagePixels.ts",
     "processImages": "ts-node fetchImageBoard.ts",
     "copy:env": "cp .env.example .env",
-    "checkJson": "ts-node checkAndSortJson.ts"
+    "checkJson": "ts-node checkAndSortJson.ts",
+    "start:pixel": "cross-env NODE_ENV=pixel ts-node main.ts",
+    "start:register": "cross-env NODE_ENV=register ts-node main.ts",
+    "start:blum": "cross-env NODE_ENV=blum ts-node main.ts",
+    "start:tomato": "cross-env NODE_ENV=tomato ts-node main.ts"
   },
   "keywords": [
     "tg",
@@ -23,6 +26,7 @@
   "dependencies": {
     "@ptkdev/logger": "^1.8.0",
     "axios": "^1.6.8",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "fuse.js": "^7.0.0",
     "node-schedule": "^2.1.1",
