@@ -10,7 +10,7 @@ export type AccountItem = {
 };
 
 // 141 - 187
-const gameUrls = [
+const defaultGameUrls = [
   // "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3DTomarket_ai_bot%26appname%3Dapp%26startapp%3D0000hIRK",
   // "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3DTomarket_ai_bot%26appname%3Dapp%26startapp%3D0000hIRW",
   // "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3DTomarket_ai_bot%26appname%3Dapp%26startapp%3D0000hISX",
@@ -61,7 +61,6 @@ const gameUrls = [
 
 const updateAdsWithNewGame = (filePath: string, gameKey: string, gameUrls: string[], batchSize: number): void => {
   const fileContent = fs.readFileSync(filePath, "utf-8");
-
   const ads: AccountItem[] = JSON.parse(fileContent);
   const totalAds = ads.length;
 
@@ -90,13 +89,15 @@ const updateAdsWithNewGame = (filePath: string, gameKey: string, gameUrls: strin
 const args = process.argv.slice(2);
 
 if (args.length < 3) {
-  console.error("Please provide a key, JSON file path, and batch size.");
+  console.error("Please provide a key, JSON file path, batch size, and optionally game URLs as a single string.");
   process.exit(1);
 }
 
-const [newGameKey, jsonPath, batchSizeArg] = args;
+const [newGameKey, jsonPath, batchSizeArg, gameUrlsStr] = args;
 
 const filePath = path.join(__dirname, jsonPath);
 const batchSize = parseInt(batchSizeArg, 10);
+
+const gameUrls = gameUrlsStr ? gameUrlsStr.split(",") : defaultGameUrls;
 
 updateAdsWithNewGame(filePath, newGameKey, gameUrls, batchSize);

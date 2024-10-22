@@ -71,15 +71,17 @@ You need to create a JSON file in the `data` folder with the following structure
 
 #### Update `const gameUrls = [...]` in addGame.ts
 
-1. npm run add -- gameKey jsonPath 10 (1-10 - firstUrl, 10-20 - secondUrl, ... )
-2. npm run add -- gameKey jsonPath 50 (1-50, 50-100, 100-150, ...)
-3. yarn add -- gameKey jsonPath 1 (one register for all)
-
+1. npm run add -- gameKey jsonPath 10 gameUrl (1-10 - firstUrl, 10-20 - secondUrl, ... )
+2. npm run add -- gameKey jsonPath 50 gameUrl (1-50, 50-100, 100-150, ...)
+3. yarn add -- gameKey jsonPath 1 gameUrl(one register for all)
+4. 
+For one link
+`npm run add register ./data/ads.json 1 https://web.telegram.org/k/\#\?tgaddr\=tg%3A%2F%2Fresolve%3Fdomain%3Dblum%26appname%3Dapp%26startapp%3Dref_dRryZaeQQG` 
 ### Add game by referral link
 
 #### Update `const gameUrls = [...]` in addGame.ts
 
-- Example: `npm run add register path 1`
+- Example: `npm run add register path 1` without link it will be use defaultArray with links in addGame.ts
 
-1. npm run add -- register jsonPath 1 
-2. yarn add -- register jsonPath 1 
+1. npm run add -- register jsonPath 1
+2. yarn add -- register jsonPath 1
