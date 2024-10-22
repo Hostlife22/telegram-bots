@@ -3,9 +3,9 @@ import { logger } from "../core/Logger";
 import { AccountResults } from "../types";
 import { clickConfirm } from "../utils/confirmPopup";
 import { delay } from "../utils/delay";
-import { defaultGamePlay, extractBalance, handleClaimTasks, handleOnboardingButtons } from "./pixel";
+import { closeBotViaMenu, defaultGamePlay, extractBalance, handleClaimTasks, handleOnboardingButtons } from "./pixel";
 import { coolClickButton, goBack, reloadBotViaMenu, safeClick, selectFrame } from "../utils/puppeteerHelper";
-import { blumBotSelectors, pixelGameSelectors, tomatoSelectors } from "../utils/selectors";
+import { blumBotSelectors, commonSelectors, pixelGameSelectors, tomatoSelectors } from "../utils/selectors";
 import { handleClaimDigReward, levelRevealOrUp } from "./tomato";
 import { convertToNumber } from "../utils/convertToNumber";
 
@@ -44,16 +44,27 @@ const registerGame = async (browser: Browser, appUrl: string, id: number) => {
       await page.bringToFront();
       // await handleClaimTasks(iframe, page, tag, true);
 
-      await coolClickButton(iframe, pixelGameSelectors.minusZoom, "Play button", tag);
+      await closeBotViaMenu(page, tag, 1);
+      await delay(2000);
+      await page.waitForSelector(commonSelectors.launchBotButton, { timeout: 30000 });
+      await delay(3000);
+
+      await page.bringToFront();
+      await safeClick(page, commonSelectors.launchBotButton, tag);
+      await clickConfirm(page, tag);
+
+
+      const iframe2 = await selectFrame(page, tag);
+      await coolClickButton(iframe2, pixelGameSelectors.minusZoom, "Play button", tag);
       await delay(1000);
-      await coolClickButton(iframe, pixelGameSelectors.minusZoom, "Play button", tag);
+      await coolClickButton(iframe2, pixelGameSelectors.minusZoom, "Play button", tag);
       await delay(1000);
-      await coolClickButton(iframe, pixelGameSelectors.minusZoom, "Play button", tag);
+      await coolClickButton(iframe2, pixelGameSelectors.minusZoom, "Play button", tag);
       await delay(1000);
 
-      await defaultGamePlay(iframe, page, tag);
+      await defaultGamePlay(iframe2, page, tag);
 
-      const balanceAfter = await extractBalance(iframe, tag);
+      const balanceAfter = await extractBalance(iframe2, tag);
 
       logger.info(`💰 Ending balance: ${balanceAfter}`, tag);
 

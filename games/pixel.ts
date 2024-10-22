@@ -269,7 +269,7 @@ const checkSelectedTemplate = async (iframe: Frame, tag: string) => {
   }
 };
 
-const closeBotViaMenu = async (page: Page, tag: string, isRegister: boolean) => {
+export const closeBotViaMenu = async (page: Page, tag: string, menuItem: number) => {
   const settings =
     "body > div:nth-child(8) > div > div._BrowserHeader_m63td_55 > div.scrollable.scrollable-x._BrowserHeaderTabsScrollable_m63td_81.scrolled-start.scrolled-end > div > div._BrowserHeaderTab_m63td_72._active_m63td_157 > button.btn-icon._BrowserHeaderButton_m63td_65._BrowserHeaderTabIcon_m63td_111 > span._BrowserHeaderTabIconInner_m63td_117 > div";
 
@@ -280,7 +280,7 @@ const closeBotViaMenu = async (page: Page, tag: string, isRegister: boolean) => 
     await delay(1500);
   }
 
-  const closeBtnItem = `#page-chats > div.btn-menu.contextmenu.bottom-right.active.was-open > div:nth-child(3)`;
+  const closeBtnItem = `#page-chats > div.btn-menu.contextmenu.bottom-right.active.was-open > div:nth-child(${menuItem})`;
   const closeBtn = await page.$$(closeBtnItem);
   if (closeBtn.length > 0) {
     logger.info("Clicking on reload button", tag);
@@ -622,7 +622,7 @@ export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, f
       if (index === 0) {
         await clickConfirm(page, tag);
         await delay(5000);
-        await closeBotViaMenu(page, tag, false);
+        await closeBotViaMenu(page, tag, 3);
         await delay(2000);
       } else {
         await clickConfirm(page, tag, false);
