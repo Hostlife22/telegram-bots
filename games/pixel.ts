@@ -195,7 +195,7 @@ const playPixelGame = async (browser: Browser, appUrl: string, id: number) => {
 
       result.BalanceAfter = balanceAfter;
     } catch (error) {
-      logger.error(`An error occurred during game-play: ${error.message}`, tag);
+      logger.error(`An error o ccurred during game-play: ${error.message}`, tag);
     } finally {
       await page.close();
     }

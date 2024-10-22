@@ -9,7 +9,7 @@
     "images": "ts-node getAllImagePixels.ts",
     "processImages": "ts-node fetchImageBoard.ts",
     "copy:env": "cp .env.example .env",
-    "checkJson": "ts-node findDuplicateAdsCodes.ts"
+    "checkJson": "ts-node checkAndSortJson.ts"
   },
   "keywords": [
     "tg",
