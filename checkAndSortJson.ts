@@ -1,7 +1,14 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { TgApp } from "./types";
 import { logger } from "./core/Logger";
-import "dotenv/config";
+import dotenv from "dotenv";
+import path from "path";
+
+const env = process.env.NODE_ENV || "pixel";
+
+dotenv.config({
+  path: path.resolve(__dirname, `.${env}.env`),
+});
 
 function findDuplicates(ads: TgApp[]): { id: number[]; code: { code: string; ids: number[] }[] } {
   const codeMap: { [key: string]: number[] } = {};

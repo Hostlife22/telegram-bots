@@ -1,4 +1,11 @@
-import "dotenv/config";
+import dotenv from "dotenv";
+import path from "path";
+
+const env = process.env.NODE_ENV || "pixel";
+
+dotenv.config({
+  path: path.resolve(__dirname, `.${env}.env`),
+});
 
 import { AdsBrowserAPI } from "./core/AdsBrowserAPI";
 import { BrowserManager } from "./core/BrowserManager";
