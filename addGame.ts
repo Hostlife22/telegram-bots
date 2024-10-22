@@ -56,7 +56,7 @@ const gameUrls = [
   // "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3DTomarket_ai_bot%26appname%3Dapp%26startapp%3D0000hSVg",
   // "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3DTomarket_ai_bot%26appname%3Dapp%26startapp%3D00008R2v",
   // "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df294001568_t",
-  "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df355876562_t",
+  "https://web.telegram.org/k/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3Dnotpixel%26appname%3Dapp%26startapp%3Df1621573108_t",
 ];
 
 const updateAdsWithNewGame = (filePath: string, gameKey: string, gameUrls: string[], batchSize: number): void => {

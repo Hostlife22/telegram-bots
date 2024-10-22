@@ -44,31 +44,31 @@ const registerGame = async (browser: Browser, appUrl: string, id: number) => {
       await page.bringToFront();
       // await handleClaimTasks(iframe, page, tag, true);
 
-      await closeBotViaMenu(page, tag, 1);
-      await delay(2000);
-      await page.waitForSelector(commonSelectors.launchBotButton, { timeout: 30000 });
-      await delay(3000);
+      // await closeBotViaMenu(page, tag, 1);
+      // await delay(2000);
+      // await page.waitForSelector(commonSelectors.launchBotButton, { timeout: 30000 });
+      // await delay(3000);
 
-      await page.bringToFront();
-      await safeClick(page, commonSelectors.launchBotButton, tag);
-      await clickConfirm(page, tag);
+      // await page.bringToFront();
+      // await safeClick(page, commonSelectors.launchBotButton, tag);
+      // await clickConfirm(page, tag);
 
 
-      const iframe2 = await selectFrame(page, tag);
-      await coolClickButton(iframe2, pixelGameSelectors.minusZoom, "Play button", tag);
-      await delay(1000);
-      await coolClickButton(iframe2, pixelGameSelectors.minusZoom, "Play button", tag);
-      await delay(1000);
-      await coolClickButton(iframe2, pixelGameSelectors.minusZoom, "Play button", tag);
-      await delay(1000);
+      // const iframe2 = await selectFrame(page, tag);
+      // await coolClickButton(iframe2, pixelGameSelectors.minusZoom, "Play button", tag);
+      // await delay(1000);
+      // await coolClickButton(iframe2, pixelGameSelectors.minusZoom, "Play button", tag);
+      // await delay(1000);
+      // await coolClickButton(iframe2, pixelGameSelectors.minusZoom, "Play button", tag);
+      // await delay(1000);
 
-      await defaultGamePlay(iframe2, page, tag);
+      // await defaultGamePlay(iframe2, page, tag);
 
-      const balanceAfter = await extractBalance(iframe2, tag);
+      // const balanceAfter = await extractBalance(iframe2, tag);
 
-      logger.info(`💰 Ending balance: ${balanceAfter}`, tag);
+      // logger.info(`💰 Ending balance: ${balanceAfter}`, tag);
 
-      result.BalanceAfter = balanceAfter;
+      // result.BalanceAfter = balanceAfter;
     } else if (appUrl.includes("blum")) {
       const iframe = await selectFrame(page, tag);
       await safeClick(iframe, blumBotSelectors.buttonSelector, tag);
