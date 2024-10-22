@@ -370,7 +370,7 @@ const selectTemplate = async (iframe: Frame, tag: string) => {
   }
 };
 
-const defaultGamePlay = async (iframe: Frame, page: Page, tag: string) => {
+export const defaultGamePlay = async (iframe: Frame, page: Page, tag: string) => {
   await navigateOnSectionBoostSection(iframe, tag);
   await delay(2000);
   const claimButton = await iframe.$$(pixelGameSelectors.claimSelector).catch(() => {
@@ -555,7 +555,7 @@ const ensureLoginCheck = async (page: Page, tag: string) => {
   return isAuthPage;
 };
 
-const coolClickButton = async (elements: ElementHandle[], selector: string, logMessage: string, tag: string) => {
+export const coolClickButton = async (elements: ElementHandle[], selector: string, logMessage: string, tag: string) => {
   if (elements.length === 0) {
     logger.error(`${logMessage} button not found`, tag);
     return false;
@@ -673,7 +673,7 @@ const extractValue = async (iframe: Frame, selector: string, errorMessage: strin
   }
 };
 
-const extractBalance = (iframe: Frame, tag: string) => {
+export const extractBalance = (iframe: Frame, tag: string) => {
   return extractValue(iframe, pixelGameSelectors.balanceLabel, "Error extracting balance", tag);
 };
 

@@ -3,9 +3,9 @@ import { logger } from "../core/Logger";
 import { AccountResults } from "../types";
 import { clickConfirm } from "../utils/confirmPopup";
 import { delay } from "../utils/delay";
-import { handleClaimTasks, handleOnboardingButtons } from "./pixel";
+import { defaultGamePlay, extractBalance, handleClaimTasks, handleOnboardingButtons } from "./pixel";
 import { coolClickButton, goBack, reloadBotViaMenu, safeClick, selectFrame } from "../utils/puppeteerHelper";
-import { blumBotSelectors, tomatoSelectors } from "../utils/selectors";
+import { blumBotSelectors, pixelGameSelectors, tomatoSelectors } from "../utils/selectors";
 import { handleClaimDigReward, levelRevealOrUp } from "./tomato";
 import { convertToNumber } from "../utils/convertToNumber";
 
@@ -42,7 +42,22 @@ const registerGame = async (browser: Browser, appUrl: string, id: number) => {
       await delay(5000);
 
       await page.bringToFront();
-      await handleClaimTasks(iframe, page, tag, true);
+      // await handleClaimTasks(iframe, page, tag, true);
+
+      await coolClickButton(iframe, pixelGameSelectors.minusZoom, "Play button", tag);
+      await delay(1000);
+      await coolClickButton(iframe, pixelGameSelectors.minusZoom, "Play button", tag);
+      await delay(1000);
+      await coolClickButton(iframe, pixelGameSelectors.minusZoom, "Play button", tag);
+      await delay(1000);
+
+      await defaultGamePlay(iframe, page, tag);
+
+      const balanceAfter = await extractBalance(iframe, tag);
+
+      logger.info(`💰 Ending balance: ${balanceAfter}`, tag);
+
+      result.BalanceAfter = balanceAfter;
     } else if (appUrl.includes("blum")) {
       const iframe = await selectFrame(page, tag);
       await safeClick(iframe, blumBotSelectors.buttonSelector, tag);
