@@ -582,6 +582,27 @@ export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, f
   }
   await delay(2000);
 
+  const claimTaskBot = async (selector: string) => {
+    for (let index = 0; index < 5; index++) {
+      if (!(await hasElement(iframe, `${selector} > ${pixelGameSelectors.taskNotCompleted}`))) break;
+
+      const joyButtonTaskOpenBtn = await iframe.$$(selector);
+      await coolClickButton(joyButtonTaskOpenBtn, selector, "Open joy button", tag);
+      await delay(2000);
+
+      await clickConfirm(page, tag, false);
+      await coolClickButton(joyButtonTaskOpenBtn, selector, "Claim joy button", tag);
+      await delay(3000);
+    }
+  };
+
+  if (process.env.CLAIM_JOY === "true") {
+    for (const task of pixelGameSelectors.taskBots) {
+      logger.info(`Claiming bot task: ${task}`, tag);
+      await claimTaskBot(task);
+    }
+  }
+
   const claimTask = async (selector: string) => {
     const boostButtonSection = await iframe.$$(selector);
     if (!(await coolClickButton(boostButtonSection, selector, selector, tag))) {
@@ -609,29 +630,6 @@ export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, f
   for (const task of pixelGameSelectors.tasks) {
     logger.info(`Claiming task: ${task}`, tag);
     await claimTask(task);
-  }
-
-  if (process.env.CLAIM_JOY === "true") {
-    for (let index = 0; index < 5; index++) {
-      if (!(await hasElement(iframe, pixelGameSelectors.joiNotCompleted))) break;
-
-      const joyButtonTaskOpenBtn = await iframe.$$(pixelGameSelectors.joiBotButton);
-      await coolClickButton(joyButtonTaskOpenBtn, pixelGameSelectors.joiBotButton, "Open joy button", tag);
-      await delay(2000);
-
-      if (index === 0) {
-        await clickConfirm(page, tag);
-        await delay(5000);
-        await closeBotViaMenu(page, tag, false);
-        await delay(2000);
-      } else {
-        await clickConfirm(page, tag, false);
-        await delay(2000);
-      }
-
-      await coolClickButton(joyButtonTaskOpenBtn, pixelGameSelectors.joiBotButton, "Claim joy button", tag);
-      await delay(3000);
-    }
   }
 
   await goBack(page, iframe, tag);
