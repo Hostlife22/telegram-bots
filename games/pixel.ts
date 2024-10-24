@@ -611,12 +611,12 @@ export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, f
     await claimTask(task);
   }
 
-  if (process.env.CLAIM_JOY === "true") {
+  const claimSpecial = async (btn: string, complete: string) => {
     for (let index = 0; index < 5; index++) {
-      if (!(await hasElement(iframe, pixelGameSelectors.joiNotCompleted))) break;
+      if (!(await hasElement(iframe, complete))) break;
 
-      const joyButtonTaskOpenBtn = await iframe.$$(pixelGameSelectors.joiBotButton);
-      await coolClickButton(joyButtonTaskOpenBtn, pixelGameSelectors.joiBotButton, "Open joy button", tag);
+      const specialButtonTaskOpenBtn = await iframe.$$(btn);
+      await coolClickButton(specialButtonTaskOpenBtn, btn, "Open joy button", tag);
       await delay(2000);
 
       if (index === 0) {
@@ -629,9 +629,14 @@ export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, f
         await delay(2000);
       }
 
-      await coolClickButton(joyButtonTaskOpenBtn, pixelGameSelectors.joiBotButton, "Claim joy button", tag);
+      await coolClickButton(specialButtonTaskOpenBtn, btn, "Claim joy button", tag);
       await delay(3000);
     }
+  };
+  if (process.env.CLAIM_JOY === "true") {
+    await claimSpecial(pixelGameSelectors.joiBotButton, pixelGameSelectors.joiNotCompleted);
+    await delay(1000);
+    await claimSpecial(pixelGameSelectors.boinkBotButton, pixelGameSelectors.boinkNotCompleted);
   }
 
   await goBack(page, iframe, tag);
