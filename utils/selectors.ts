@@ -58,7 +58,7 @@ export const pixelGameSelectors = {
   crashGame: "div._container_ieygs_8",
   balanceLabel: "div._buttons_container_1tu7a_1 > div._group_1tu7a_8._middle_1tu7a_21 > button > div > div._number_jcaqa_1",
   balanceNavigate: "div._buttons_container_1tu7a_1 > div._group_1tu7a_8._middle_1tu7a_21 > button._button_1tu7a_1",
-  claimSelector: "#root > div > div._layout_q8u4d_1 > div._content_q8u4d_22 > div._container_13oyr_1 > button._button_13oyr_11",
+  claimSelector: "div._container_13oyr_1 > button._button_13oyr_11",
   waitClaimSelector: "div._container_3i6l4_1 > div._info_3i6l4_32",
   boostsSelector: "div._panel_1mia4_1 > div:nth-child(2)",
   tasksSelector: "div._panel_1mia4_1 > div:nth-child(1)",
@@ -72,12 +72,16 @@ export const pixelGameSelectors = {
   minusZoom: "div._layout_dlzd9_1 > div > div:nth-child(2) > button:nth-child(2)",
   colors: "div._expandable_panel_layout_1v9vd_1 > div > div._color_line_epppt_15 > div._color_item_epppt_22",
   printButton: "div._order_panel_hqiqj_1 > div > button._button_hqiqj_147",
-  joiBotButton: "div._content_q8u4d_22 > div._info_layout_bt2qf_1 > div > div:nth-child(1) > div > div",
-  joiNotCompleted:
-    "div._content_q8u4d_22 > div._info_layout_bt2qf_1 > div > div:nth-child(1) > div > div > div._row_main_information_bt2qf_103 > div:nth-child(2)",
+  // joiBotButton: "div._content_q8u4d_22 > div._info_layout_bt2qf_1 > div > div:nth-child(1) > div > div",
+  joiBotButton: "#jetton",
+  joiNotCompleted: "#jetton > div > div > div._row_main_information_bt2qf_103 > div:nth-child(2)",
+
+  boinkBotButton: "div._content_4nkxd_22 > div._info_layout_bt2qf_1 > div > div:nth-child(1) > div",
+  boinkNotCompleted:
+    "div._content_4nkxd_22 > div._info_layout_bt2qf_1 > div > div:nth-child(1) > div > div > div._row_main_information_bt2qf_103 > div:nth-child(2)",
   tasks: [
     // Special tasks:
-    "div._content_q8u4d_22 > div._info_layout_bt2qf_1 > div > div:nth-child(8) > div > div", //Me bot
+    "div._content_q8u4d_22 > div._info_layout_bt2qf_1 > div > div:nth-child(9) > div > div", //Me bot
     // "#telegramPremium",
     "#leagueBonusSilver",
     "#leagueBonusGold",

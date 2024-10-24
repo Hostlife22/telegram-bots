@@ -80,28 +80,24 @@ async function compareImages(mainPixels: Uint8Array, imageConfigs: ImageItemConf
 }
 
 async function fetchImageData(): Promise<{ width: number; height: number; canvasMatrix: Uint8Array } | undefined> {
-  try {
-    const response = await axios.get("https://image.notpx.app/api/v2/image", {
-      responseType: "arraybuffer",
-    });
-
-    const image = sharp(response.data);
-    const { width, height } = await image.metadata();
-
-    if (!width || !height) {
-      throw new Error("Invalid image dimensions");
-    }
-
-    const { data: pixelData } = await image.raw().ensureAlpha().toBuffer({ resolveWithObject: true });
-    const canvasMatrix = new Uint8Array(pixelData);
-
-    writeFileSync(outputFilePath, canvasMatrix);
-
-    return { width, height, canvasMatrix };
-  } catch (error) {
-    logger.error(`Error fetching or processing image: ${error}`);
-    return undefined;
-  }
+  // try {
+  //   const response = await axios.get("https://image.notpx.app/api/v2/image", {
+  //     responseType: "arraybuffer",
+  //   });
+  //   const image = sharp(response.data);
+  //   const { width, height } = await image.metadata();
+  //   if (!width || !height) {
+  //     throw new Error("Invalid image dimensions");
+  //   }
+  //   const { data: pixelData } = await image.raw().ensureAlpha().toBuffer({ resolveWithObject: true });
+  //   const canvasMatrix = new Uint8Array(pixelData);
+  //   writeFileSync(outputFilePath, canvasMatrix);
+  //   return { width, height, canvasMatrix };
+  // } catch (error) {
+  //   logger.error(`Error fetching or processing image: ${error}`);
+  //   return undefined;
+  // }
+  return undefined;
 }
 
 export async function processImages() {

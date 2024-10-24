@@ -269,7 +269,7 @@ const checkSelectedTemplate = async (iframe: Frame, tag: string) => {
   }
 };
 
-const closeBotViaMenu = async (page: Page, tag: string, isRegister: boolean) => {
+export const closeBotViaMenu = async (page: Page, tag: string, menuItem: number) => {
   const settings =
     "body > div:nth-child(8) > div > div._BrowserHeader_m63td_55 > div.scrollable.scrollable-x._BrowserHeaderTabsScrollable_m63td_81.scrolled-start.scrolled-end > div > div._BrowserHeaderTab_m63td_72._active_m63td_157 > button.btn-icon._BrowserHeaderButton_m63td_65._BrowserHeaderTabIcon_m63td_111 > span._BrowserHeaderTabIconInner_m63td_117 > div";
 
@@ -280,7 +280,7 @@ const closeBotViaMenu = async (page: Page, tag: string, isRegister: boolean) => 
     await delay(1500);
   }
 
-  const closeBtnItem = `#page-chats > div.btn-menu.contextmenu.bottom-right.active.was-open > div:nth-child(3)`;
+  const closeBtnItem = `#page-chats > div.btn-menu.contextmenu.bottom-right.active.was-open > div:nth-child(${menuItem})`;
   const closeBtn = await page.$$(closeBtnItem);
   if (closeBtn.length > 0) {
     logger.info("Clicking on reload button", tag);
@@ -370,7 +370,7 @@ const selectTemplate = async (iframe: Frame, tag: string) => {
   }
 };
 
-const defaultGamePlay = async (iframe: Frame, page: Page, tag: string) => {
+export const defaultGamePlay = async (iframe: Frame, page: Page, tag: string) => {
   await navigateOnSectionBoostSection(iframe, tag);
   await delay(2000);
   const claimButton = await iframe.$$(pixelGameSelectors.claimSelector).catch(() => {
@@ -555,7 +555,7 @@ const ensureLoginCheck = async (page: Page, tag: string) => {
   return isAuthPage;
 };
 
-const coolClickButton = async (elements: ElementHandle[], selector: string, logMessage: string, tag: string) => {
+export const coolClickButton = async (elements: ElementHandle[], selector: string, logMessage: string, tag: string) => {
   if (elements.length === 0) {
     logger.error(`${logMessage} button not found`, tag);
     return false;
@@ -611,27 +611,32 @@ export const handleClaimTasks = async (iframe: Frame, page: Page, tag: string, f
     await claimTask(task);
   }
 
-  if (process.env.CLAIM_JOY === "true") {
+  const claimSpecial = async (btn: string, complete: string) => {
     for (let index = 0; index < 5; index++) {
-      if (!(await hasElement(iframe, pixelGameSelectors.joiNotCompleted))) break;
+      if (!(await hasElement(iframe, complete))) break;
 
-      const joyButtonTaskOpenBtn = await iframe.$$(pixelGameSelectors.joiBotButton);
-      await coolClickButton(joyButtonTaskOpenBtn, pixelGameSelectors.joiBotButton, "Open joy button", tag);
+      const specialButtonTaskOpenBtn = await iframe.$$(btn);
+      await coolClickButton(specialButtonTaskOpenBtn, btn, "Open joy button", tag);
       await delay(2000);
 
       if (index === 0) {
         await clickConfirm(page, tag);
         await delay(5000);
-        await closeBotViaMenu(page, tag, false);
+        await closeBotViaMenu(page, tag, 3);
         await delay(2000);
       } else {
         await clickConfirm(page, tag, false);
         await delay(2000);
       }
 
-      await coolClickButton(joyButtonTaskOpenBtn, pixelGameSelectors.joiBotButton, "Claim joy button", tag);
+      await coolClickButton(specialButtonTaskOpenBtn, btn, "Claim joy button", tag);
       await delay(3000);
     }
+  };
+  if (process.env.CLAIM_JOY === "true") {
+    await claimSpecial(pixelGameSelectors.joiBotButton, pixelGameSelectors.joiNotCompleted);
+    await delay(1000);
+    await claimSpecial(pixelGameSelectors.boinkBotButton, pixelGameSelectors.boinkNotCompleted);
   }
 
   await goBack(page, iframe, tag);
@@ -673,7 +678,7 @@ const extractValue = async (iframe: Frame, selector: string, errorMessage: strin
   }
 };
 
-const extractBalance = (iframe: Frame, tag: string) => {
+export const extractBalance = (iframe: Frame, tag: string) => {
   return extractValue(iframe, pixelGameSelectors.balanceLabel, "Error extracting balance", tag);
 };
 
